@@ -1,0 +1,91 @@
+<div class="screen-content" >
+
+	<div class="container margin-top-60">
+		<div class="col-sx-1 col-sm-1 col-md-1 col-lg-1" ng-click="new_client()" >
+			<i class="fa fa-plus-circle clickable-icon"></i>
+		</div>
+		<div class="col-md-offset-1 col-sx-10 col-sm-10 col-md-8 col-lg-8">
+			<form class="form-inline" role="form">
+				<input type="text" class="form-control search-box search-box-small" ng-model="query" placeholder="Search" >
+			</select>
+		</form>
+	</div>
+</div>
+
+<!-- Form -->
+<div class="container">
+	<div ng-show="show_form" class="floating-container fixed-top-10 col-xs-10 col-sm-10 col-md-6 col-lg-6 animated fadeIn">
+		<span ng-click="close()" ng-show="show_form" ><i class="fa fa-times-circle close pull-right"></i></span>
+		<form name="clientEditForm">
+			<h3>Client</h3>
+			<table class="table table-condensed">
+				<tr><td class="muted input-label" >Name</td>
+					<td class="input">
+						<input name="clientName" type="text" ng-model="client.name" placeholder="Great Client" class="form-control" required>
+					</td>
+				</tr>
+				<tr><td class="muted input-label" >Rate</td>
+					<td class="input">
+						<div class="input-group col-md-6 col-lg-6">
+							<span class="input-group-addon">$</span>
+							<input name="clientRate" type="number" ng-model="client.rate" placeholder="125" class="form-control" required>
+						</div>
+					</td>
+				</tr>
+				<tr><td class="muted input-label" >Address</td>
+					<td class="input">
+						<textarea class="form-control sans no-distraction" rows="3" name="Address" ng-model="client.address" placeholder="124 Somestreet, Town, CA" required>
+						</textarea>
+					</td>
+				</tr>
+				<tr><td class="muted input-label" >Contact</td>
+					<td class="input">
+						<input name="clientContact" type="text" ng-model="client.contact" placeholder="Judy Smith" class="form-control">
+					</td>
+				</tr>
+				<tr><td class="muted input-label" >Email</td>
+					<td class="email" >
+						<input anem="clientEmail" type="email" ng-model="client.email" class="form-control" placeholder="Judy@Smith.com">
+					</td>
+				</tr>
+			</table>
+			<div>
+				<button class="btn btn-success" ng-click="save()" ng-disabled="clientEditForm.$invalid">Save</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!-- Large Format List -->
+<div class="container white-rounded padding-bottom-60 hidden-xs">
+	<div class="row heading">
+		<div class="col-sm-3 col-md-3 col-lg-3">Client</div>
+		<div class="col-sm-3 col-md-3 col-lg-3">Contact</div>
+	</div>
+	<div class="scrolling-list row" ng-repeat="clients in filtered_clients">
+		<div class="row" ng-mouseenter="show_edit=true" ng-mouseleave="show_edit=false" ng-init="show_edit=false">
+			<div class="col-sm-3 col-md-3 col-lg-3 data-cell">{{client.name}}</div>
+			<div class="col-sm-3 col-md-3 col-lg-3 data-cell">{{client.contact}}</div>
+			<div ng-show="show_edit" class="col-sm-1 col-md-1 col-lg-1 data-cell animated fadeIn">
+				<i class="fa fa-pencil clickable-icon" ng-click="edit(client._id)"></i>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Mobile Format List -->
+<div class="container white-rounded visible-xs">
+	<ul class="scrolling-list force-two-lines" >
+		<li ng-repeat="client in clients | filter:query">
+			<div>
+				<div class="row">
+					<div class="col-xs-4"><span>{{client.name}}</span></div>
+				</div>
+				<h4>{{client.contact}}</h4>
+				<h4>{{client.address}}</h4>
+				<h4>{{client.contact}}</h4>
+				<h4>{{client.email}}</h4>
+			</div>
+		</li>
+	</ul>
+</div>

@@ -1,0 +1,123 @@
+
+.save-status {
+  margin-top: 10px;
+  padding: 5px;
+  color: #999999;
+  background-color:#fff;
+}
+
+
+input.search-box {
+  width: 640px;
+  font-size: 1.2em;
+  border-radius: 20px;
+  margin-right: 20px;
+}
+
+input.search-box-small {
+  width: 290px;
+}
+
+.select-year {
+  width: 100px;
+  margin-left: 10px;
+  margin-bottom: 8px;
+}
+
+.btn-set {
+  display:inline-block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  .btn, .alert {
+    margin-right:7px;
+  }
+}
+
+.btn {
+  @include transition( background 0.2s ease );
+}
+
+.btn-delete {
+  color: #ccc !important;
+}
+.btn-delete:active, .btn-delete:hover, .btn-delete:focus {
+  background: #cc5454 !important;
+  color: #fff !important;
+  border-color: rgb(230, 41, 41) !important;
+}
+
+.btn-set.pull-right { text-align: right; }
+
+.clickable-icon {
+  cursor:pointer;
+  font-size: 2em;
+  color:#999;
+  @include transition( all 0.2s ease );
+}
+
+.heading .clickable-icon {
+  font-size: inherit;
+  color: inherit;
+}
+
+.clickable-icon:hover {
+  font-size: 2.2em;
+  color:#ccc;
+}
+
+.heading .clickable-icon:hover {
+  font-size: inherit;
+  color: inherit;
+  transform:rotate(45deg);
+  -ms-transform:rotate(45deg);
+  -webkit-transform:rotate(45deg);
+}
+
+.delete-icon {
+  cursor:pointer;
+  color:#cc5454;
+  @include transition( all 0.2s ease );
+}
+
+.delete-icon:hover {
+  color:#e62929;
+}
+
+.dot {
+  border: 1px solid;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+  @include transition( all 0.2s ease );
+}
+
+.dot:hover {
+  border-color: #cecece;
+}
+
+.red-grape {
+  background-color: #404862;
+}
+
+.white-grape {
+  background-color: #A6A765;
+}
+
+a.wp-link {
+  border-bottom: 1px dashed #ccc;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.wp-link:hover {
+  border-bottom: 1px solid #ccc;
+  text-decoration: none;
+}
+
+@media all and (max-width: 640px) {
+
+  .search-box {
+    width: auto;
+  }
+}

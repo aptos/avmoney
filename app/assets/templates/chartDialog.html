@@ -1,0 +1,13 @@
+<div class="fill" title="{{chart_title}}">
+  <div class="chart-container animated fadeIn">
+    <div class="text-center">
+      <h3>{{chart_title}}</h3>
+      <h5>{{season}}</h5>
+    </div>
+    <div class="chart-legend text-right">
+      <span class="label label-brix">Brix</span> <span class="label label-ta">TA</span> <span class="label label-ph">pH</span>
+    </div>
+    <div chart class="chart-medium visible-sm visible-md visible-lg" ng-model="timeline" config="timeline_config" ></div>
+    <div chart class="chart-small visible-xs" ng-model="timeline" config="timeline_config" ></div>
+  </div>
+</div>

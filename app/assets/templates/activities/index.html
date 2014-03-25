@@ -1,0 +1,106 @@
+<div class="screen-content" >
+
+	<div class="container margin-top-60">
+		<div class="col-sx-1 col-sm-1 col-md-1 col-lg-1" ng-click="new_activity()" >
+			<i class="fa fa-plus-circle clickable-icon"></i>
+		</div>
+		<div class="col-md-offset-1 col-sx-10 col-sm-10 col-md-8 col-lg-8">
+			<form class="form-inline" role="form">
+				<input type="text" class="form-control search-box search-box-small" ng-model="query" placeholder="Search" >
+			</select>
+		</form>
+	</div>
+</div>
+
+<!-- Form -->
+<div class="container">
+	<div ng-show="show_form" class="floating-container fixed-top-10 col-xs-10 col-sm-10 col-md-6 col-lg-6 animated fadeIn">
+		<span ng-click="close()" ng-show="show_form" ><i class="fa fa-times-circle close pull-right"></i></span>
+		<form name="activityEditForm">
+			<h3>Activity</h3>
+			<table class="table table-condensed">
+				<tr><td class="muted input-label" >Client</td>
+					<td class="input">
+						<select class="form-control" name="Client" ui-select2 ng-model="activity.client_id" data-placeholder="Pick One..." ng-change="client_selected(activity.client_id)">
+							<option value=""></option>
+							<option ng-repeat="c in client_list | orderBy:'text'" value="{{c.value}}">{{c.text}}</option>
+						</select>
+					</td>
+				</tr>
+				<tr><td class="muted input-label" >Project</td>
+					<td class="input">
+						<select class="form-control" name="Project" ui-select2 ng-model="activity.project" data-placeholder="Pick One...">
+							<option ng-repeat="p in projects | orderBy:'text'" value="{{p.value}}">{{p.text}}</option>
+						</select>
+					</td>
+				</tr>
+				<tr><td class="muted input-label" >Date</td>
+					<td class="input">
+						<input name="activityDate" type="text" class="form-control text_field date-input" min-date="{{min_date}}" max-date="{{max_date}}" ng-model="activity.date" my-datepicker required>
+					</td>
+				</tr>
+				<tr><td class="muted input-label" >Notes</td>
+					<td class="input">
+						<textarea class="form-control sans no-distraction" rows="3" name="Notes" ng-model="activity.notes" placeholder="Notes" required>
+						</textarea>
+					</td>
+				</tr>
+				<tr><td class="muted input-label" >Hours</td>
+					<td class="input">
+						<input name="activityHours" type="number" ng-model="activity.hours" placeholder="1" required>
+					</td>
+				</tr>
+			</table>
+			<div>
+				<button class="btn btn-success" ng-click="save()" ng-disabled="activityEditForm.$invalid">Save</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!-- Large Format List -->
+<div class="container white-rounded padding-bottom-60 hidden-xs">
+	<div class="row heading">
+		<div class="col-sm-2 col-md-2 col-lg-2 col-lg-offset-1">
+			<span>Date</span>
+			<span class="pull-right clickable-icon"><i ng-class="{true: 'fa fa-clock-o', false: 'fa fa-calendar'}[dateformat=='timeago']" ng-click="toggle_date()"></i></span>
+		</div>
+		<div class="col-sm-3 col-md-3 col-lg-3">Client</div>
+		<div class="col-sm-3 col-md-3 col-lg-3">Project</div>
+		<div class="col-sm-3 col-md-3 col-lg-3">Hours</div>
+	</div>
+	<div class="scrolling-list row" ng-repeat="activity in filtered_activities">
+		<div class="row" ng-mouseenter="show_edit=true" ng-mouseleave="show_edit=false" ng-init="show_edit=false">
+			<div class="col-sm-2 col-md-2 col-lg-2 col-lg-offset-1 data-cell" >{{activity.date | moment:dateformat}}</div>
+			<div class="col-sm-3 col-md-3 col-lg-3 data-cell">{{activity.client}}</div>
+			<div class="col-sm-3 col-md-3 col-lg-3 data-cell">{{activity.project}}</div>
+			<div class="col-sm-1 col-md-1 col-lg-1 data-cell">{{activity.hours}}</div>
+			<div class="col-sm-3 col-md-3 col-lg-3 data-cell">{{activity.notes}}</div>
+			<div ng-show="show_edit" class="col-sm-1 col-md-1 col-lg-1 data-cell animated fadeIn">
+				<i class="fa fa-pencil clickable-icon" ng-click="edit(activity._id)"></i>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Mobile Format List -->
+<div class="container white-rounded visible-xs">
+	<ul class="scrolling-list force-two-lines" >
+		<li ng-repeat="activity in activities | filter:query | orderBy:['client','date']">
+			<div>
+				<h5>{{activity.date | moment:'D MMM \'YY'}} <span class="pull-right text-muted">{{activity.date | moment:'timeago'}}</span></h5>
+				<div class="row">
+					<div class="col-xs-4"><span>{{activity.client}}</span></div>
+				</div>
+				<h4>{{activity.project}}</h4>
+				<h4>{{activity.hours}}</h4>
+			</div>
+			<div class="row" ng-show="activity.notes">
+				<blockquote class="">
+					{{activity.notes | truncate:256:'...':more_notes}}
+					<a><i ng-class="{true: 'fa fa-caret-right',false: 'fa fa-caret-up'}[!more_notes]" ng-click="more_notes=!more_notes" ng-show="activity.notes.length >= 256"></i></a>
+				</blockquote>
+			</div>
+		</li>
+	</ul>
+</div>

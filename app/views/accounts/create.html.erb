@@ -1,0 +1,71 @@
+<div class="screen-content background-dark">
+  <section class="authenty signin-alt">
+    <div class="section-content animated fadeInUpBig">
+      <% if @identity && @identity.errors.any? %>
+      <div class="error_messages alert alert-danger">
+        <h2>Oops, Account Creation Failed</h2>
+        <ul>
+          <% @messages.each do |msg| %>
+          <li><%= raw msg %></li>
+          <% end %>
+        </ul>
+      </div>
+      <% end %>
+      <div class="wrap">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4 col-md-offset-1">
+              <div class="normal-signin">
+                <div class="title">
+                  <h3>Sign Up</h3>
+                </div>
+                <div class="form-main">
+                  <%= form_tag "/auth/identity/register" do %>
+                  <div class="form-group">
+                    <div class="un-wrap">
+                      <i class="fa fa-user"></i>
+                      <input type="text" class="form-control" placeholder="Name" name="name" required="required">
+                    </div>
+                    <div class="un-wrap">
+                      <i class="fa fa-envelope"></i>
+                      <input type="email" class="form-control" placeholder="Email" name="email" required="required">
+                    </div>
+                    <div class="pw-wrap">
+                      <i class="fa fa-lock"></i>
+                      <input type="password" class="form-control" placeholder="Password" name="password" required="required" pattern=".{6,20}" title="From 6 to 20 characters">
+                    </div>
+                    <div class="pw-wrap">
+                      <i class="fa fa-lock"></i>
+                      <input type="password" class="form-control" placeholder="Confirm Password" name="password_confirmation" required="required" pattern=".{6,20}" title="From 6 to 20 characters">
+                    </div>
+                    <div class="row top-buffer">
+                      <div class="col-md-4 col-md-offset-8">
+                        <button type="submit" class="btn btn-block signin">Sign Up</button>
+                      </div>
+                    </div>
+                  </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="horizontal-divider"></div>
+            </div>
+            <div class="col-md-4">
+              <div class="sns-signin">
+                <a href="/signin/facebook" class="facebook"><i class="fa fa-facebook"></i><span>Sign in with Facebook</span></a>
+                <a href="/signin/google_login" class="google-plus"><i class="fa fa-google-plus"></i><span>Sign in with Google+</span></a>
+              </div>
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+          <div class="row top-buffer bottom-wrap">
+            <div class="col-xs-6 col-md-3 col-md-offset-1">
+              <a href="/accounts/password_recovery">Forgot your Password?</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
