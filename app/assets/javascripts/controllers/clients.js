@@ -1,15 +1,8 @@
-function ClientsCtrl($scope, $rootScope, $routeParams, $debounce, $location, $filter, Restangular, $fileUploader, $http) {
-
-  $scope.selected = undefined;
-  $scope.current_user = $rootScope.current_user;
-  $rootScope.getMeta().then(function (metadata) {
-    $scope.metadata = metadata;
-  });
-
+function ClientsCtrl($scope, Restangular) {
 
   // Fetch clients
   var refresh = function () {
-    Restangular.one('clients', 'mine').getList().then( function (list) {
+    Restangular.one('clients').getList().then( function (list) {
       $scope.clients = list;
     });
   };
@@ -62,4 +55,4 @@ function ClientsCtrl($scope, $rootScope, $routeParams, $debounce, $location, $fi
   };
 
 }
-ClientsCtrl.$inject = ['$scope','$rootScope','$routeParams','$debounce','$location','$filter','Restangular','$fileUploader','$http'];
+ClientsCtrl.$inject = ['$scope','Restangular'];

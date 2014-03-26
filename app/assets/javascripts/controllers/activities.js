@@ -1,15 +1,32 @@
-function ActivitiesCtrl($scope, $rootScope, $routeParams, $debounce, $location, $filter, Restangular, $fileUploader, $http) {
+function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, Restangular) {
 
-  $scope.selected = undefined;
-  $scope.current_user = $rootScope.current_user;
   $rootScope.getMeta().then(function (metadata) {
     $scope.metadata = metadata;
   });
 
+  // Fetch Clients
+  $scope.projectlist = {};
+  $scope.clients = [];
+  Restangular.all('clients').getList({active: true}).then( function (list) {
+    $scope.clients = list.map( function (client) { return { value: client._id, text: client.name }; });
+    angular.forEach(list, function (client) {
+      if (client.projects) {
+        $scope.projectlist[client._id] = client.projects.map( function (project) { return project.name; });
+      }
+    });
+  });
+
+  $scope.projects = [];
+  $scope.client_selected = function (id) {
+    if (!id) return;
+    $scope.activity.client_name = _.find($scope.clients, function (v) { return v.value == id; }).text;
+    $scope.projects = $scope.projectlist[id] || [];
+    console.info("projects", $scope.projects)
+  };
 
   // Fetch activities
   var refresh = function () {
-    Restangular.one('activities', 'mine').getList().then( function (list) {
+    Restangular.all('activities').getList({status: "Open"}).then( function (list) {
       $scope.activities = list;
     });
   };
@@ -24,11 +41,10 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $debounce, $location, 
   // Form Functions
   $scope.saveInProgress = false;
 
-  $scope.min_date = "2000-01-01";
-  $scope.max_date = "2016-01-01";
+  $scope.min_date = "2014-01-01";
 
   $scope.new_activity = function () {
-    $scope.activity = { job: '' };
+    $scope.activity = { client_name: '' };
     $scope.activity.date = moment().format("YYYY-MM-DD");
     $scope.activityEditForm.$setPristine();
     $scope.show_form = true;
@@ -72,4 +88,4 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $debounce, $location, 
   };
 
 }
-ActivitiesCtrl.$inject = ['$scope','$rootScope','$routeParams','$debounce','$location','$filter','Restangular','$fileUploader','$http'];
+ActivitiesCtrl.$inject = ['$scope','$rootScope','$routeParams','$filter','Restangular'];

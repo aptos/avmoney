@@ -270,6 +270,7 @@ ul.scrolling-list {
 
 .scrolling-list-clickable:hover {
   background-color: #eee;
+  cursor: pointer;
 }
 
 ul.scrolling-list.force-two-lines li {
@@ -474,5 +475,7 @@ p.description:first-letter {
   .map-box {
     font-size: 14px;
   }
-  .scrolling-list-clickable { padding: 5px; }
+  .scrolling-list-clickable {
+    padding: 5px;
+  }
 }

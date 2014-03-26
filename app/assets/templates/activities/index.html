@@ -23,15 +23,13 @@
 					<td class="input">
 						<select class="form-control" name="Client" ui-select2 ng-model="activity.client_id" data-placeholder="Pick One..." ng-change="client_selected(activity.client_id)">
 							<option value=""></option>
-							<option ng-repeat="c in client_list | orderBy:'text'" value="{{c.value}}">{{c.text}}</option>
+							<option ng-repeat="c in clients | orderBy:'text'" value="{{c.value}}">{{c.text}}</option>
 						</select>
 					</td>
 				</tr>
 				<tr><td class="muted input-label" >Project</td>
 					<td class="input">
-						<select class="form-control" name="Project" ui-select2 ng-model="activity.project" data-placeholder="Pick One...">
-							<option ng-repeat="p in projects | orderBy:'text'" value="{{p.value}}">{{p.text}}</option>
-						</select>
+            <input class="sans no-distraction form-control" type="text" ng-model="activity.project" typeahead="p for p in projects | filter:$viewValue | limitTo:8" placeholder="Project"></input>
 					</td>
 				</tr>
 				<tr><td class="muted input-label" >Date</td>
@@ -65,20 +63,16 @@
 			<span>Date</span>
 			<span class="pull-right clickable-icon"><i ng-class="{true: 'fa fa-clock-o', false: 'fa fa-calendar'}[dateformat=='timeago']" ng-click="toggle_date()"></i></span>
 		</div>
-		<div class="col-sm-3 col-md-3 col-lg-3">Client</div>
-		<div class="col-sm-3 col-md-3 col-lg-3">Project</div>
-		<div class="col-sm-3 col-md-3 col-lg-3">Hours</div>
+		<div class="col-sm-3 col-md-3 col-lg-3">Client: Project</div>
+		<div class="col-sm-1 col-md-1 col-lg-1">Hours</div>
+    <div class="col-sm-3 col-md-3 col-lg-3">Notes</div>
 	</div>
-	<div class="scrolling-list row" ng-repeat="activity in filtered_activities">
-		<div class="row" ng-mouseenter="show_edit=true" ng-mouseleave="show_edit=false" ng-init="show_edit=false">
+	<div class="scrolling-list row scrolling-list-clickable" ng-repeat="activity in activities | filter:query | orderBy:['client_name','date']">
+		<div class="row" ng-click="edit(activity._id)">
 			<div class="col-sm-2 col-md-2 col-lg-2 col-lg-offset-1 data-cell" >{{activity.date | moment:dateformat}}</div>
-			<div class="col-sm-3 col-md-3 col-lg-3 data-cell">{{activity.client}}</div>
-			<div class="col-sm-3 col-md-3 col-lg-3 data-cell">{{activity.project}}</div>
+			<div class="col-sm-3 col-md-3 col-lg-3 data-cell">{{activity.client_name}}: {{activity.project}}</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 data-cell">{{activity.hours}}</div>
 			<div class="col-sm-3 col-md-3 col-lg-3 data-cell">{{activity.notes}}</div>
-			<div ng-show="show_edit" class="col-sm-1 col-md-1 col-lg-1 data-cell animated fadeIn">
-				<i class="fa fa-pencil clickable-icon" ng-click="edit(activity._id)"></i>
-			</div>
 		</div>
 	</div>
 </div>
@@ -86,11 +80,11 @@
 <!-- Mobile Format List -->
 <div class="container white-rounded visible-xs">
 	<ul class="scrolling-list force-two-lines" >
-		<li ng-repeat="activity in activities | filter:query | orderBy:['client','date']">
+		<li ng-repeat="activity in activities | filter:query | orderBy:['client_name','date']">
 			<div>
 				<h5>{{activity.date | moment:'D MMM \'YY'}} <span class="pull-right text-muted">{{activity.date | moment:'timeago'}}</span></h5>
 				<div class="row">
-					<div class="col-xs-4"><span>{{activity.client}}</span></div>
+					<div class="col-xs-4"><span>{{activity.client_name}}</span></div>
 				</div>
 				<h4>{{activity.project}}</h4>
 				<h4>{{activity.hours}}</h4>

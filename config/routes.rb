@@ -16,18 +16,12 @@ Farmdat::Application.routes.draw do
   post "/accounts/password_update/:token" => 'accounts#password_update'
   get "/accounts/create" => 'accounts#create'
 
-  # Vineyards CRUD
-  get "/vineyards/mine" => 'vineyards#mine'
-  resources :vineyards
-
-  # Fruit Samples CRUD
-  get "/samples/mine" => 'samples#mine'
-  resources :samples
-
-  # Vineyard Activity CRUD
-  get "/activities/mine" => 'activities#mine'
-  delete "/activities/:id/album" => 'activities#delete_photo'
   resources :activities
+  resources :invoices
+  resources :payments
+  resources :clients
+
+  get "/reports" => 'reports#index'
 
   # S3 upload signature server
   resources :signed_url, only: :index
