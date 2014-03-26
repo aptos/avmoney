@@ -10,9 +10,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, Restangular) 
   Restangular.all('clients').getList({active: true}).then( function (list) {
     $scope.clients = list.map( function (client) { return { value: client._id, text: client.name }; });
     angular.forEach(list, function (client) {
-      if (client.projects) {
-        $scope.projectlist[client._id] = client.projects.map( function (project) { return project.name; });
-      }
+      $scope.projectlist[client._id] = client.projects;
     });
   });
 
@@ -21,7 +19,11 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, Restangular) 
     if (!id) return;
     $scope.activity.client_name = _.find($scope.clients, function (v) { return v.value == id; }).text;
     $scope.projects = $scope.projectlist[id] || [];
-    console.info("projects", $scope.projects)
+  };
+
+  var update_projects = function (client_id, project) {
+    $scope.projectlist[client_id].push(project);
+    $scope.projectlist[client_id] = _.uniq($scope.projectlist[client_id]);
   };
 
   // Fetch activities
@@ -53,6 +55,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, Restangular) 
   $scope.save = function () {
     if (($scope.activityEditForm.$valid) && (!$scope.saveInProgress) ) {
       $scope.saveInProgress = true;
+      update_projects($scope.activity.client_id, $scope.activity.project);
       if ($scope.activity._id) {
         $scope.activity.put().then(function () {
           $scope.close();
@@ -75,6 +78,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, Restangular) 
   $scope.edit = function (id) {
     Restangular.one('activities', id).get().then(function (activity) {
       $scope.activity = Restangular.copy(activity);
+      $scope.projects = $scope.projectlist[$scope.activity.client_id];
       $scope.show_form = true;
     });
   };
