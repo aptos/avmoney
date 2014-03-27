@@ -7,6 +7,7 @@ class Client < CouchRest::Model::Base
   property :contact, String
   property :email, String
   property :projects, [String]
+  property :invoice_count, Integer, default: 0
 
   timestamps!
 

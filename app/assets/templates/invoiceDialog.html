@@ -1,0 +1,84 @@
+  <div class="container invoice-container">
+
+    <div class="row">
+      <div class="col-xs-6">
+        <h1>
+          <img src="assets/avdesigns-logo.jpg" style="height: 100px;" alt="andrea vollersen designs">
+        </a>
+      </h1>
+    </div>
+    <div class="col-xs-6 text-right">
+      <h1>INVOICE</h1>
+      <h1><small>Invoice: {{invoice.invoice_id}}</small></h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-5">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>Andrea Vollersen Designs</h4>
+        </div>
+        <div class="panel-body">
+          <p>
+            520 Nisene Meadows Ct. <br>
+            Aptos, CA &nbsp&nbsp 95003 <br>
+            831.684.1680
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-5 col-xs-offset-2 text-right">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>Client : {{invoice.client_data.text}}</h4>
+        </div>
+        <div class="panel-body">
+          <p style="white-space: pre-line;">
+            {{invoice.client_data.address}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div> <!-- / end client details section -->
+
+  <div class="alert alert-info" ng-show="search_project"><b>Project:</b> {{invoice.project}}</div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th><h4>Date</h4></th>
+        <th><h4>Description</h4></th>
+        <th><h4>Hrs/Qty</h4></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="activity in invoice.activities">
+        <td>{{activity.date}}</td>
+        <td>{{activity.notes}}</td>
+        <td>{{activity.hours}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row text-right">
+    <div class="col-xs-2 col-xs-offset-8">
+      <p>
+        <strong>
+          Sub Total : <br>
+          TAX : <br>
+          Total : <br>
+        </strong>
+      </p>
+    </div>
+    <div class="col-xs-2">
+      <strong>
+        ${{invoice.hours_amount}} <br>
+        N/A <br>
+        ${{invoice.invoice_total}} <br>
+      </strong>
+    </div>
+  </div>
+  <div class="text-center">
+    <button class="btn btn-success btn-lg" ng-click="save_invoice()">SAVE</button>
+  </div>
+</div>

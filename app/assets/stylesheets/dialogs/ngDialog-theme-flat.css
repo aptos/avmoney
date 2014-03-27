@@ -88,13 +88,13 @@
   font-family: "Helvetica Neue",sans-serif;
   line-height: 1.5em;
   margin: 0 auto;
-  max-width: 100%;
+  max-width: 90%;
+  overflow-x: scroll;
   padding: 2em 2em 3em;
   position: relative;
   -webkit-transform-style: preserve-3d;
   -ms-transform-style: preserve-3d;
   transform-style: preserve-3d;
-  width: 730px;
 }
 
 .wp-iframe.ngdialog.ngdialog-theme-flat .ngdialog-content {

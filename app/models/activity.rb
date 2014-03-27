@@ -6,6 +6,7 @@ class Activity < CouchRest::Model::Base
   property :notes, String
   property :date, Date
   property :hours, Integer
+  property :rate, Integer
   property :status, String, default: "Open"
 
   timestamps!

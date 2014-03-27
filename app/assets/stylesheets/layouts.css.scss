@@ -19,7 +19,12 @@ $label: #382B50;
 }
 
 // margins and padding
+.margin-top-5 { margin-top: 5px; }
+.margin-top-30 { margin-top: 30px; }
+.margin-top-40 { margin-top: 40px; }
 .margin-top-60 { margin-top: 60px; }
+.margin-bottom-30 { margin-bottom: 30px; }
+.margin-bottom-40 { margin-bottom: 40px; }
 .margin-bottom-60 { margin-bottom: 60px; }
 .padding-bottom-60 { padding-bottom: 60px; }
 
@@ -255,8 +260,6 @@ border-top: 2px #666665 solid;
   margin-bottom: 10px;
 }
 
-.margin-top-40 { margin-top: 40px;}
-
 ul.scrolling-list {
   list-style: none;
   padding-left: 10px;
@@ -293,6 +296,10 @@ ul.scrolling-list.force-two-lines li {
 
 .row.scrolling-list.scrolling-list-subgroup, .scrolling-list li.scrolling-list-subgroup {
   border-top: 3px solid rgba(80, 62, 43, 0.11);
+}
+
+.invoice-container {
+  width: 940px;
 }
 
 tr .upload-wrap {
@@ -363,7 +370,7 @@ ul.thumbs > li{
 }
 
 .row.heading {
-  margin-top: 20px;
+  margin-top: 10px;
   background-color: rgba(127, 107, 54, 0.55);
   color: white;
   padding: 8px 0 5px;
@@ -371,6 +378,10 @@ ul.thumbs > li{
 }
 .row.heading-lab {
   background-color: rgba(19, 8, 63, 0.55);
+}
+
+.row.actions {
+  button { margin-right: 8px; }
 }
 
 .table-set {
