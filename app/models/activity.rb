@@ -8,12 +8,14 @@ class Activity < CouchRest::Model::Base
   property :hours, Integer
   property :rate, Integer
   property :status, String, default: "Open"
+  property :invoice_id, String
 
   timestamps!
 
   design do
     view :by_date
     view :by_status
+    view :by_invoice_id
   end
 
 end

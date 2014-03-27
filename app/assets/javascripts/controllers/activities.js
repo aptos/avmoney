@@ -8,7 +8,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.projectlist = {};
   $scope.clients = [];
   Restangular.all('clients').getList({active: true}).then( function (list) {
-    $scope.all_clients = list;
     $scope.clients = list.map( function (client) {
       return {
         value: client._id,
@@ -56,7 +55,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     }
     $scope.projects = $scope.projectlist[id] || [];
     $scope.projects_select = $scope.projects.map( function (project) { return { value: project, text: project }; });
-  }
+  };
 
   var update_projects = function (client_id, project) {
     $scope.projectlist[client_id].push(project);
@@ -94,18 +93,22 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   };
 
   // Invoice Dialog
+  $scope.invoice_editable = true;
   $scope.create_invoice = function () {
     $scope.invoice = {
+      client_id: $scope.client,
       activities: $scope.filtered_activities,
       project: $scope.search_project
     };
 
     $scope.invoice.client_data = _.find($scope.clients, function (v) { return v.value == $scope.client; });
     $scope.invoice.name = $scope.invoice.client_data.text;
-    $scope.invoice.invoice_id = $scope.invoice.client_data.invoice_count + 1;
+    $scope.invoice.invoice_number = $scope.invoice.client_data.invoice_count + 1;
     $scope.invoice.hours_sum = $scope.filtered_activities.reduce(function(m, activity) { return m + activity.hours; }, 0);
     $scope.invoice.hours_amount = $scope.filtered_activities.reduce(function(m, activity) { return m + (activity.hours * activity.rate); }, 0);
     $scope.invoice.invoice_total = $scope.invoice.hours_amount;
+
+    $scope.success = false;
 
     ngDialog.open({
       template: 'assets/invoiceDialog.html',
@@ -116,8 +119,12 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   };
 
   $scope.save_invoice = function () {
+    $scope.saveInProgress = true;
+    $scope.success = false;
     Restangular.all('invoices').post($scope.invoice).then( function () {
       $scope.close();
+      _.where($scope.clients, { value: $scope.invoice.client_id})[0].invoice_count += 1;
+      $scope.success = true;
       refresh();
     },$scope.close);
   };

@@ -1,75 +1,56 @@
-function PaymentsCtrl($scope, $rootScope, $routeParams, $debounce, $location, $filter, Restangular, $fileUploader, $http) {
+function PaymentsCtrl($scope, $rootScope, $routeParams, $filter, Restangular) {
 
-  $scope.selected = undefined;
-  $scope.current_user = $rootScope.current_user;
   $rootScope.getMeta().then(function (metadata) {
     $scope.metadata = metadata;
   });
 
+  // Fetch Clients
+  $scope.projectlist = {};
+  $scope.clients = [];
+  Restangular.all('clients').getList({active: true}).then( function (list) {
+    $scope.clients = list.map( function (client) {
+      return {
+        value: client._id,
+        text: client.name,
+      };
+    });
+    angular.forEach(list, function (client) {
+      $scope.projectlist[client._id] = client.projects;
+    });
+  });
+
+  // Filter by client and project
+  var filterFilter = $filter('filter');
+  var orderByFilter = $filter('orderBy');
+  $scope.filterItems = function() {
+    var q_payments = filterFilter($scope.payments, $scope.query);
+    if ($scope.client != "All") q_payments = filterFilter(q_payments, $scope.client);
+    if ($scope.search_project != "All") q_payments = filterFilter(q_payments, $scope.search_project);
+    var orderedItems = orderByFilter(q_payments, ['client_name','date']);
+
+    $scope.filtered_payments = orderedItems;
+  };
+
+  $scope.$watch('payments', $scope.filterItems);
+  $scope.$watch('query', $scope.filterItems);
+
+  $scope.search_client = function (id) {
+    $scope.filterItems();
+    if (!id) {
+      $scope.projects_select = [];
+      return;
+    }
+    $scope.projects = $scope.projectlist[id] || [];
+    $scope.projects_select = $scope.projects.map( function (project) { return { value: project, text: project }; });
+  };
 
   // Fetch payments
   var refresh = function () {
-    Restangular.one('payments', 'mine').getList().then( function (list) {
+    Restangular.all('payments').getList().then( function (list) {
       $scope.payments = list;
     });
   };
   refresh();
 
-  // Date Format
-  $scope.dateformat = 'D MMM \'YY';
-  $scope.toggle_date = function () {
-    $scope.dateformat = ($scope.dateformat == 'timeago') ? 'D MMM \'YY'  : 'timeago';
-  };
-
-  // Form Functions
-  $scope.saveInProgress = false;
-
-  $scope.min_date = "2000-01-01";
-  $scope.max_date = "2016-01-01";
-
-  $scope.new_payment = function () {
-    $scope.payment = { job: '' };
-    $scope.payment.date = moment().format("YYYY-MM-DD");
-    $scope.paymentEditForm.$setPristine();
-    $scope.show_form = true;
-  };
-
-  $scope.save = function () {
-    if (($scope.paymentEditForm.$valid) && (!$scope.saveInProgress) ) {
-      $scope.saveInProgress = true;
-      if ($scope.payment._id) {
-        $scope.payment.put().then(function () {
-          $scope.close();
-          refresh();
-        }, $scope.close);
-      } else {
-        Restangular.all('payments').post($scope.payment).then( function () {
-          $scope.close();
-          refresh();
-        },$scope.close);
-      }
-    }
-  };
-
-  $scope.close = function () {
-    $scope.saveInProgress = false;
-    $scope.show_form = false;
-  };
-
-  $scope.edit = function (id) {
-    Restangular.one('payments', id).get().then(function (payment) {
-      $scope.payment = Restangular.copy(payment);
-      $scope.show_form = true;
-    });
-  };
-
-  $scope.remove = function () {
-    console.info("delete requested!", $scope.payment);
-    $scope.saveInProgress = true;
-    if ($scope.payment._id) {
-      $scope.payment.remove();
-    }
-  };
-
 }
-PaymentsCtrl.$inject = ['$scope','$rootScope','$routeParams','$debounce','$location','$filter','Restangular','$fileUploader','$http'];
+PaymentsCtrl.$inject = ['$scope','$rootScope','$routeParams','$filter','Restangular'];

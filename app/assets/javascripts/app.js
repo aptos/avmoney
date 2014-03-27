@@ -13,6 +13,7 @@ farmdatModule.config(['$routeProvider',function($routeProvider) {
   // Start
   when('/Activities',{templateUrl: 'assets/activities/index.html', controller: ActivitiesCtrl}).
   when('/Invoices',{templateUrl: 'assets/invoices/index.html', controller: InvoicesCtrl}).
+  when('/Invoice/:id',{templateUrl: 'assets/invoiceDialog.html', controller: InvoiceShowCtrl}).
   when('/Payments',{templateUrl: 'assets/payments/index.html', controller: PaymentsCtrl}).
   when('/Clients',{templateUrl: 'assets/clients/index.html', controller: ClientsCtrl}).
   when('/Reports',{templateUrl: 'assets/reports/index.html', controller: ReportsCtrl}).

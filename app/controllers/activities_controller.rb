@@ -1,7 +1,7 @@
 class ActivitiesController < ApplicationController
 
   def index
-    if params[:status] == "open"
+    if params[:status] == "Open"
       @activities = Activity.by_status.key("Open").all
     else
       @activities = Activity.by_date.all

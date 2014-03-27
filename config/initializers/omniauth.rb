@@ -2,7 +2,6 @@
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :google_oauth2, ENV["GOOGLE_KEY"], ENV["GOOGLE_SECRET"], {name: "google_login", approval_prompt: ''}
-  provider :facebook, ENV['FACEBOOK_KEY'], ENV['FACEBOOK_SECRET']
   provider :identity, :fields => [:email, :name], :on_failed_registration => AccountsController.action(:create)
 end
 
