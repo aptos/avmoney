@@ -8,14 +8,6 @@ module ApplicationHelper
     @current_user ||= User.by_auth_token.key(cookies[:auth_token]).first if cookies[:auth_token]
   end
 
-  def request_country
-    @geoip ||= GeoIP.new("#{Rails.root}/db/GeoIP.dat")
-    request.remote_ip
-    return "US" if request.remote_ip == "127.0.0.1"
-    country = @geoip.country(request.remote_ip).country_code2 rescue "Unknown"
-    return country
-  end
-
   def mobile_device?
     logger.info "**** Mobile? #{request.user_agent}"
     if params[:mobile_override]
