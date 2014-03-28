@@ -36,7 +36,6 @@ gem 'jquery-rails'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
-gem 'bourbon'
 gem 'quiet_assets', :group => :development
 
 # icon fonts
@@ -45,23 +44,6 @@ gem "font-awesome-rails"
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
-# add redis and resque for email delivery
-# gem 'redis'
-# gem 'resque'
-# gem 'resque_mailer'
-
-# emails must inline style elements
-# gem 'premailer-rails'
-# gem 'nokogiri'
-
-# use mailgun, my version. Updated from this fork - https://github.com/jonyt/mailgun
-# gem 'mailgun', :path => 'lib/mailgun'
-
-# geoip to get country of requester
-gem 'geoip'
-
-# leaflet maps
-gem 'leaflet-rails'
 
 # Storage on S3
 gem 'aws-sdk', '~> 1.0'
@@ -77,8 +59,4 @@ group :test, :development do
 	gem 'poltergeist'
 	gem 'simplecov', :require => false
 	gem 'dotenv-rails'
-end
-
-group :test do
-	gem 'resque_spec'
 end

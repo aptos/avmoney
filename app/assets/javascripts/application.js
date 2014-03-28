@@ -20,9 +20,6 @@
 //= require restangular.min
 //= require ui-bootstrap-tpls-0.10.0
 //= require jquery-ui-1.10.4.custom
-//= require leaflet
-//= require leaflet.markercluster
-//= require angular-leaflet-directive
 //= require Google
 //= require ./plupload/plupload.full
 //= require moment.min

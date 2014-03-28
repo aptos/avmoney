@@ -34,7 +34,10 @@ input.search-box-small {
 }
 
 .btn {
-  @include transition( background 0.2s ease );
+  -webkit-transition: background 0.2s ease;
+  -moz-transition: background 0.2s ease;
+  -o-transition: background 0.2s ease;
+  transition: background 0.2s ease;
 }
 
 .btn-delete {
@@ -52,7 +55,10 @@ input.search-box-small {
   cursor:pointer;
   font-size: 2em;
   color:#999;
-  @include transition( all 0.2s ease );
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .heading .clickable-icon {
@@ -76,7 +82,10 @@ input.search-box-small {
 .delete-icon {
   cursor:pointer;
   color:#cc5454;
-  @include transition( all 0.2s ease );
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .delete-icon:hover {
@@ -89,7 +98,10 @@ input.search-box-small {
   height: 20px;
   width: 20px;
   cursor: pointer;
-  @include transition( all 0.2s ease );
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .dot:hover {

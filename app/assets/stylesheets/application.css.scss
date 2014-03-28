@@ -12,10 +12,6 @@
  *= require font-awesome
  *= require animate.min
  *= require authenty
- *= require leaflet
- *= require leaflet.ie
- *= require MarkerCluster
- *= require MarkerCluster.Default
  *= require_tree ./dialogs/
  *= require select2
  *= require select2-bootstrap
@@ -23,7 +19,6 @@
  *= require custom
  */
 
-@import "bourbon";
 @import "font-awesome";
 @import "layouts";
 @import "buttons";

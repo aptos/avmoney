@@ -48,31 +48,6 @@ $label: #382B50;
 .background-dark {
   background:#373746;
 }
-.background-light-green {
-  background:#e9e8da;
-}
-
-.image-header-bleed {
-  position: absolute;
-  background: #191918;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 450px;
-  pointer-events: none;
-  .image-src {
-    @include transition( opacity 0.7s ease );
-    opacity: 0.8
-  }
-}
-
-.image-header-bleed.with-metabar {
-  height: 380px;
-}
-
-.image-src.dimmed {
-  opacity: 0.5;
-}
 
 .bucket {
   padding-top: 30px;
