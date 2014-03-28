@@ -20,8 +20,8 @@ gem 'omniauth-identity'
 gem "rack-timeout"
 
 # cache
-# gem 'dalli'
-# gem 'memcachier'
+gem 'dalli'
+gem 'memcachier'
 
 # db is couch
 gem 'couchrest_model', '2.0.1'
