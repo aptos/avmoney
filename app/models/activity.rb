@@ -7,6 +7,8 @@ class Activity < CouchRest::Model::Base
   property :date, Date
   property :hours, Integer
   property :rate, Integer
+  property :expense, Float
+  property :tax_rate, Float
   property :status, String, default: "Open"
   property :invoice_id, String
 

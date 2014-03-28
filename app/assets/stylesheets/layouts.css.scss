@@ -446,6 +446,11 @@ p.description:first-letter {
 .label-ta { background-color: rgba(75, 109, 75, 0.76);}
 .label-ph { background-color: #C0752E; }
 
+.invoice-total {
+  font-size: 1.2em;
+  border-top: 1px #ccc solid;
+}
+
 @media all and (max-width: 640px) {
   .layout-single-column {
     width: auto;

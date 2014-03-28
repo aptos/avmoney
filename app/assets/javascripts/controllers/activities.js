@@ -13,6 +13,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
         value: client._id,
         text: client.name,
         rate: client.rate,
+        tax_rate: client.tax_rate,
         address: client.address,
         invoice_count: client.invoice_count
       };
@@ -44,6 +45,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     var client = _.find($scope.clients, function (v) { return v.value == id; });
     $scope.activity.client_name = client.text;
     $scope.activity.rate = client.rate;
+    $scope.activity.tax_rate = client.tax_rate;
     $scope.projects = $scope.projectlist[id] || [];
   };
 
@@ -81,8 +83,12 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
 
   $scope.min_date = "2014-01-01";
 
-  $scope.new_activity = function () {
-    $scope.activity = { client_name: '' };
+  $scope.new_activity = function (subtype) {
+    $scope.subtype = subtype;
+    $scope.activity = {
+      client_name: '',
+      tax_rate: 0.0
+    };
     if ($scope.client) {
       $scope.activity.client_id = $scope.client;
       $scope.client_selected($scope.client);
@@ -104,9 +110,14 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.invoice.client_data = _.find($scope.clients, function (v) { return v.value == $scope.client; });
     $scope.invoice.name = $scope.invoice.client_data.text;
     $scope.invoice.invoice_number = $scope.invoice.client_data.invoice_count + 1;
+
     $scope.invoice.hours_sum = $scope.filtered_activities.reduce(function(m, activity) { return m + activity.hours; }, 0);
     $scope.invoice.hours_amount = $scope.filtered_activities.reduce(function(m, activity) { return m + (activity.hours * activity.rate); }, 0);
-    $scope.invoice.invoice_total = $scope.invoice.hours_amount;
+
+    $scope.invoice.expenses = $scope.filtered_activities.reduce(function(m, activity) { return m + (activity.expense); }, 0);
+    $scope.invoice.tax = $scope.filtered_activities.reduce(function(m, activity) { return m + (activity.expense * activity.tax_rate * 0.01); }, 0);
+
+    $scope.invoice.invoice_total = $scope.invoice.hours_amount + $scope.invoice.expenses + $scope.invoice.tax;
 
     $scope.success = false;
 
@@ -155,6 +166,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.edit = function (id) {
     Restangular.one('activities', id).get().then(function (activity) {
       $scope.activity = Restangular.copy(activity);
+      $scope.subtype = ($scope.activity.hours) ? 'Timesheet' : 'Expense';
       $scope.projects = $scope.projectlist[$scope.activity.client_id];
       $scope.show_form = true;
     });

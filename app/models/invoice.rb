@@ -6,6 +6,8 @@ class Invoice < CouchRest::Model::Base
   property :client_data, Hash
   property :hours_sum, Float
   property :hours_amount, Float
+  property :expenses, Float
+  property :tax, Float
   property :invoice_total, Float
   property :activities, Array
   property :project, String

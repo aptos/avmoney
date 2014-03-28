@@ -49,14 +49,15 @@
       <tr>
         <th><h4>Date</h4></th>
         <th><h4>Description</h4></th>
-        <th><h4>Hrs/Qty</h4></th>
+        <th><h4>Hrs/Expense</h4></th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="activity in invoice.activities">
         <td>{{activity.date}}</td>
-        <td>{{activity.notes}}</td>
-        <td>{{activity.hours}}</td>
+        <td><span ng-show="activity.hours" class="text-muted">[ {{activity.hours}} hours ]</span> {{activity.notes}}</td>
+        <td ng-show="activity.hours">{{activity.hours * activity.rate | currency}}</td>
+        <td ng-show="activity.expense">{{activity.expense | currency}}</td>
       </tr>
     </tbody>
   </table>
@@ -66,10 +67,14 @@
   <div class="col-sm-4 col-xs-offset-8">
     <table>
       <tr>
-        <td>Amount:</td>
-        <td class="col-sm-6">{{invoice.hours_amount | currency}}</td>
+        <td>SubTotal:</td>
+        <td class="col-sm-6">{{invoice.hours_amount + invoice.expenses | currency}}</td>
       </tr>
       <tr>
+        <td>Tax:</td>
+        <td class="col-sm-6">{{invoice.tax | currency}}</td>
+      </tr>
+      <tr class="invoice-total">
         <td>Total Due:</td>
         <td class="col-sm-6">{{invoice.invoice_total | currency}}</td>
       </tr>
