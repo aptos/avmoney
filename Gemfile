@@ -11,7 +11,6 @@ gem 'unicorn'
 
 # authentication
 gem 'omniauth'
-gem 'omniauth-linkedin'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 gem 'omniauth-identity'
@@ -21,8 +20,8 @@ gem 'omniauth-identity'
 gem "rack-timeout"
 
 # cache
-gem 'dalli'
-gem 'memcachier'
+# gem 'dalli'
+# gem 'memcachier'
 
 # db is couch
 gem 'couchrest_model', '2.0.1'
@@ -46,16 +45,16 @@ gem "font-awesome-rails"
 gem 'uglifier', '>= 1.3.0'
 
 # add redis and resque for email delivery
-gem 'redis'
-gem 'resque'
-gem 'resque_mailer'
+# gem 'redis'
+# gem 'resque'
+# gem 'resque_mailer'
 
 # emails must inline style elements
-gem 'premailer-rails'
-gem 'nokogiri'
+# gem 'premailer-rails'
+# gem 'nokogiri'
 
 # use mailgun, my version. Updated from this fork - https://github.com/jonyt/mailgun
-gem 'mailgun', :path => 'lib/mailgun'
+# gem 'mailgun', :path => 'lib/mailgun'
 
 # geoip to get country of requester
 gem 'geoip'
