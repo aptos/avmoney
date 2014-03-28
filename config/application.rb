@@ -24,6 +24,6 @@ module AVMoney
     # config.i18n.default_locale = :de
 
     # heroku cache recommendation: https://devcenter.heroku.com/articles/rack-cache-memcached-rails31
-    # config.cache_store = :dalli_store
+    config.cache_store = :dalli_store
   end
 end
