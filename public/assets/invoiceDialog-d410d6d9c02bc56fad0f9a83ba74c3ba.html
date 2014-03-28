@@ -1,0 +1,91 @@
+<div class="container invoice-container">
+
+  <div class="row">
+    <div class="col-xs-6">
+      <h1>
+        <img src="assets/avdesigns-logo.jpg" style="height: 100px;" alt="andrea vollersen designs">
+      </a>
+    </h1>
+  </div>
+  <div class="col-xs-6 text-right">
+    <h1>INVOICE</h1>
+    <h1><small>Invoice: {{invoice.invoice_number}}</small></h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-5">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4>Andrea Vollersen Designs</h4>
+      </div>
+      <div class="panel-body">
+        <p>
+          520 Nisene Meadows Ct. <br>
+          Aptos, CA &nbsp&nbsp 95003 <br>
+          831.684.1680
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-5 col-xs-offset-2 text-right">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4>Client : {{invoice.client_data.text}}</h4>
+      </div>
+      <div class="panel-body">
+        <p style="white-space: pre-line;">
+          {{invoice.client_data.address}}
+        </p>
+      </div>
+    </div>
+  </div>
+</div> <!-- / end client details section -->
+
+<div class="alert alert-info" ng-show="search_project"><b>Project:</b> {{invoice.project}}</div>
+<div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th><h4>Date</h4></th>
+        <th><h4>Description</h4></th>
+        <th><h4>Hrs/Expense</h4></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="activity in invoice.activities">
+        <td>{{activity.date}}</td>
+        <td><span ng-show="activity.hours" class="text-muted">[ {{activity.hours}} hours ]</span> {{activity.notes}}</td>
+        <td ng-show="activity.hours">{{activity.hours * activity.rate | currency}}</td>
+        <td ng-show="activity.expense">{{activity.expense | currency}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="row text-right" ng-show="invoice.invoice_total">
+  <div class="col-sm-4 col-xs-offset-8">
+    <table>
+      <tr>
+        <td>SubTotal:</td>
+        <td class="col-sm-6">{{invoice.hours_amount + invoice.expenses | currency}}</td>
+      </tr>
+      <tr>
+        <td>Tax:</td>
+        <td class="col-sm-6">{{invoice.tax | currency}}</td>
+      </tr>
+      <tr class="invoice-total">
+        <td>Total Due:</td>
+        <td class="col-sm-6">{{invoice.invoice_total | currency}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="text-center margin-top-60" ng-show="invoice_editable">
+  <button class="btn btn-success btn-lg" ng-disabled="saveInProgress" ng-click="save_invoice()" ng-show="!success">SAVE</button>
+  <span ng-show="success" class="text-success">
+    <span><i class="fa fa-smile-o"></i> Saved</span>
+  </span>
+</div>
+
+<div class="alert alert-success margin-top-60 text-center" ng-show="invoice.status=='Paid'">Invoice Paid in Full on {{invoice.paid_date}}. Thank you!</div>
