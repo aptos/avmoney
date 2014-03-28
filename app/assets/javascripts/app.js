@@ -6,7 +6,7 @@
 //= require_self
 
 var avmoneyModule = angular.module('avmoney',['ngRoute','ngAnimate','ngSanitize','ngDebounce','ngDialog','ui.bootstrap',
-  ,'ui.select2','restangular','angularFileUpload','aws','avmoneyServices', 'flot','avmoneyDirectives','avmoneyFilters']);
+  ,'ui.select2','restangular','avmoneyServices', 'avmoneyDirectives','avmoneyFilters']);
 
 avmoneyModule.config(['$routeProvider',function($routeProvider) {
   $routeProvider.

@@ -1,11 +1,5 @@
 var avmoneyFilters = angular.module('avmoneyFilters', []);
 
-avmoneyFilters.filter('inFeet', function() {
-  return function(meters, format) {
-    return Math.floor(parseInt(meters, 10) * 3.280839895) + "ft";
-  };
-});
-
 avmoneyFilters.filter('timeAgo', function() {
   return function(dateString, format) {
     return moment(dateString).fromNow();
@@ -28,28 +22,6 @@ avmoneyFilters.filter('moment', function() {
     } else {
       return moment(dateString).format("YYYY-MM-DD");
     }
-  };
-});
-
-avmoneyFilters.filter('range', function() {
-  return function(input, min, max) {
-    min = parseInt(min);
-    max = parseInt(max);
-    for (var i=min; i<max; i++)
-      input.push(i);
-    return input;
-  };
-});
-
-avmoneyFilters.filter('matchYear', function () {
-  return function (list, year) {
-    var filtered_list = [];
-    if (!angular.isDefined(year)) return list;
-    var getYear = function (ymd) { return ymd.split("-")[0]; };
-    angular.forEach(list, function (item) {
-      if (getYear(item.date) === year) filtered_list.push(item);
-    });
-    return filtered_list;
   };
 });
 
