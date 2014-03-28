@@ -3,3 +3,4 @@ function HeaderController($scope, $location) {
 		return viewLocation === $location.path();
 	};
 }
+HeaderController.$inject = ['$scope','$location'];
