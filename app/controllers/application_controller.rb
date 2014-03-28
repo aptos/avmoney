@@ -7,8 +7,6 @@ class ApplicationController < ActionController::Base
   helper_method :correct_user?
   helper_method :mobile_device?
 
-  rescue_from Redis::CannotConnectError, :with => :redis_connect_error
-
   # rescue_from Exception, with: :render_500
   rescue_from ActionController::RoutingError, with: :render_404
   rescue_from ActionController::UnknownController, with: :render_404
@@ -25,7 +23,7 @@ class ApplicationController < ActionController::Base
       format.all { render nothing: true, status: 404 }
     end
   end
-  
+
   def render_500(exception)
     logger.info exception.backtrace.join("\n")
     @the_error = exception.message

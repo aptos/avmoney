@@ -1,4 +1,4 @@
-Farmdat::Application.configure do
+AVMoney::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
@@ -28,20 +28,4 @@ Farmdat::Application.configure do
   config.logger = Logger.new(STDOUT)
   config.logger.level = Logger.const_get(ENV['LOG_LEVEL'] ? ENV['LOG_LEVEL'].upcase : 'INFO')
 
-  # Using mailgun
-  config.action_mailer.smtp_settings = {
-    :address              => "smtp.mailgun.org",
-    :port                 => 587,
-    :domain               => 'aptos.mailgun.org',
-    :user_name            => 'postmaster@aptos.mailgun.org',
-    :user_name            => ENV['MAILGUN_SMTP_LOGIN'],
-    :password             => ENV['MAILGUN_SMTP_PASSWORD'],
-    :enable_starttls_auto => true
-  }
-
-  config.notifications = {
-    :from => "bswilkerson@gmail.com",
-    :url => "http://localhost:5000",
-    :mailto_info => "bswilkerson@gmail.com"
-  }
 end

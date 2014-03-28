@@ -1,7 +1,7 @@
-var farmdatServices = angular.module('farmdatServices');
+var avmoneyServices = angular.module('avmoneyServices');
 
 // register the interceptor as a service, intercepts ALL angular ajax http calls
-farmdatServices.factory('myHttpInterceptor', ['$q', '$window', function ($q, $window) {
+avmoneyServices.factory('myHttpInterceptor', ['$q', '$window', function ($q, $window) {
 	return function (promise) {
 		return promise.then(function (response) {
             // do something on success

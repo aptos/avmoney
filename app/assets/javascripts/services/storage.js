@@ -1,6 +1,6 @@
-var farmdatServices = angular.module('farmdatServices');
+var avmoneyServices = angular.module('avmoneyServices');
 
-farmdatServices.factory('Storage', function() {
+avmoneyServices.factory('Storage', function() {
 	return {
 		get: function(key) {
 			var item = sessionStorage.getItem(key);

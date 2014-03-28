@@ -1,6 +1,6 @@
-var farmdatDirectives = angular.module('farmdatDirectives', []);
+var avmoneyDirectives = angular.module('avmoneyDirectives', []);
 
-farmdatDirectives.directive('myDatepicker', function () {
+avmoneyDirectives.directive('myDatepicker', function () {
   return {
     restrict:'A',
     require:'ngModel',
@@ -33,7 +33,7 @@ farmdatDirectives.directive('myDatepicker', function () {
   };
 });
 
-farmdatDirectives.directive('contenteditable', function () {
+avmoneyDirectives.directive('contenteditable', function () {
   return {
   restrict: 'A', // only activate on element attribute
   require: '?ngModel', // get a hold of NgModelController
@@ -68,7 +68,7 @@ farmdatDirectives.directive('contenteditable', function () {
 });
 
 var FLOAT_REGEXP = /^\-?\d+((\.)\d+)?$/;
-farmdatDirectives.directive('smartFloat', function() {
+avmoneyDirectives.directive('smartFloat', function() {
   return {
     require: 'ngModel',
     link: function(scope, elm, attrs, ctrl) {
@@ -90,7 +90,7 @@ farmdatDirectives.directive('smartFloat', function() {
 
 // test unique property name against compare-group attribute, where the group *includes* the model being updated
 // uses unique rather than searching for indexOf because the array has already been updated with the model value
-farmdatDirectives.directive('uniqueName', function() {
+avmoneyDirectives.directive('uniqueName', function() {
   return {
     restrict: 'A',
     require: 'ngModel',

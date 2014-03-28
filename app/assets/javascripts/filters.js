@@ -1,18 +1,18 @@
-var farmdatFilters = angular.module('farmdatFilters', []);
+var avmoneyFilters = angular.module('avmoneyFilters', []);
 
-farmdatFilters.filter('inFeet', function() {
+avmoneyFilters.filter('inFeet', function() {
   return function(meters, format) {
     return Math.floor(parseInt(meters, 10) * 3.280839895) + "ft";
   };
 });
 
-farmdatFilters.filter('timeAgo', function() {
+avmoneyFilters.filter('timeAgo', function() {
   return function(dateString, format) {
     return moment(dateString).fromNow();
   };
 });
 
-farmdatFilters.filter('moment', function() {
+avmoneyFilters.filter('moment', function() {
   return function(dateString, format, eob) {
     if (!dateString) { return "-"; }
     if (format) {
@@ -31,7 +31,7 @@ farmdatFilters.filter('moment', function() {
   };
 });
 
-farmdatFilters.filter('range', function() {
+avmoneyFilters.filter('range', function() {
   return function(input, min, max) {
     min = parseInt(min);
     max = parseInt(max);
@@ -41,7 +41,7 @@ farmdatFilters.filter('range', function() {
   };
 });
 
-farmdatFilters.filter('matchYear', function () {
+avmoneyFilters.filter('matchYear', function () {
   return function (list, year) {
     var filtered_list = [];
     if (!angular.isDefined(year)) return list;
@@ -53,7 +53,7 @@ farmdatFilters.filter('matchYear', function () {
   };
 });
 
-farmdatFilters.filter('truncate', function () {
+avmoneyFilters.filter('truncate', function () {
   return function (text, length, end, disabled) {
     if (!text) return;
     if (isNaN(length))
@@ -68,7 +68,7 @@ farmdatFilters.filter('truncate', function () {
   };
 });
 
-farmdatFilters.filter('humanBytes', function () {
+avmoneyFilters.filter('humanBytes', function () {
   return function (fileSizeInBytes) {
     if (!fileSizeInBytes) return null;
     var i = -1;

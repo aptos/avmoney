@@ -1,4 +1,4 @@
-Farmdat::Application.configure do
+AVMoney::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -88,24 +88,4 @@ Farmdat::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.perform_deliveries = true
-
-  # Using mailgun
-  config.action_mailer.smtp_settings = {
-    :address              => "smtp.mailgun.org",
-    :port                 => 587,
-    :domain               => 'aptos.mailgun.org',
-    :user_name            => ENV['MAILGUN_SMTP_LOGIN'],
-    :password             => ENV['MAILGUN_SMTP_PASSWORD'],
-    :authentication       => 'plain',
-    :enable_starttls_auto => true
-  }
-
-  config.notifications = {
-    :from => "bswilkerson@gmail.com",
-    :url => "http://www.growersnotebook.com",
-    :mailto_info => "bswilkerson@gmail.com"
-  }
 end

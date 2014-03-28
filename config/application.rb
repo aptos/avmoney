@@ -7,7 +7,7 @@ require "action_mailer/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
 
-module Farmdat
+module AVMoney
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -24,6 +24,6 @@ module Farmdat
     # config.i18n.default_locale = :de
 
     # heroku cache recommendation: https://devcenter.heroku.com/articles/rack-cache-memcached-rails31
-    config.cache_store = :dalli_store
+    # config.cache_store = :dalli_store
   end
 end

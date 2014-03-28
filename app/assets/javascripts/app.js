@@ -5,10 +5,10 @@
 //= require filters
 //= require_self
 
-var farmdatModule = angular.module('farmdat',['ngRoute','ngAnimate','ngSanitize','ngDebounce','ngDialog','ui.bootstrap',
-  ,'ui.select2','restangular','angularFileUpload','aws','farmdatServices', 'maps', 'flot', 'leaflet-directive','farmdatDirectives','farmdatFilters']);
+var avmoneyModule = angular.module('avmoney',['ngRoute','ngAnimate','ngSanitize','ngDebounce','ngDialog','ui.bootstrap',
+  ,'ui.select2','restangular','angularFileUpload','aws','avmoneyServices', 'maps', 'flot', 'leaflet-directive','avmoneyDirectives','avmoneyFilters']);
 
-farmdatModule.config(['$routeProvider',function($routeProvider) {
+avmoneyModule.config(['$routeProvider',function($routeProvider) {
   $routeProvider.
   // Start
   when('/Activities',{templateUrl: 'assets/activities/index.html', controller: ActivitiesCtrl}).
@@ -31,7 +31,7 @@ farmdatModule.config(['$routeProvider',function($routeProvider) {
   provider.setRestangularFields({ id: "_id" })
 }]);
 
-farmdatModule.run(['$rootScope', '$window', '$q', 'Restangular', 'Storage', function($rootScope, $window, $q, Restangular, Storage) {
+avmoneyModule.run(['$rootScope', '$window', '$q', 'Restangular', 'Storage', function($rootScope, $window, $q, Restangular, Storage) {
 
   var user = $("#globals").html();
   if (!!user) $rootScope.current_user = $.parseJSON(user);

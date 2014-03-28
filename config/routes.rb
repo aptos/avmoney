@@ -1,4 +1,4 @@
-Farmdat::Application.routes.draw do
+AVMoney::Application.routes.draw do
 	root :to => "pages#home"
 
   # Authentications
@@ -28,9 +28,6 @@ Farmdat::Application.routes.draw do
 
   # serve some constants as meta
   resources :meta, only: :index
-
-  # Must be admin to check the resque status
-  mount SecureResqueServer.new, :at => '/resque'
 
   # Catch any other routes and display our own 404
   get "*path", :to => "application#routing_error", via: [:get, :post]
