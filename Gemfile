@@ -20,6 +20,7 @@ gem 'omniauth-identity'
 gem "rack-timeout"
 
 # cache
+gem 'rack-cache'
 gem 'dalli'
 gem 'memcachier'
 
