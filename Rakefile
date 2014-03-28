@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Farmdat::Application.load_tasks
+AVMoney::Application.load_tasks
