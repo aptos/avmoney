@@ -40,6 +40,20 @@ input.search-box-small {
   transition: background 0.2s ease;
 }
 
+.btn-inverted {
+  background-color: #333;
+  border: 2px solid #ddd;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.btn-inverted:hover {
+  border-color: white;
+  background-color: #999;
+}
+
 .btn-delete {
   color: #ccc !important;
 }

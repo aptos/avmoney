@@ -18,6 +18,21 @@ $label: #382B50;
   background-color:#eee;
 }
 
+.dark-page {
+  background-color: #333;
+  height: 100%;
+}
+
+//
+.absolute-center {
+  width: 50%;
+  height:50px;
+  overflow: auto;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
 // margins and padding
 .margin-top-5 { margin-top: 5px; }
 .margin-top-30 { margin-top: 30px; }
