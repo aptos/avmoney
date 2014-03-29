@@ -84,6 +84,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.min_date = "2014-01-01";
 
   $scope.new_activity = function (subtype) {
+    console.info("$scope.search_project",$scope.search_project)
     $scope.subtype = subtype;
     $scope.activity = {
       client_name: '',
@@ -93,6 +94,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
       $scope.activity.client_id = $scope.client;
       $scope.client_selected($scope.client);
     }
+    if ($scope.search_project) $scope.activity.project = $scope.search_project;
     $scope.activity.date = moment().format("YYYY-MM-DD");
     $scope.activityEditForm.$setPristine();
     $scope.show_form = true;

@@ -56,7 +56,7 @@
           <tr ng-show="subtype=='Timesheet'"><td class="muted input-label" >Hours</td>
             <td class="input">
               <div class="col-sm-3">
-                <input name="activityHours" type="number" class="form-control" ng-model="activity.hours" placeholder="1" ng-required="subtype=='Timesheet'">
+                <input name="activityHours" type="number" min="1" class="form-control" ng-model="activity.hours" placeholder="1" ng-required="subtype=='Timesheet'">
               </div>
               <div class="col-sm-5">
                 <div class="input-group">
@@ -72,7 +72,7 @@
               <div class="col-sm-5">
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
-                  <input name="activityPrice" type="number" class="form-control" ng-model="activity.expense" placeholder="100.00" ng-required="subtype=='Expense'">
+                  <input name="activityPrice" type="number" min="1" class="form-control" ng-model="activity.expense" placeholder="100.00" ng-required="subtype=='Expense'">
                 </div>
               </div>
               <div class="col-sm-5">
