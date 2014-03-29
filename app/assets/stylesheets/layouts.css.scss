@@ -375,8 +375,8 @@ ul.thumbs > li{
 }
 
 .row.actions {
-  button { 
-    margin-right: 8px; 
+  button {
+    margin-right: 8px;
     font-weight: 700;
   }
 }
@@ -452,6 +452,7 @@ p.description:first-letter {
 @media all and (max-width: 640px) {
   .layout-single-column {
     width: auto;
+    .row { margin-right: 0px !important;}
   }
   .table-condensed {
     td, td[class*="span"] {
@@ -491,5 +492,9 @@ p.description:first-letter {
   }
   .scrolling-list-clickable {
     padding: 5px;
+  }
+  .floating-container.fixed-top-10 {
+    position:relative;
+    width:100%;
   }
 }
