@@ -405,6 +405,7 @@ p.description:first-letter {
 .floating-container {
   z-index: 1000;
   background-color: #fff;
+  max-width: 550px;
   border: 1px solid #ccc;
   padding: 20px;
   position: absolute;

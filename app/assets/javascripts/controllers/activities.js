@@ -84,7 +84,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.min_date = "2014-01-01";
 
   $scope.new_activity = function (subtype) {
-    console.info("$scope.search_project",$scope.search_project)
     $scope.subtype = subtype;
     $scope.activity = {
       client_name: '',
