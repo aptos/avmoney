@@ -88,7 +88,7 @@
 									'';
 
 							if (options.showClose) {
-								template += '<div class="ngdialog-close"></div>';
+								template += '<div class="ngdialog-close"><i class="fa fa-times-circle close"></i></div>';
 							}
 
 							$dialog = $el('<div id="ngdialog' + globalID + '" class="ngdialog"></div>');
@@ -124,6 +124,7 @@
 								$dialog.bind('click', function (event) {
 									var isOverlay = $el(event.target).hasClass('ngdialog-overlay');
 									var isCloseBtn = $el(event.target).hasClass('ngdialog-close');
+									var isCloseBtn = $el(event.target).hasClass('close');
 
 									if (isOverlay || isCloseBtn) {
 										publicMethods.close($dialog.attr('id'));

@@ -61,11 +61,13 @@
 	animation: ngdialog-fadeout 0.5s;
 }
 
+/*
 .ngdialog-close:before {
 	font-family: 'Helvetica', Arial, sans-serif;
 	content: '\00D7';
 	cursor: pointer;
 }
+*/
 
 body.ngdialog-open {
 	overflow: hidden;

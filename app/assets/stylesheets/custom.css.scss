@@ -110,3 +110,24 @@ input.ng-invalid.ng-dirty {
   border-radius: 5px;
   padding: 4px;
 }
+
+.form-control {
+  color: #333;
+}
+
+.nav-pills > li > a html, body, .full-height {
+  height: 100%;
+}
+
+.nav-pills > li > a {
+  color: #333;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+  background-color: #74A69C;
+}
+
+.nav > li > a:hover, .nav > li > a:focus {
+  background-color: rgba(116, 166, 156, 0.78);
+  color: white;
+}

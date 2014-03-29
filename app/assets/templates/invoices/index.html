@@ -1,25 +1,5 @@
 <div class="screen-content transparent margin-top-30" >
-  <div class="layout-single-column">
-    <div class="row col-xs-offset-1 cols-md-6">
-      <div class="form-group col-xs-8 col-md-4">
-        <select class="form-control" name="Client" ui-select2="{allowClear: true}" ng-model="client" ng-change="search_client(client)" data-placeholder="Clients...">
-          <option value=""></option>
-          <option ng-repeat="c in clients | orderBy:'text'" value="{{c.value}}">{{c.text}}</option>
-        </select>
-      </div>
-      <div class="form-group col-xs-8 col-md-4">
-        <select class="form-control" name="Project" ui-select2="{allowClear: true}" ng-model="search_project" ng-change="filterItems()" data-placeholder="Projects...">
-          <option value=""></option>
-          <option ng-repeat="p in projects_select | orderBy:'text'" value="{{p.value}}">{{p.text}}</option>
-        </select>
-      </div>
-      <div class="form-group col-xs-10 col-md-8 text-center">
-        <form class="form-inline" role="form">
-          <input type="text" class="form-control search-box search-box-small" ng-model="query" placeholder="Search" >
-        </form>
-      </div>
-    </div>
-  </div>
+  <div client-search></div>
   <!-- </div> -->
 
  <!-- Form -->
@@ -82,14 +62,14 @@
     </div>
     <div class="scrolling-list row scrolling-list-clickable" ng-repeat="invoice in filtered_invoices">
       <div class="row">
-        <div class="col-sm-2 col-md-2 col-lg-2 col-lg-offset-1 data-cell" ng-click="open(invoice._id)">{{invoice.created_at | moment:dateformat}}</div>
+        <div class="col-sm-2 col-md-2 col-lg-2 data-cell" ng-click="open(invoice._id)">{{invoice.created_at | moment:dateformat}}</div>
         <div class="col-sm-2 data-cell">
           <span ng-show="invoice.status=='Open'">
             <a ng-click="pay(invoice._id)" title="pay...">{{invoice.status}}</a>
           </span>
           <span ng-hide="invoice.status=='Open'">{{invoice.status}}</a>
         </div>
-        <div class="col-sm-3 data-cell" ng-click="open(invoice._id)">{{invoice.name}} : {{invoice.project}}</div>
+        <div class="col-sm-3 data-cell text-left" ng-click="open(invoice._id)">{{invoice.name}} : {{invoice.project}}</div>
         <div class="col-sm-1 data-cell" ng-click="open(invoice._id)">{{invoice.invoice_number}}</div>
         <div class="col-sm-2 data-cell" ng-click="open(invoice._id)">{{invoice.invoice_total | currency}}</div>
         <div class="col-sm-2 data-cell" ng-click="open(invoice._id)">{{invoice.paid| currency}}</div>

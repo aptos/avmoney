@@ -1,7 +1,3 @@
-html, body, .full-height {
-  height: 100%;
-}
-
 $label: #382B50;
 
 // qualitative color scheme
@@ -46,6 +42,7 @@ $label: #382B50;
 .margin-top-30 { margin-top: 30px; }
 .margin-top-40 { margin-top: 40px; }
 .margin-top-60 { margin-top: 60px; }
+.margin-bottom-5 { margin-bottom: 5px; }
 .margin-bottom-30 { margin-bottom: 30px; }
 .margin-bottom-40 { margin-bottom: 40px; }
 .margin-bottom-60 { margin-bottom: 60px; }
@@ -368,7 +365,6 @@ ul.thumbs > li{
 }
 
 .row.heading {
-  margin-top: 10px;
   background-color: #74A69C;
   color: white;
   padding: 8px 0 5px;
@@ -379,7 +375,10 @@ ul.thumbs > li{
 }
 
 .row.actions {
-  button { margin-right: 8px; }
+  button { 
+    margin-right: 8px; 
+    font-weight: 700;
+  }
 }
 
 .table-set {
