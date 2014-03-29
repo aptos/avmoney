@@ -13,6 +13,7 @@ $label: #382B50;
 .dirty-grey {
   background:url(/assets/img-noise-626262d39o7.png);
 }
+
 .dirty-brown {
   background:url(/assets/img-noise.png);
   background-color:#eee;
@@ -23,6 +24,13 @@ $label: #382B50;
   height: 100%;
 }
 
+.white-background {
+  background-color: #fff;
+}
+
+.transparent {
+  background-color:transparent !important;
+}
 //
 .absolute-center {
   width: 50%;
@@ -361,7 +369,7 @@ ul.thumbs > li{
 
 .row.heading {
   margin-top: 10px;
-  background-color: rgba(127, 107, 54, 0.55);
+  background-color: #74A69C;
   color: white;
   padding: 8px 0 5px;
   border-radius: 5px;
