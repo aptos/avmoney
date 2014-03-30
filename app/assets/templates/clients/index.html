@@ -43,19 +43,62 @@
 	<ul class="scrolling-list force-two-lines" >
 		<li ng-repeat="client in clients | filter:query">
 			<div>
-				<div class="row">
-					<div class="col-xs-4"><span>{{client.name}}</span></div>
-				</div>
-				<h4>{{client.contact}}</h4>
-				<h4>{{client.address}}</h4>
-				<h4>{{client.contact}}</h4>
-				<h4>{{client.email}}</h4>
-        <p>
-          <div class="col-sm-offset-3 col-sm-3 data-cell">{{client.contact2}}</div>
-          <div class="col-sm-2 data-cell">{{client.phone2}}</div>
-          <div class="col-sm-2 data-cell">{{client.cell2}}</div>
-        </p>
-      </div>
-    </li>
-  </ul>
-</div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <span>{{client.name}}</span>
+              <span ng-click="edit(client._id)"><i class="fa fa-pencil text-muted pull-right clickable-icon icon-small"></i>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <p>
+              <div >
+                <span class="text-muted"><i class="fa fa-user width-20"></i></span>
+                <strong>{{client.contact}}</strong>
+              </div>
+              <div ng-if="client.email">
+                <span class="text-muted"><i class="fa fa-envelope-o width-20"></i></span>
+                <a href="mailto:{{client.email}}">{{client.email}}</a>
+              </div>
+              <div ng-if="client.phone">
+                <span class="text-muted"><i class="fa fa-phone width-20"></i></span>
+                <a href="tel:{{client.phone}}">{{client.phone}}</a>
+              </div>
+              <div ng-if="client.cell">
+                <span class="text-muted"><i class="fa fa-mobile-phone width-20"></i></span>
+                <a href="tel:{{client.cell}}">{{client.cell}}</a>
+              </div>
+            </p>
+            <hr ng-if="client.contact2">
+            <p ng-if="client.contact2">
+              <div ng-if="client.contact2">
+                <span class="text-muted"><i class="fa fa-user width-20"></i></span>
+                <strong>{{client.contact2}}</strong>
+              </div>
+              <div ng-if="client.email2">
+                <span class="text-muted"><i class="fa fa-envelope-o width-20"></i></span>
+                <a href="mailto:{{client.email2}}">{{client.email2}}</a>
+              </div>
+              <div ng-if="client.phone2">
+                <span class="text-muted"><i class="fa fa-phone width-20"></i></span>
+                <a href="tel:{{client.phone2}}">{{client.phone2}}</a>
+              </div>
+              <div ng-if="client.cell2">
+                <span class="text-muted"><i class="fa fa-mobile-phone width-20"></i></span>
+                <a href="tel:{{client.cell2}}">{{client.cell2}}</a>
+              </div>
+            </p>
+            <hr ng-if="client.address">
+            <div ng-if="client.address">
+              <span class="text-muted"><i class="fa fa-home width-20"></i></span>
+              <p style="white-space: pre-line;">{{client.address}}</p>
+            </div>
+            <div ng-if="client.deliveries">
+              <span class="text-muted"><i class="fa fa-truck width-20"></i></span>
+              <p style="white-space: pre-line;">{{client.deliveries}}</p>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>

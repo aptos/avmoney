@@ -39,7 +39,7 @@ function ClientsCtrl($scope, Restangular) {
     $scope.show_form = false;
     $scope.show_client = false;
   };
-  close();
+  $scope.close();
 
   $scope.show = function (client) {
     $scope.client = client;

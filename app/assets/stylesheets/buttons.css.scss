@@ -74,6 +74,9 @@ input.search-box-small {
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease;
 }
+.clickable-icon.icon-small { font-size: 1em; }
+.clickable-icon.icon-small:hover { font-size: 1em; }
+
 
 .heading .clickable-icon {
   font-size: inherit;
