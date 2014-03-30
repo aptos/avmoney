@@ -27,7 +27,7 @@ $label: #382B50;
 .transparent {
   background-color:transparent !important;
 }
-//
+
 .absolute-center {
   width: 50%;
   height:50px;
@@ -69,6 +69,10 @@ $label: #382B50;
 }
 .background-dark {
   background:#373746;
+}
+
+.pre {
+  white-space: pre-line;
 }
 
 .bucket {
