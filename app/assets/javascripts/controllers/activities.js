@@ -84,7 +84,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.min_date = "2014-01-01";
 
   $scope.new_activity = function (subtype) {
-    $scope.subtype = subtype;
+    $scope.subtype = subtype || $scope.subtype;
     $scope.activity = {
       client_name: '',
       tax_rate: 0.0
@@ -141,18 +141,28 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     },$scope.close);
   };
 
-  $scope.save = function () {
+  $scope.save = function (add) {
     if (($scope.activityEditForm.$valid) && (!$scope.saveInProgress) ) {
       $scope.saveInProgress = true;
       update_projects($scope.activity.client_id, $scope.activity.project);
       if ($scope.activity._id) {
         $scope.activity.put().then(function () {
-          $scope.close();
+          if (add) {
+            $scope.saveInProgress = false;
+            $scope.new_activity();
+          } else {
+            $scope.close();
+          }
           refresh();
         }, $scope.close);
       } else {
         Restangular.all('activities').post($scope.activity).then( function () {
-          $scope.close();
+          if (add) {
+            $scope.saveInProgress = false;
+            $scope.new_activity();
+          } else {
+            $scope.close();
+          }
           refresh();
         },$scope.close);
       }
