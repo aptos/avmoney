@@ -1,14 +1,5 @@
 /* fonts
-Sans:
-Lato
-Raleway
-Open Sans
 
-Serifs:
-Sorts Mill Goudy
-
-Handwritten:
-Gloria Hallelujah
 */
 
 .nav, .pagination, .carousel a { cursor: pointer; }
@@ -19,7 +10,7 @@ body {
   font-size:16px;
   line-height:1.6;
   background:#fff;
-  font-family: "Raleway", Arial, Helvetica, sans-serif;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
 }
 
 .fill {
@@ -53,7 +44,7 @@ h1, h2, h3, h4, h5, legend {
 
 input, textarea {
   font-size: 16px;
-  font-family: "Raleway", Arial, Helvetica, sans-serif;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
   margin-bottom: 10px;
 }
 
@@ -68,7 +59,7 @@ h1, h2, h3 {
 }
 
 .sans {
-  font-family: "Raleway", Arial, Helvetica, sans-serif;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
 }
 
 h1 i, h2 i, h3 i, h4 i, h5 i {
