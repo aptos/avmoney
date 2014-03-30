@@ -1,0 +1,76 @@
+<!-- Form -->
+<div class="container" ng-show="show_client" ng-init="show_client=false">
+  <div class="floating-container fixed-top-10 col-xs-10 col-md-6 animated fadeIn">
+    <span ng-click="close()"><i class="fa fa-times-circle close pull-right"></i></span>
+    <form name="clientEditForm">
+      <h3>{{client.name}}</h3>
+      <table class="table table-condensed">
+        <tr><td class="muted" >Rate</td>
+          <td>
+            <div class="col-md-6 col-lg-6">
+              <span>$</span>
+              {{client.rate}}
+            </div>
+          </td>
+        </tr>
+        <tr><td class="muted" >Tax Rate</td>
+          <td>
+            <div class="col-md-6 col-lg-6">
+              {{client.tax_rate}}
+              <span>%</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="muted" >Address</td>
+          <td>
+            <pre>{{client.address}}</pre>
+          </td>
+        </tr>
+        <tr>
+          <td class="muted" >Deliveries</td>
+          <td>
+            <pre>{{client.deliveries}}</pre>
+          </td>
+        </tr>
+        <tr>
+          <td class="muted" >{{client.contact}}</td>
+          <td class="input contact-list">
+            <div >
+              <span class="text-muted"><i class="fa fa-envelope-o width-20"></i></span>
+              {{client.email}}
+            </div>
+            <div>
+              <span class="text-muted"><i class="fa fa-phone width-20"></i></span>
+              {{client.phone}}
+            </div>
+            <div>
+              <span class="text-muted"><i class="fa fa-mobile-phone width-20"></i></span>
+              {{client.cell}}
+            </div>
+          </td>
+        </tr>
+        <tr ng-show="client.contact2">
+          <td class="muted" >{{client.contact2}}</td>
+          <td ng-show="client.contact2" class="input contact-list">
+            <div>
+              <span class="text-muted"><i class="fa fa-envelope-o width-20"></i></span>
+              {{client.email2}}
+            </div>
+            <div>
+              <span class="text-muted"><i class="fa fa-phone width-20"></i></span>
+              {{client.phone2}}
+            </div>
+            <div>
+              <span class="text-muted"><i class="fa fa-mobile-phone width-20"></i></span>
+              {{client.cell2}}
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div>
+        <button class="btn btn-info" ng-click="edit(client._id)">Edit</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -37,11 +37,20 @@ function ClientsCtrl($scope, Restangular) {
   $scope.close = function () {
     $scope.saveInProgress = false;
     $scope.show_form = false;
+    $scope.show_client = false;
+  };
+  close();
+
+  $scope.show = function (client) {
+    $scope.client = client;
+    console.info("client", $scope.client)
+    $scope.show_client = true;
   };
 
   $scope.edit = function (id) {
     Restangular.one('clients', id).get().then(function (client) {
       $scope.client = Restangular.copy(client);
+      $scope.show_client = false;
       $scope.show_form = true;
     });
   };

@@ -12,100 +12,8 @@
 	</div>
 </div>
 
-<!-- Form -->
-<div class="container">
-	<div ng-show="show_form" class="floating-container fixed-top-10 col-xs-10 col-md-6 animated fadeIn">
-		<span ng-click="close()" ng-show="show_form" ><i class="fa fa-times-circle close pull-right"></i></span>
-		<form name="clientEditForm">
-			<h3>Client</h3>
-			<table class="table table-condensed">
-				<tr><td class="muted input-label" >Name</td>
-					<td class="input">
-						<input name="clientName" type="text" ng-model="client.name" placeholder="Great Client" class="form-control" required>
-					</td>
-				</tr>
-				<tr><td class="muted input-label" >Rate</td>
-					<td class="input">
-						<div class="input-group col-md-6 col-lg-6">
-							<span class="input-group-addon">$</span>
-							<input name="clientRate" type="number" ng-model="client.rate" placeholder="125" class="form-control" required>
-						</div>
-					</td>
-				</tr>
-        <tr><td class="muted input-label" >Tax Rate</td>
-          <td class="input">
-            <div class="input-group col-md-6 col-lg-6">
-              <span class="input-group-addon">%</span>
-              <input name="clientTaxRate" type="number" ng-model="client.tax_rate" placeholder="8.25" class="form-control" required>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td class="muted input-label" >Address</td>
-          <td class="input">
-            <textarea class="form-control sans no-distraction" rows="3" name="Address" ng-model="client.address" placeholder="124 Somestreet, Town, CA" required>
-            </textarea>
-          </td>
-        </tr>
-        <tr>
-          <td class="muted input-label" >Deliveries</td>
-          <td class="input">
-            <textarea class="form-control sans no-distraction" rows="3" name="Deliveries" ng-model="client.deliveries" placeholder="124 Somestreet, Town, CA">
-            </textarea>
-          </td>
-        </tr>
-        <tr>
-          <td class="muted input-label" >Contact</td>
-          <td class="input contact-list">
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-user"></i></span>
-              <input name="clientContact" type="text" ng-model="client.contact" placeholder="Judy Smith" class="form-control">
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
-              <input name="clientEmail" type="email" ng-model="client.email" class="form-control" placeholder="Judy@Smith.com">
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-              <input name="clientPhone" type="text" ng-model="client.phone" class="form-control" placeholder="phone number">
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-mobile-phone"></i></span>
-              <input name="clientCell" type="text" ng-model="client.cell" class="form-control" placeholder="cell">
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td class="muted input-label" >Secondary Contact</td>
-          <td ng-show="!show_secondary && !client.contact2">
-            <span ng-click="show_secondary=!show_secondary"><i class="fa fa-plus-circle clickable-icon"></i></span>
-          </td>
-          <td ng-show="show_secondary || client.contact2" class="input contact-list">
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-user"></i></span>
-              <input name="clientContact" type="text" ng-model="client.contact2" placeholder="Judy Smith" class="form-control">
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
-              <input name="clientEmail" type="email" ng-model="client.email2" class="form-control" placeholder="Judy@Smith.com">
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-              <input name="clientPhone" type="text" ng-model="client.phone2" class="form-control" placeholder="phone number">
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-mobile-phone"></i></span>
-              <input name="clientCell" type="text" ng-model="client.cell2" class="form-control" placeholder="cell">
-            </div>
-          </td>
-        </tr>
-      </table>
-      <div>
-        <button class="btn btn-success" ng-click="save()" ng-disabled="clientEditForm.$invalid">Save</button>
-      </div>
-    </form>
-  </div>
-</div>
+<div client-edit></div>
+<div client-show></div>
 
 <!-- Large Format List -->
 <div class="container white-rounded text-center padding-bottom-60 hidden-xs">
@@ -116,18 +24,18 @@
     <div class="col-sm-2">Mobile</div>
   </div>
   <div class="scrolling-list scrolling-list-clickable row" ng-repeat="client in clients | filter:query">
-    <div class="row"  ng-click="edit(client._id)">
-     <div class="col-sm-3 data-cell">{{client.name}}</div>
-     <div class="col-sm-3 data-cell">{{client.contact}}</div>
-     <div class="col-sm-2 data-cell">{{client.phone}}</div>
-     <div class="col-sm-2 data-cell">{{client.cell}}</div>
-     <p>
-      <div class="col-sm-offset-3 col-sm-3 data-cell">{{client.contact2}}</div>
-      <div class="col-sm-2 data-cell">{{client.phone2}}</div>
-      <div class="col-sm-2 data-cell">{{client.cell2}}</div>
-    </p>
+    <div class="row"  ng-click="show(client)">
+      <div class="col-sm-3 data-cell">{{client.name}}</div>
+      <div class="col-sm-3 data-cell">{{client.contact}}</div>
+      <div class="col-sm-2 data-cell">{{client.phone}}</div>
+      <div class="col-sm-2 data-cell">{{client.cell}}</div>
+      <p>
+        <div class="col-sm-offset-3 col-sm-3 data-cell">{{client.contact2}}</div>
+        <div class="col-sm-2 data-cell">{{client.phone2}}</div>
+        <div class="col-sm-2 data-cell">{{client.cell2}}</div>
+      </p>
+    </div>
   </div>
-</div>
 </div>
 
 <!-- Mobile Format List -->
@@ -142,7 +50,12 @@
 				<h4>{{client.address}}</h4>
 				<h4>{{client.contact}}</h4>
 				<h4>{{client.email}}</h4>
-			</div>
-		</li>
-	</ul>
+        <p>
+          <div class="col-sm-offset-3 col-sm-3 data-cell">{{client.contact2}}</div>
+          <div class="col-sm-2 data-cell">{{client.phone2}}</div>
+          <div class="col-sm-2 data-cell">{{client.cell2}}</div>
+        </p>
+      </div>
+    </li>
+  </ul>
 </div>

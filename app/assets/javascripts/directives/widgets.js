@@ -7,6 +7,20 @@ avmoneyDirectives.directive('clientSearch', function(){
   };
 });
 
+avmoneyDirectives.directive('clientEdit', function(){
+  return {
+    restrict:'A',
+    templateUrl:'assets/clients/edit.html'
+  };
+});
+
+avmoneyDirectives.directive('clientShow', function(){
+  return {
+    restrict:'A',
+    templateUrl:'assets/clients/show.html'
+  };
+});
+
 avmoneyDirectives.directive('myDatepicker', function () {
   return {
     restrict:'A',
