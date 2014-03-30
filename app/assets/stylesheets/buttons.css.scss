@@ -142,8 +142,11 @@ a.wp-link:hover {
 }
 
 @media all and (max-width: 640px) {
-
   .search-box {
     width: auto;
   }
+  input.search-box-small {
+    width: 230px;
+  }
+
 }
