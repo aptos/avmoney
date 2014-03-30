@@ -73,9 +73,9 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   refresh();
 
   // Date Format
-  $scope.dateformat = 'D MMM \'YY';
+  $scope.dateformat = 'M/D/YY';
   $scope.toggle_date = function () {
-    $scope.dateformat = ($scope.dateformat == 'timeago') ? 'D MMM \'YY'  : 'timeago';
+    $scope.dateformat = ($scope.dateformat == 'timeago') ? 'M/D/YY'  : 'timeago';
   };
 
   // Form Functions
@@ -141,13 +141,16 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     },$scope.close);
   };
 
-  $scope.save = function (add) {
+  $scope.save = function (add, copy) {
     if (($scope.activityEditForm.$valid) && (!$scope.saveInProgress) ) {
       $scope.saveInProgress = true;
       update_projects($scope.activity.client_id, $scope.activity.project);
       if ($scope.activity._id) {
         $scope.activity.put().then(function () {
-          if (add) {
+          if (add && copy) {
+            $scope.saveInProgress = false;
+            $scope.new_activity(true);
+          } else if (add) {
             $scope.saveInProgress = false;
             $scope.new_activity();
           } else {

@@ -24,7 +24,7 @@
           </tr>
           <tr>
             <td class="text-left">Invoice Date</td>
-            <td class="col-sm-6">{{invoice.created_at | moment:'D MMMM YYYY'}}</td>
+            <td class="col-sm-6">{{invoice.created_at | moment:'M/D/YY'}}</td>
           </tr>
           <tr>
             <td class="text-left"><strong>Amount Due</strong></td>
@@ -63,9 +63,9 @@
       </thead>
       <tbody>
         <tr ng-repeat="activity in invoice.activities">
-          <td>{{activity.date}}</td>
-          <td><span ng-show="activity.hours" class="text-muted">[ {{activity.hours}} hours ]</span> {{activity.notes}}</td>
-          <td ng-show="activity.hours">{{activity.hours * activity.rate | currency}}</td>
+          <td>{{activity.date | moment:'M/D/YY'}}</td>
+          <td>{{activity.notes}}</td>
+          <td ng-show="activity.hours">{{activity.hours}} hours</td>
           <td ng-show="activity.expense">{{activity.expense | currency}}</td>
         </tr>
       </tbody>
@@ -75,6 +75,10 @@
   <div class="row text-right" ng-show="invoice.invoice_total">
     <div class="col-sm-4 col-xs-offset-8">
       <table>
+        <tr>
+          <td>Total Hours:</td>
+          <td class="col-sm-6">{{invoice.hours_sum}}</td>
+        </tr>
         <tr>
           <td>SubTotal:</td>
           <td class="col-sm-6">{{invoice.hours_amount + invoice.expenses | currency}}</td>

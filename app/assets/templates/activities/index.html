@@ -27,12 +27,6 @@
               <input name="activityDate" type="text" class="form-control text_field date-input" min-date="{{min_date}}" max-date="{{max_date}}" ng-model="activity.date" my-datepicker required>
             </td>
           </tr>
-          <tr><td class="muted input-label" >Description</td>
-            <td class="input">
-              <textarea class="form-control sans no-distraction" rows="3" name="Notes" ng-model="activity.notes" placeholder="Item Description" required>
-              </textarea>
-            </td>
-          </tr>
           <tr ng-show="subtype=='Timesheet'"><td class="muted input-label" >Hours</td>
             <td class="input">
               <div class="col-sm-3">
@@ -63,6 +57,12 @@
               </div>
             </td>
           </tr>
+          <tr><td class="muted input-label" >Description</td>
+            <td class="input">
+              <textarea class="form-control sans no-distraction" rows="3" name="Notes" ng-model="activity.notes" placeholder="Item Description" required>
+              </textarea>
+            </td>
+          </tr>
           <tr ng-show="activity.hours">
             <td class="muted input-label">Total</td>
             <td>{{activity.hours * activity.rate | currency}}</td>
@@ -72,9 +72,10 @@
             <td>{{activity.expense * (1 + activity.tax_rate * .01) | currency}}</td>
           </tr>
         </table>
-        <div>
-          <button class="btn btn-success" ng-click="save()" ng-disabled="activityEditForm.$invalid">Save</button>
+        <div class="button-row">
           <button class="btn btn-success" ng-click="save(true)" ng-disabled="activityEditForm.$invalid">Save and Add</button>
+          <button class="btn btn-success" ng-click="save()" ng-disabled="activityEditForm.$invalid">Save</button>
+          <button class="btn btn-success" ng-click="save(true, true)" ng-disabled="activityEditForm.$invalid">Copy</button>
         </div>
       </form>
     </div>

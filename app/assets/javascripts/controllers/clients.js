@@ -43,7 +43,6 @@ function ClientsCtrl($scope, Restangular) {
 
   $scope.show = function (client) {
     $scope.client = client;
-    console.info("client", $scope.client)
     $scope.show_client = true;
   };
 
