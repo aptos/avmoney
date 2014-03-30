@@ -1,4 +1,4 @@
-function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Restangular) {
+function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Restangular, $location) {
 
   $rootScope.getMeta().then(function (metadata) {
     $scope.metadata = metadata;
@@ -133,11 +133,11 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.save_invoice = function () {
     $scope.saveInProgress = true;
     $scope.success = false;
-    Restangular.all('invoices').post($scope.invoice).then( function () {
+    Restangular.all('invoices').post($scope.invoice).then( function (invoice) {
       $scope.close();
       _.where($scope.clients, { value: $scope.invoice.client_id})[0].invoice_count += 1;
       $scope.success = true;
-      refresh();
+      $location.path("/Invoice/" + invoice._id);
     },$scope.close);
   };
 
@@ -195,4 +195,4 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   };
 
 }
-ActivitiesCtrl.$inject = ['$scope','$rootScope','$routeParams','$filter','ngDialog','Restangular'];
+ActivitiesCtrl.$inject = ['$scope','$rootScope','$routeParams','$filter','ngDialog','Restangular','$location'];
