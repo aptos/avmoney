@@ -5,8 +5,8 @@ class Activity < CouchRest::Model::Base
   property :project, String
   property :notes, String
   property :date, Date
-  property :hours, Integer
-  property :rate, Integer
+  property :hours, Float
+  property :rate, Float
   property :expense, Float
   property :tax_rate, Float
   property :status, String, default: "Open"
