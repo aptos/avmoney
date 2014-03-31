@@ -101,4 +101,5 @@
     </span>
   </div>
 
+  <div class="alert alert-info margin-top-60 text-center" ng-show="invoice.status!='Paid'">Invoice is payable upon receipt. Thank You</div>
   <div class="alert alert-success margin-top-60 text-center" ng-show="invoice.status=='Paid'">Invoice Paid in Full on {{invoice.paid_date}}. Thank you!</div>

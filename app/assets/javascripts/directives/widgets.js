@@ -21,6 +21,16 @@ avmoneyDirectives.directive('clientShow', function(){
   };
 });
 
+avmoneyDirectives.directive('draggable', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, elm, attrs) {
+      var options = scope.$eval(attrs.avDraggable); //allow options to be passed in
+      elm.draggable(options);
+    }
+  };
+});
+
 avmoneyDirectives.directive('myDatepicker', function () {
   return {
     restrict:'A',

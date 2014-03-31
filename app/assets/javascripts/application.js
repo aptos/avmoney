@@ -19,7 +19,7 @@
 //= require angular-sanitize.min
 //= require restangular.min
 //= require ui-bootstrap-tpls-0.10.0
-//= require jquery-ui-1.10.4.custom
+//= require jquery-ui-1.10.4.custom2
 //= require moment.min
 //= require ngDialog
 //= require select2
