@@ -53,4 +53,22 @@ class InvoicesController < ApplicationController
     end
   end
 
+  def destroy
+    @invoice = Invoice.find(params[:id])
+    unless @invoice
+      render :json => { error: "invoice not found: #{params[:id]}" }, :status => 404 and return
+    end
+
+    # update each activity status back to open
+    @invoice.activities.each do |activity|
+      if a = Activity.find(activity["_id"])
+        logger.info "Found Activity: #{activity["_id"]}"
+        a.update_attributes({status: "Open", invoice_id: nil})
+      end
+    end
+
+    @invoice.destroy
+    render :json => { status: "deleted" }
+  end
+
 end

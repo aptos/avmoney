@@ -6,7 +6,7 @@
   <div class="container">
     <div ng-show="show_form" class="floating-container fixed-top-10 col-xs-10 col-md-6 animated fadeIn" draggable>
       <span ng-click="close()" ng-show="show_form" ><i class="fa fa-times-circle close pull-right"></i></span>
-      <form name="activityEditForm">
+      <form name="activityEditForm" novalidate>
         <h3>{{subtype}}</h3>
         <table class="table table-condensed">
           <tr><td class="muted input-label" >Client</td>
@@ -40,8 +40,7 @@
               </div>
             </td>
           </tr>
-          <tr ng-show="subtype=='Expense'">
-            <td class="muted input-label" >Expense</td>
+          <tr ng-show="subtype=='Expense'"><td class="muted input-label" >Expense</td>
             <td class="input">
               <div class="col-sm-5">
                 <div class="input-group">
@@ -52,7 +51,7 @@
               <div class="col-sm-5">
                 <div class="input-group">
                   <span class="input-group-addon">%</span>
-                  <input name="activityTaxRate" type="number" class="form-control" ng-model="activity.tax_rate" placeholder="8.5" ng-required="subtype=='Expense'">
+                  <input name="activityTaxRate" type="number" class="form-control" ng-model="activity.tax_rate" placeholder="8.5">
                 </div>
               </div>
             </td>
@@ -73,9 +72,8 @@
           </tr>
         </table>
         <div class="button-row">
-          <button class="btn btn-success" ng-click="save(true)" ng-disabled="activityEditForm.$invalid">Save and Add</button>
-          <button class="btn btn-success" ng-click="save()" ng-disabled="activityEditForm.$invalid">Save</button>
-          <button class="btn btn-success" ng-click="save(true, true)" ng-disabled="activityEditForm.$invalid">Copy</button>
+          <button class="btn btn-success" ng-click="save(true)" ng-disabled="activityEditForm.$invalid || !activityEditForm.$dirty">Save and Add</button>
+          <button class="btn btn-success" ng-click="save()" ng-disabled="activityEditForm.$invalid || !activityEditForm.$dirty">Save</button>
         </div>
       </form>
     </div>
@@ -86,7 +84,7 @@
     <div class="row actions">
       <button class="btn btn-sm btn-info" ng-click="new_activity('Timesheet')">+ timesheet</button>
       <button class="btn btn-sm btn-info" ng-click="new_activity('Expense')">+ expense</button>
-      <button class="btn btn-sm btn-success" ng-click="create_invoice()" ng-disabled="!client">invoice</button>
+      <button class="btn btn-sm btn-success" ng-click="create_invoice()" ng-disabled="!client || !filtered_activities.length">invoice</button>
     </div>
   </div>
   <div class="container white-rounded padding-bottom-60 hidden-xs text-center">
@@ -102,7 +100,7 @@
     <div class="scrolling-list row scrolling-list-clickable" ng-repeat="activity in filtered_activities">
       <div class="row" ng-click="edit(activity._id)">
         <div class="col-sm-2 col-md-2 col-lg-2 col-lg-offset-1 data-cell" >{{activity.date | moment:dateformat}}</div>
-        <div class="col-sm-3 col-md-3 col-lg-3 data-cell">{{activity.client_name}}:<br>&nbsp {{activity.project}}</div>
+        <div class="col-sm-3 col-md-3 col-lg-3 data-cell text-left">{{activity.client_name}}: {{activity.project}}</div>
         <div class="col-sm-2 data-cell" ng-show="activity.hours">{{activity.hours}} @ ${{activity.rate}}</div>
         <div class="col-sm-2 data-cell" ng-show="activity.expense">{{activity.expense * (1 + activity.tax_rate * 0.01) | currency}}</div>
         <div class="col-sm-3 col-md-3 col-lg-3 text-left data-cell">{{activity.notes}}</div>

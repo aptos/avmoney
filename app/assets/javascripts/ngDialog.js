@@ -12,7 +12,7 @@
 	var $el = angular.element;
 	var isDef = angular.isDefined;
 	var style = (document.body || document.documentElement).style;
-  var animationEndSupport = isDef(style.animation) || isDef(style.WebkitAnimation) || isDef(style.MozAnimation) || isDef(style.MsAnimation) || isDef(style.OAnimation);
+	var animationEndSupport = isDef(style.animation) || isDef(style.WebkitAnimation) || isDef(style.MozAnimation) || isDef(style.MsAnimation) || isDef(style.OAnimation);
 	var animationEndEvent = 'animationend webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend';
 
 	module.provider('ngDialog', function () {
@@ -24,7 +24,7 @@
 			closeByEscape: true
 		};
 
-		var globalID = 0, dialogsCount = 0;
+		var globalID = 0, dialogsCount = 0, closeByDocumentHandler;
 
 		this.$get = ['$document', '$templateCache', '$compile', '$q', '$http', '$rootScope', '$timeout',
 			function ($document, $templateCache, $compile, $q, $http, $rootScope, $timeout) {
@@ -38,19 +38,29 @@
 					},
 
 					closeDialog: function ($dialog) {
-						$dialog.unbind('click');
+						if (typeof Hammer !== 'undefined') {
+							Hammer($dialog[0]).off('tap', closeByDocumentHandler);
+						} else {
+							$dialog.unbind('click');
+						}
 
 						if (dialogsCount === 1) {
 							$body.unbind('keyup').removeClass('ngdialog-open');
 						}
+
 						dialogsCount -= 1;
+
 						if (animationEndSupport) {
-              $dialog.unbind(animationEndEvent).bind(animationEndEvent, function () {
+							$dialog.unbind(animationEndEvent).bind(animationEndEvent, function () {
+								$dialog.scope().$destroy();
 								$dialog.remove();
 							}).addClass('ngdialog-closing');
 						} else {
+							$dialog.scope().$destroy();
 							$dialog.remove();
 						}
+
+						$rootScope.$broadcast('ngDialog.closed', $dialog);
 					}
 				};
 
@@ -70,6 +80,7 @@
 					 * @return {Object} dialog
 					 */
 					open: function (opts) {
+						var self = this;
 						var options = angular.copy(defaults);
 
 						opts = opts || {};
@@ -77,21 +88,25 @@
 
 						globalID += 1;
 
-						var scope = angular.isObject(options.scope) ? options.scope : $rootScope.$new();
+						self.latestID = 'ngdialog' + globalID;
+
+						var scope = angular.isObject(options.scope) ? options.scope.$new() : $rootScope.$new();
 						var $dialog;
 
 						$q.when(loadTemplate(options.template)).then(function (template) {
 							template = angular.isString(template) ?
 								template :
-								template.data && angular.isString( template.data ) ?
+								template.data && angular.isString(template.data) ?
 									template.data :
 									'';
+
+							$templateCache.put(options.template, template);
 
 							if (options.showClose) {
 								template += '<div class="ngdialog-close"><i class="fa fa-times-circle close"></i></div>';
 							}
 
-							$dialog = $el('<div id="ngdialog' + globalID + '" class="ngdialog"></div>');
+							self.$result = $dialog = $el('<div id="ngdialog' + globalID + '" class="ngdialog"></div>');
 							$dialog.html('<div class="ngdialog-overlay"></div><div class="ngdialog-content">' + template + '</div>');
 
 							if (options.controller && angular.isString(options.controller)) {
@@ -106,12 +121,12 @@
 								scope.ngDialogData = options.data.replace(/^\s*/, '')[0] === '{' ? angular.fromJson(options.data) : options.data;
 							}
 
+							scope.closeThisDialog = function() {
+								privateMethods.closeDialog($dialog);
+							};
+
 							$timeout(function () {
 								$compile($dialog)(scope);
-							});
-
-							scope.$on('$destroy', function () {
-								$dialog.remove();
 							});
 
 							$body.addClass('ngdialog-open').append($dialog);
@@ -121,18 +136,26 @@
 							}
 
 							if (options.closeByDocument) {
-								$dialog.bind('click', function (event) {
+								closeByDocumentHandler = function (event) {
 									var isOverlay = $el(event.target).hasClass('ngdialog-overlay');
-									var isCloseBtn = $el(event.target).hasClass('ngdialog-close');
-									var isCloseBtn = $el(event.target).hasClass('close');
+                  var isCloseBtn = $el(event.target).hasClass('ngdialog-close');
+                  var isCloseBtn = $el(event.target).hasClass('close');
 
 									if (isOverlay || isCloseBtn) {
 										publicMethods.close($dialog.attr('id'));
 									}
-								});
+								};
+
+								if (typeof Hammer !== 'undefined') {
+									Hammer($dialog[0]).on('tap', closeByDocumentHandler);
+								} else {
+									$dialog.bind('click', closeByDocumentHandler);
+								}
 							}
 
 							dialogsCount += 1;
+
+							$rootScope.$broadcast('ngDialog.opened', $dialog);
 
 							return publicMethods;
 						});
@@ -185,6 +208,8 @@
 			link: function (scope, elem, attrs) {
 				elem.on('click', function (e) {
 					e.preventDefault();
+
+					angular.isDefined(attrs.ngDialogClosePrevious) && ngDialog.close(attrs.ngDialogClosePrevious);
 
 					ngDialog.open({
 						template: attrs.ngDialog,

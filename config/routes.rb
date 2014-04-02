@@ -17,7 +17,11 @@ AVMoney::Application.routes.draw do
   get "/accounts/create" => 'accounts#create'
 
   resources :activities
+
   resources :invoices
+  post "/invoices/:id" => 'invoices#update'
+  delete "/invoices/:id" => 'invoices#delete'
+
   resources :payments
   resources :clients
 

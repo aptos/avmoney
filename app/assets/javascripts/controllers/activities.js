@@ -47,6 +47,9 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.activity.rate = client.rate;
     $scope.activity.tax_rate = client.tax_rate;
     $scope.projects = $scope.projectlist[id] || [];
+    if ($scope.projects.length == 1) {
+      $scope.activity.project = $scope.projects[0];
+    }
   };
 
   $scope.search_client = function (id) {
@@ -62,6 +65,10 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   var update_projects = function (client_id, project) {
     $scope.projectlist[client_id].push(project);
     $scope.projectlist[client_id] = _.uniq($scope.projectlist[client_id]);
+    if ($scope.client) {
+      $scope.projects = $scope.projectlist[client_id];
+      $scope.projects_select = $scope.projects.map( function (project) { return { value: project, text: project }; });
+    }
   };
 
   // Fetch activities
@@ -94,7 +101,10 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
       $scope.client_selected($scope.client);
     }
     if ($scope.search_project) $scope.activity.project = $scope.search_project;
+    if (!$scope.activity.project && $scope.activity.client_id && $scope.projectlist[$scope.activity.client_id].length == 1) {
     $scope.activity.date = moment().format("YYYY-MM-DD");
+      $scope.activity.project = $scope.projectlist[$scope.activity.client_id][0];
+    }
     $scope.activityEditForm.$setPristine();
     $scope.show_form = true;
   };
@@ -135,22 +145,21 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.success = false;
     Restangular.all('invoices').post($scope.invoice).then( function (invoice) {
       $scope.close();
+      ngDialog.close();
       _.where($scope.clients, { value: $scope.invoice.client_id})[0].invoice_count += 1;
       $scope.success = true;
       $location.path("/Invoice/" + invoice._id);
     },$scope.close);
   };
 
-  $scope.save = function (add, copy) {
+  $scope.save = function (add) {
     if (($scope.activityEditForm.$valid) && (!$scope.saveInProgress) ) {
       $scope.saveInProgress = true;
       update_projects($scope.activity.client_id, $scope.activity.project);
       if ($scope.activity._id) {
         $scope.activity.put().then(function () {
-          if (add && copy) {
-            $scope.saveInProgress = false;
-            $scope.new_activity(true);
-          } else if (add) {
+          if (add) {
+            $scope.client = $scope.activity.client_id;
             $scope.saveInProgress = false;
             $scope.new_activity();
           } else {
@@ -183,6 +192,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
       $scope.subtype = ($scope.activity.hours) ? 'Timesheet' : 'Expense';
       $scope.projects = $scope.projectlist[$scope.activity.client_id];
       $scope.show_form = true;
+      $scope.activityEditForm.$setPristine();
     });
   };
 
