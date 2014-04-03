@@ -1,8 +1,12 @@
-function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Restangular, $location) {
+function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Restangular, $location, Storage) {
 
   $rootScope.getMeta().then(function (metadata) {
     $scope.metadata = metadata;
   });
+
+  $scope.client = Storage.get('client');
+  $scope.projects_select = Storage.get('projects_select') || [];
+  $scope.search_project = Storage.get('search_project');
 
   // Fetch Clients
   $scope.projectlist = {};
@@ -27,10 +31,14 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   var filterFilter = $filter('filter');
   var orderByFilter = $filter('orderBy');
   $scope.filterItems = function() {
+    Storage.set('search_project', $scope.search_project);
+    console.info("filterItems", $scope.client, $scope.search_project)
     var q_activities = filterFilter($scope.activities, $scope.query);
-    if ($scope.client != "All") q_activities = filterFilter(q_activities, $scope.client);
-    if ($scope.search_project != "All") q_activities = filterFilter(q_activities, $scope.search_project);
-    var orderedItems = orderByFilter(q_activities, ['client_name','date']);
+    if (!!$scope.client) q_activities = filterFilter(q_activities, $scope.client);
+    if (!!$scope.search_project) {
+      q_activities = filterFilter(q_activities, $scope.search_project);
+    }
+    var orderedItems = orderByFilter(q_activities, ['client_name','status','date']);
 
     $scope.filtered_activities = orderedItems;
   };
@@ -38,8 +46,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.$watch('activities', $scope.filterItems);
   $scope.$watch('query', $scope.filterItems);
 
-
-  $scope.projects = [];
   $scope.client_selected = function (id) {
     if (!id) return;
     var client = _.find($scope.clients, function (v) { return v.value == id; });
@@ -53,6 +59,8 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   };
 
   $scope.search_client = function (id) {
+    Storage.set('client', id);
+    Storage.erase('search_project');
     $scope.filterItems();
     if (!id) {
       $scope.projects_select = [];
@@ -60,6 +68,8 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     }
     $scope.projects = $scope.projectlist[id] || [];
     $scope.projects_select = $scope.projects.map( function (project) { return { value: project, text: project }; });
+    Storage.set('projects_select', $scope.projects_select);
+    console.info("projects_select", $scope.projects_select)
   };
 
   var update_projects = function (client_id, project) {
@@ -73,7 +83,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
 
   // Fetch activities
   var refresh = function () {
-    Restangular.all('activities').getList({status: "Open"}).then( function (list) {
+    Restangular.all('activities').getList().then( function (list) {
       $scope.activities = list;
     });
   };
@@ -102,7 +112,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     }
     if ($scope.search_project) $scope.activity.project = $scope.search_project;
     if (!$scope.activity.project && $scope.activity.client_id && $scope.projectlist[$scope.activity.client_id].length == 1) {
-    $scope.activity.date = moment().format("YYYY-MM-DD");
+      $scope.activity.date = moment().format("YYYY-MM-DD");
       $scope.activity.project = $scope.projectlist[$scope.activity.client_id][0];
     }
     $scope.activityEditForm.$setPristine();
@@ -114,13 +124,15 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.create_invoice = function () {
     $scope.invoice = {
       client_id: $scope.client,
-      activities: $scope.filtered_activities,
       project: $scope.search_project
     };
+
+    $scope.invoice.activities = _.filter($scope.filtered_activities, {'status': 'Active'});
 
     $scope.invoice.client_data = _.find($scope.clients, function (v) { return v.value == $scope.client; });
     $scope.invoice.name = $scope.invoice.client_data.text;
     $scope.invoice.invoice_number = $scope.invoice.client_data.invoice_count + 1;
+    $scope.invoice.open_date = moment().format("YYYY-MM-DD");
 
     $scope.invoice.hours_sum = $scope.filtered_activities.reduce(function(m, activity) { return m + activity.hours; }, 0);
     $scope.invoice.hours_amount = $scope.filtered_activities.reduce(function(m, activity) { return m + (activity.hours * activity.rate); }, 0);
@@ -205,4 +217,4 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   };
 
 }
-ActivitiesCtrl.$inject = ['$scope','$rootScope','$routeParams','$filter','ngDialog','Restangular','$location'];
+ActivitiesCtrl.$inject = ['$scope','$rootScope','$routeParams','$filter','ngDialog','Restangular','$location','Storage'];

@@ -50,6 +50,7 @@ avmoneyDirectives.directive('myDatepicker', function () {
         minDate:minDateObject,
         onSelect:function (dateText, inst) {
           ngModel.$setViewValue(dateText);
+          scope.edit_date = false;
           scope.$apply();
         }
       });

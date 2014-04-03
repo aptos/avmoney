@@ -1,8 +1,10 @@
-function PaymentsCtrl($scope, $rootScope, $routeParams, $filter, Restangular) {
+function PaymentsCtrl($scope, $rootScope, $routeParams, $filter, Restangular, Storage) {
 
   $rootScope.getMeta().then(function (metadata) {
     $scope.metadata = metadata;
   });
+
+  $scope.client = Storage.get('client')
 
   // Fetch Clients
   $scope.projectlist = {};
@@ -35,6 +37,7 @@ function PaymentsCtrl($scope, $rootScope, $routeParams, $filter, Restangular) {
   $scope.$watch('query', $scope.filterItems);
 
   $scope.search_client = function (id) {
+    Storage.set('client', id);
     $scope.filterItems();
     if (!id) {
       $scope.projects_select = [];
@@ -53,4 +56,4 @@ function PaymentsCtrl($scope, $rootScope, $routeParams, $filter, Restangular) {
   refresh();
 
 }
-PaymentsCtrl.$inject = ['$scope','$rootScope','$routeParams','$filter','Restangular'];
+PaymentsCtrl.$inject = ['$scope','$rootScope','$routeParams','$filter','Restangular','Storage'];

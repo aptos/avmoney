@@ -82,7 +82,7 @@
   <!-- Large Format List -->
   <div class="container margin-bottom-5">
     <div class="row actions">
-      <button class="btn btn-sm btn-info" ng-click="new_activity('Timesheet')">+ timesheet</button>
+      <button class="btn btn-sm btn-info" ng-click="new_activity('Timesheet')">+ hours</button>
       <button class="btn btn-sm btn-info" ng-click="new_activity('Expense')">+ expense</button>
       <button class="btn btn-sm btn-success" ng-click="create_invoice()" ng-disabled="!client || !filtered_activities.length">invoice</button>
     </div>
@@ -96,6 +96,7 @@
       <div class="col-sm-3">Client: Project</div>
       <div class="col-sm-2">Hours/Expense</div>
       <div class="col-sm-3">Notes</div>
+      <div class="col-sm-1">Status</div>
     </div>
     <div class="scrolling-list row scrolling-list-clickable" ng-repeat="activity in filtered_activities">
       <div class="row" ng-click="edit(activity._id)">
@@ -103,7 +104,8 @@
         <div class="col-sm-3 col-md-3 col-lg-3 data-cell text-left">{{activity.client_name}}: {{activity.project}}</div>
         <div class="col-sm-2 data-cell" ng-show="activity.hours">{{activity.hours}} @ ${{activity.rate}}</div>
         <div class="col-sm-2 data-cell" ng-show="activity.expense">{{activity.expense * (1 + activity.tax_rate * 0.01) | currency}}</div>
-        <div class="col-sm-3 col-md-3 col-lg-3 text-left data-cell">{{activity.notes}}</div>
+        <div class="col-sm-3 text-left data-cell">{{activity.notes | truncate:'32'}}</div>
+        <div class="col-sm-1 text-left data-cell">{{activity.status}}</div>
       </div>
     </div>
   </div>

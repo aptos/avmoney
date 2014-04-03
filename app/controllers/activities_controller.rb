@@ -1,11 +1,16 @@
 class ActivitiesController < ApplicationController
 
   def index
-    if params[:status] == "Open"
-      @activities = Activity.by_status.key("Open").all
+    if params[:status] && params[:client_id]
+      @activities = Activity.by_client_id_and_status.key([params[:client_id],params[:status]]).all
     else
       @activities = Activity.by_date.all
     end
+
+    if params[:project]
+      @activities = @activities.select {|activity| activity["project"] == params[:project]}
+    end
+
     render :json => @activities
   end
 

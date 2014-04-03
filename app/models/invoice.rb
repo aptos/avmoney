@@ -13,6 +13,7 @@ class Invoice < CouchRest::Model::Base
   property :project, String
   property :invoice_count, Integer, default: 0
   property :status, String, default: 'Open'
+  property :open_date, Date
   property :paid_date, Date
   property :paid, Float
 

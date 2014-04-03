@@ -1,8 +1,12 @@
-function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDialog, Restangular) {
+function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDialog, Restangular, Storage) {
 
   $rootScope.getMeta().then(function (metadata) {
     $scope.metadata = metadata;
   });
+
+  $scope.client = Storage.get('client')
+  $scope.projects_select = Storage.get('projects_select') || [];
+  $scope.search_project = Storage.get('search_project');
 
   // Fetch Clients
   $scope.projectlist = {};
@@ -23,9 +27,13 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
   var filterFilter = $filter('filter');
   var orderByFilter = $filter('orderBy');
   $scope.filterItems = function() {
+    Storage.set('search_project', $scope.search_project);
+    console.info("filterItems", $scope.client, $scope.search_project)
     var q_invoices = filterFilter($scope.invoices, $scope.query);
-    if ($scope.client != "All") q_invoices = filterFilter(q_invoices, $scope.client);
-    if ($scope.search_project != "All") q_invoices = filterFilter(q_invoices, $scope.search_project);
+    if (!!$scope.client) q_invoices = filterFilter(q_invoices, $scope.client);
+    if (!!$scope.search_project) {
+      q_invoices = filterFilter(q_invoices, $scope.search_project);
+    }
     var orderedItems = orderByFilter(q_invoices, ['client_name','date']);
 
     $scope.filtered_invoices = orderedItems;
@@ -35,6 +43,8 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
   $scope.$watch('query', $scope.filterItems);
 
   $scope.search_client = function (id) {
+    Storage.set('client', id);
+    Storage.erase('search_project');
     $scope.filterItems();
     if (!id) {
       $scope.projects_select = [];
@@ -42,6 +52,8 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
     }
     $scope.projects = $scope.projectlist[id] || [];
     $scope.projects_select = $scope.projects.map( function (project) { return { value: project, text: project }; });
+    Storage.set('projects_select', $scope.projects_select);
+    console.info("projects_select", $scope.projects_select)
   };
 
   // Fetch invoices
@@ -55,7 +67,7 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
   // Open Invoice in new tab
   $scope.open = function (id) {
     $location.path("/Invoice/" + id);
-  }
+  };
 
   // Pay
   $scope.pay = function (id) {
@@ -109,4 +121,4 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
   };
 
 }
-InvoicesCtrl.$inject = ['$scope','$rootScope','$routeParams','$location','$filter','ngDialog','Restangular'];
+InvoicesCtrl.$inject = ['$scope','$rootScope','$routeParams','$location','$filter','ngDialog','Restangular','Storage'];

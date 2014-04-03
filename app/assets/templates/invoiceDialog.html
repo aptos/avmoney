@@ -24,7 +24,11 @@
             </tr>
             <tr>
               <td class="text-left">Invoice Date</td>
-              <td class="col-sm-6">{{invoice.created_at | moment:'M/D/YY'}}</td>
+              <td class="col-sm-6">
+                <span ng-hide="edit_date">{{invoice.open_date | moment:'M/D/YY'}}</span>
+                <span class="hidden-print" ng-click="edit_date=!edit_date"><i class="fa fa-calendar"></i></span>
+                <input ng-show="edit_date" ng-model="invoice.open_date" my-datepicker></input>
+              </td>
             </tr>
             <tr>
               <td class="text-left"><strong>Amount Due</strong></td>
@@ -106,6 +110,9 @@
   <div class="alert alert-success margin-top-60 text-center" ng-show="invoice.status=='Paid'">Invoice Paid in Full on {{invoice.paid_date}}. Thank you!</div>
 
   <div class="text-center margin-top-60 margin-bottom-30 hidden-print" ng-show="invoice.status!='Paid' && invoice._id">
+    <span class="pull-left" ng-show="more_activities">
+      <a ng-click="add_more()">+ Add {{more_activities.length}} new activities</a>
+    </span>
     <button class="btn btn-success btn-lg" ng-disabled="saveInProgress || invoiceForm.$pristine" ng-click="update()" ng-show="!success">Update</button>
     <span ng-show="update_success" class="text-success"><i class="fa fa-smile"></i> Updated!</span>
     <span ng-show="update_fail" class="text-success"><i class="fa fa-frown"></i> Oops! Something broke</span>

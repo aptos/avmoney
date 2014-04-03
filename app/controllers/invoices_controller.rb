@@ -63,7 +63,7 @@ class InvoicesController < ApplicationController
     @invoice.activities.each do |activity|
       if a = Activity.find(activity["_id"])
         logger.info "Found Activity: #{activity["_id"]}"
-        a.update_attributes({status: "Open", invoice_id: nil})
+        a.update_attributes({status: "Active", invoice_id: nil})
       end
     end
 
