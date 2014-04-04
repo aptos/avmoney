@@ -1,7 +1,7 @@
 class Client < CouchRest::Model::Base
   property :_id, String
   property :name, String
-  property :rate, Integer
+  property :rate, Float
   property :tax_rate, Float
   property :address, String
   property :deliveries, String
