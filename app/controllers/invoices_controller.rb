@@ -51,6 +51,16 @@ class InvoicesController < ApplicationController
     else
       respond_with(@invoice.errors, status: :unprocessable_entity)
     end
+
+    # update each activity status
+    params[:activities].each do |activity|
+      if activity["status"] != "Invoiced"
+        if a = Activity.find(activity["_id"])
+          a.update_attributes({status: "Invoiced", invoice_id: @invoice._id})
+        end
+      end
+    end
+
   end
 
   def destroy
