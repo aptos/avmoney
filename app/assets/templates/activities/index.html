@@ -79,13 +79,14 @@
             <td>{{activity.expense * (1 + activity.tax_rate * .01) | currency}}</td>
           </tr>
         </table>
-        <div class="button-row">
+        <div class="button-row" ng-show="activity.status == 'Active'">
           <button class="btn btn-success" ng-click="save(true)" ng-disabled="activityEditForm.$invalid || !activityEditForm.$dirty">Save and Add</button>
           <button class="btn btn-success" ng-click="save()" ng-disabled="activityEditForm.$invalid || !activityEditForm.$dirty">Save</button>
-          <button class="btn btn-danger pull-right" ng-click="remove()" ng-disabled="activity.status != 'Active'">
+          <button class="btn btn-danger pull-right" ng-click="remove()" ng-show="activity.status == 'Active'">
             <i class="fa fa-trash-o"></i>
           </button>
         </div>
+        <div class="alert alert-info" ng-show="activity.status != 'Active'">This Activity has been Invoiced</div>
       </form>
     </div>
   </div>
@@ -117,6 +118,7 @@
         <div class="col-xs-2 data-cell" ng-show="activity.expense">{{activity.expense * (1 + activity.tax_rate * 0.01) | currency}}</div>
         <div class="col-xs-3 text-left data-cell">{{activity.notes | truncate:'48'}}</div>
         <div class="col-xs-1 text-left data-cell">{{activity.status}}</div>
+        <span ng-show="false">{{activity._id}}</span>
       </div>
     </div>
   </div>
