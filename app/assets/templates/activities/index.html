@@ -37,13 +37,13 @@
           </tr>
           <tr ng-show="subtype=='Timesheet'"><td class="muted input-label" >Hours</td>
             <td class="input">
-              <div class="col-sm-3">
-                <input name="activityHours" type="number" min="0" class="form-control" ng-model="activity.hours" placeholder="1" ng-required="subtype=='Timesheet'">
+              <div class="col-sm-5">
+                <input name="activityHours" type="tel" min="0" class="form-control" ng-model="activity.hours" placeholder="1" ng-required="subtype=='Timesheet'" ng-pattern="/^\d{0,3}(\.\d{1,2})?$/">
               </div>
               <div class="col-sm-5">
                 <div class="input-group">
                   <span class="input-group-addon">@</span>
-                  <input name="activityRate" type="number" class="form-control" ng-model="activity.rate" placeholder="Rate" ng-required="subtype=='Timesheet'">
+                  <input name="activityRate" type="tel" class="form-control" ng-model="activity.rate" placeholder="Rate" ng-required="subtype=='Timesheet'" ng-pattern="/^\d{0,3}(\.\d{1,2})?$/" >
                 </div>
               </div>
             </td>
@@ -53,13 +53,13 @@
               <div class="col-sm-5">
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
-                  <input name="activityPrice" type="number" min="1" class="form-control" ng-model="activity.expense" placeholder="100.00" ng-required="subtype=='Expense'">
+                  <input name="activityPrice" type="tel" min="1" class="form-control" ng-model="activity.expense" placeholder="100.00" ng-required="subtype=='Expense'" ng-pattern="/^\d{0,5}(\.\d{1,2})?$/">
                 </div>
               </div>
               <div class="col-sm-5">
                 <div class="input-group">
                   <span class="input-group-addon">%</span>
-                  <input name="activityTaxRate" type="number" class="form-control" ng-model="activity.tax_rate" placeholder="8.5">
+                  <input name="activityTaxRate" type="tel" class="form-control" ng-model="activity.tax_rate" placeholder="8.5" ng-pattern="/^\d{0,2}(\.\d{1,2})?$/">
                 </div>
               </div>
             </td>
