@@ -32,7 +32,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   var orderByFilter = $filter('orderBy');
   $scope.filterItems = function() {
     Storage.set('search_project', $scope.search_project);
-    console.info("filterItems", $scope.client, $scope.search_project)
     var q_activities = filterFilter($scope.activities, $scope.query);
     if (!!$scope.client) q_activities = filterFilter(q_activities, $scope.client);
     if (!!$scope.search_project) {
@@ -53,6 +52,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.activity.rate = client.rate;
     $scope.activity.tax_rate = client.tax_rate;
     $scope.projects = $scope.projectlist[id] || [];
+    $scope.projects_select = $scope.projects.map( function (project) { return { value: project, text: project }; });
     if ($scope.projects.length == 1) {
       $scope.activity.project = $scope.projects[0];
     }
@@ -99,8 +99,10 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.saveInProgress = false;
 
   $scope.min_date = "2014-01-01";
+  $scope.max_date = moment().format("YYYY-MM-DD");
 
   $scope.new_activity = function (subtype) {
+    $scope.add_project = false;
     $scope.subtype = subtype || $scope.subtype;
     $scope.activity = {
       client_name: '',
@@ -167,7 +169,11 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.save = function (add) {
     if (($scope.activityEditForm.$valid) && (!$scope.saveInProgress) ) {
       $scope.saveInProgress = true;
+
       update_projects($scope.activity.client_id, $scope.activity.project);
+      $scope.search_project = $scope.activity.project;
+      Storage.set('projects_select', $scope.projects_select);
+
       if ($scope.activity._id) {
         $scope.activity.put().then(function () {
           if (add) {

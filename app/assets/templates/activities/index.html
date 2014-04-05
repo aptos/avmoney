@@ -11,7 +11,7 @@
         <table class="table table-condensed">
           <tr><td class="muted input-label" >Client</td>
             <td class="input">
-              <select class="form-control" name="Client" ui-select2 ng-model="activity.client_id" data-placeholder="Pick One..." ng-change="client_selected(activity.client_id)">
+              <select class="form-control" name="Client" ui-select2 ng-model="activity.client_id" data-placeholder="Client..." ng-change="client_selected(activity.client_id)" required>
                 <option value=""></option>
                 <option ng-repeat="c in clients | orderBy:'text'" value="{{c.value}}">{{c.text}}</option>
               </select>
@@ -19,7 +19,15 @@
           </tr>
           <tr><td class="muted input-label" >Project</td>
             <td class="input">
-              <input class="sans no-distraction form-control" type="text" ng-model="activity.project" typeahead="p for p in projects | filter:$viewValue | limitTo:8" placeholder="Project"></input>
+              <select class="form-control" name="Project" ui-select2="{allowClear: true}" ng-model="activity.project" data-placeholder="Project...">
+                <option value=""></option>
+                <option ng-repeat="p in projects_select | orderBy:'text'" value="{{p.value}}">{{p.text}}</option>
+              </select>
+              <a class="pull-right margin-top-10" ng-click="add_project=true" ng-show="!add_project">+ new project</a>
+              <div class="margin-top-10" ng-show="add_project">
+                <input type="text" class="form-control" ng-model="activity.project" placeholder="New Project">
+                <span ng-click="add_project=false"><i class="fa fa-times-circle close input-upper-inside"></i></span>
+              </div>
             </td>
           </tr>
           <tr><td class="muted input-label" >Date</td>

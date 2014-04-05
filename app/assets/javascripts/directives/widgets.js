@@ -54,6 +54,10 @@ avmoneyDirectives.directive('myDatepicker', function () {
           scope.$apply();
         }
       });
+      if (attrs.maxDate) {
+        var day = moment(attrs.maxDate, "YYYY-MM-DD");
+        element.datepicker("option", "maxDate", day.toDate());
+      }
       attrs.$observe('minDate', function (value) {
         if (!value) {
           return;
