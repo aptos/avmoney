@@ -53,13 +53,8 @@ class ActivitiesController < ApplicationController
 
   def destroy
     @activity = Activity.find(params[:id])
-    if @activity.attachments
-      begin
-        key = "uploads/#{params[:id]}"
-        AWS.s3.buckets[ENV['AWS_S3_BUCKET']].objects.with_prefix(key).delete_all
-      rescue Exception => e
-        logger.error "AWS ERROR: while deleting #{key} \n#{e.inspect}"
-      end
+    unless @activity.status == 'Active'
+      render :json => { error: "Only Active activities may be removed" }, :status => 400 and return
     end
     @activity.destroy
     render :json => { status: 'Deleted' }

@@ -82,6 +82,9 @@
         <div class="button-row">
           <button class="btn btn-success" ng-click="save(true)" ng-disabled="activityEditForm.$invalid || !activityEditForm.$dirty">Save and Add</button>
           <button class="btn btn-success" ng-click="save()" ng-disabled="activityEditForm.$invalid || !activityEditForm.$dirty">Save</button>
+          <button class="btn btn-danger pull-right" ng-click="remove()" ng-disabled="activity.status != 'Active'">
+            <i class="fa fa-trash-o"></i>
+          </button>
         </div>
       </form>
     </div>

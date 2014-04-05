@@ -219,6 +219,8 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.saveInProgress = true;
     if ($scope.activity._id) {
       $scope.activity.remove();
+      refresh();
+      $scope.close();
     }
   };
 
