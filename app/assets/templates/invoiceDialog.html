@@ -64,7 +64,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="activity in invoice.activities">
+          <tr ng-repeat="activity in invoice.activities | orderBy:'date'">
             <td>{{activity.date | moment:'M/D/YY'}}</td>
             <td><span contenteditable ng-model="activity.notes"></span></td>
             <td ng-show="activity.hours">{{activity.hours}} hour<span ng-show="activity.hours!=1">s</span></td>
