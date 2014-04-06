@@ -10,6 +10,18 @@ class InvoicesController < ApplicationController
     unless @invoice
       render :json => { error: "invoice not found: #{params[:id]}" }, :status => 404 and return
     end
+
+    if @invoice.status != 'Paid'
+      updates = false
+      @invoice.activities.each_index do |idx|
+        if a = Activity.find(@invoice.activities[idx]["_id"])
+          updates = true if hash_diff @invoice.activities[idx], a
+          @invoice.activities[idx] = a
+        end
+      end
+      @invoice.save if updates
+    end
+
     render :json => @invoice
   end
 
@@ -79,6 +91,20 @@ class InvoicesController < ApplicationController
 
     @invoice.destroy
     render :json => { status: "deleted" }
+  end
+
+  private
+
+  def hash_diff(one, other)
+    memo = {}
+    one.keys.each do |key|
+      next if ['date', 'updated_at', 'created_at'].include? key
+      unless one[key] == other[key]
+        memo[key] = [one[key] => other[key]]
+      end
+    end
+    logger.info memo.inspect if memo.size > 0
+    memo.size > 0
   end
 
 end
