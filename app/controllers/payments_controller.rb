@@ -30,6 +30,11 @@ class PaymentsController < ApplicationController
     paid = Payment.by_invoice_id.key(params[:invoice_id]).reduce.rows[0]['value']
     if paid ==  invoice.invoice_total
       invoice.update_attributes({ status: "Paid", paid_date: @payment.date, paid: paid })
+      invoice.activities.each do |activity|
+        if a = Activity.find(activity["_id"])
+          a.update_attributes({status: "Paid"})
+        end
+      end
     else
       invoice.update_attributes({ paid: paid })
     end

@@ -58,7 +58,7 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
 
   // Fetch invoices
   var refresh = function () {
-    Restangular.all('invoices').getList({status: "Open"}).then( function (list) {
+    Restangular.all('invoices').getList().then( function (list) {
       $scope.invoices = list;
     });
   };
