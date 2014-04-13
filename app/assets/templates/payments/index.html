@@ -13,7 +13,7 @@
       <div class="col-xs-2">Paid</div>
       <div class="col-xs-2">Remaining</div>
     </div>
-    <div class="scrolling-list row scrolling-list-clickable" ng-repeat="payment in filtered_payments">
+    <div class="scrolling-list row scrolling-list-clickable" ng-repeat="payment in filtered_items">
       <div class="row">
         <div class="col-xs-2 col-lg-offset-1 data-cell">{{payment.date | moment:dateformat}}</div>
         <div class="col-xs-3 data-cell">{{payment.client_name}} : {{payment.project}}</div>

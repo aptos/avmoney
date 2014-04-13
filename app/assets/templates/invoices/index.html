@@ -59,7 +59,7 @@
       <div class="col-xs-2">Billed</div>
       <div class="col-xs-2">Paid</div>
     </div>
-    <div class="scrolling-list row scrolling-list-clickable" ng-repeat="invoice in filtered_invoices">
+    <div class="scrolling-list row scrolling-list-clickable" ng-repeat="invoice in filtered_items">
       <div class="row">
         <div class="col-xs-2 col-md-2 col-lg-2 data-cell" ng-click="open(invoice._id)">{{invoice.created_at | moment:dateformat}}</div>
         <div class="col-xs-2 data-cell">

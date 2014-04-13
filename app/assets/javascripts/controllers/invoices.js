@@ -28,15 +28,18 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
   var orderByFilter = $filter('orderBy');
   $scope.filterItems = function() {
     Storage.set('search_project', $scope.search_project);
-    console.info("filterItems", $scope.client, $scope.search_project)
-    var q_invoices = filterFilter($scope.invoices, $scope.query);
-    if (!!$scope.client) q_invoices = filterFilter(q_invoices, $scope.client);
-    if (!!$scope.search_project) {
-      q_invoices = filterFilter(q_invoices, $scope.search_project);
+    var q = filterFilter($scope.invoices, $scope.query);
+    if (!!$scope.client) {
+      q = _.filter(q, {'client_id': $scope.client});
+      console.info("q", q)
     }
-    var orderedItems = orderByFilter(q_invoices, ['client_name','date']);
-
-    $scope.filtered_invoices = orderedItems;
+    if (!!$scope.search_project) {
+      q = _.filter(q, {'project': $scope.search_project});
+      console.info("project list", q);
+    }
+    var orderedItems = orderByFilter(q, ['client_name','status','date']);
+    console.info("orderedItems filtered", orderedItems)
+    $scope.filtered_items = orderedItems;
   };
 
   $scope.$watch('invoices', $scope.filterItems);
@@ -53,7 +56,6 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
     $scope.projects = $scope.projectlist[id] || [];
     $scope.projects_select = $scope.projects.map( function (project) { return { value: project, text: project }; });
     Storage.set('projects_select', $scope.projects_select);
-    console.info("projects_select", $scope.projects_select)
   };
 
   // Fetch invoices

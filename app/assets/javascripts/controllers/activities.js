@@ -35,11 +35,11 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     var q_activities = filterFilter($scope.activities, $scope.query);
     if (!!$scope.client) q_activities = filterFilter(q_activities, $scope.client);
     if (!!$scope.search_project) {
-      q_activities = filterFilter(q_activities, $scope.search_project);
+      q_activities = _.filter(q_activities, { 'project': $scope.search_project});
     }
     var orderedItems = orderByFilter(q_activities, ['client_name','status','date']);
 
-    $scope.filtered_activities = orderedItems;
+    $scope.filtered_items = orderedItems;
   };
 
   $scope.$watch('activities', $scope.filterItems);
