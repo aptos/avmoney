@@ -129,18 +129,18 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
       project: $scope.search_project
     };
 
-    $scope.invoice.activities = _.filter($scope.filtered_activities, {'status': 'Active'});
+    $scope.invoice.activities = _.filter($scope.filtered_items, {'status': 'Active'});
 
     $scope.invoice.client_data = _.find($scope.clients, function (v) { return v.value == $scope.client; });
     $scope.invoice.name = $scope.invoice.client_data.text;
     $scope.invoice.invoice_number = $scope.invoice.client_data.invoice_count + 1;
     $scope.invoice.open_date = moment().format("YYYY-MM-DD");
 
-    $scope.invoice.hours_sum = $scope.filtered_activities.reduce(function(m, activity) { return m + activity.hours; }, 0);
-    $scope.invoice.hours_amount = $scope.filtered_activities.reduce(function(m, activity) { return m + (activity.hours * activity.rate); }, 0);
+    $scope.invoice.hours_sum = $scope.filtered_items.reduce(function(m, activity) { return m + activity.hours; }, 0);
+    $scope.invoice.hours_amount = $scope.filtered_items.reduce(function(m, activity) { return m + (activity.hours * activity.rate); }, 0);
 
-    $scope.invoice.expenses = $scope.filtered_activities.reduce(function(m, activity) { return m + (activity.expense); }, 0);
-    $scope.invoice.tax = $scope.filtered_activities.reduce(function(m, activity) { return m + (activity.expense * activity.tax_rate * 0.01); }, 0);
+    $scope.invoice.expenses = $scope.filtered_items.reduce(function(m, activity) { return m + (activity.expense); }, 0);
+    $scope.invoice.tax = $scope.filtered_items.reduce(function(m, activity) { return m + (activity.expense * activity.tax_rate * 0.01); }, 0);
 
     $scope.invoice.invoice_total = $scope.invoice.hours_amount + $scope.invoice.expenses + $scope.invoice.tax;
 
