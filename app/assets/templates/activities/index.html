@@ -96,6 +96,7 @@
       <button class="btn btn-sm btn-info" ng-click="new_activity('Timesheet')">+ hours</button>
       <button class="btn btn-sm btn-info" ng-click="new_activity('Expense')">+ expense</button>
       <button class="btn btn-sm btn-success" ng-click="create_invoice()" ng-disabled="!client || !filtered_items.length">invoice</button>
+      <button class="btn btn-sm btn-success" ng-click="create_invoice('Proposal')" ng-disabled="!client || !filtered_items.length">proposal</button>
     </div>
   </div>
   <div class="container white-rounded padding-bottom-60 text-center">

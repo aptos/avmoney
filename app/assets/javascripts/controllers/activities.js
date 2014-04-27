@@ -69,7 +69,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.projects = $scope.projectlist[id] || [];
     $scope.projects_select = $scope.projects.map( function (project) { return { value: project, text: project }; });
     Storage.set('projects_select', $scope.projects_select);
-    console.info("projects_select", $scope.projects_select)
   };
 
   var update_projects = function (client_id, project) {
@@ -123,24 +122,31 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
 
   // Invoice Dialog
   $scope.invoice_editable = true;
-  $scope.create_invoice = function () {
+  $scope.create_invoice = function (status) {
     $scope.invoice = {
       client_id: $scope.client,
       project: $scope.search_project
     };
 
+    if (status == 'Proposal') {
+      $scope.invoice.status = status;
+      $scope.expires = moment().add('d',30).format('MMM DD, YYYY');
+    }
+    $scope.type = (status == "Proposal") ? "Proposal" : "Invoice";
+
     $scope.invoice.activities = _.filter($scope.filtered_items, {'status': 'Active'});
+    console.info("activities", $scope.invoice.activities)
 
     $scope.invoice.client_data = _.find($scope.clients, function (v) { return v.value == $scope.client; });
     $scope.invoice.name = $scope.invoice.client_data.text;
     $scope.invoice.invoice_number = $scope.invoice.client_data.invoice_count + 1;
     $scope.invoice.open_date = moment().format("YYYY-MM-DD");
 
-    $scope.invoice.hours_sum = $scope.filtered_items.reduce(function(m, activity) { return m + activity.hours; }, 0);
-    $scope.invoice.hours_amount = $scope.filtered_items.reduce(function(m, activity) { return m + (activity.hours * activity.rate); }, 0);
+    $scope.invoice.hours_sum = $scope.invoice.activities.reduce(function(m, activity) { return m + activity.hours; }, 0);
+    $scope.invoice.hours_amount = $scope.invoice.activities.reduce(function(m, activity) { return m + (activity.hours * activity.rate); }, 0);
 
-    $scope.invoice.expenses = $scope.filtered_items.reduce(function(m, activity) { return m + (activity.expense); }, 0);
-    $scope.invoice.tax = $scope.filtered_items.reduce(function(m, activity) { return m + (activity.expense * activity.tax_rate * 0.01); }, 0);
+    $scope.invoice.expenses = $scope.invoice.activities.reduce(function(m, activity) { return m + (activity.expense); }, 0);
+    $scope.invoice.tax = $scope.invoice.activities.reduce(function(m, activity) { return m + (activity.expense * activity.tax_rate * 0.01); }, 0);
 
     $scope.invoice.invoice_total = $scope.invoice.hours_amount + $scope.invoice.expenses + $scope.invoice.tax;
 

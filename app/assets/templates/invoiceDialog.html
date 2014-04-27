@@ -15,15 +15,15 @@
         </div>
       </div>
       <div class="col-xs-5 text-right">
-        <h1>INVOICE</h1>
+        <h1>{{type}}</h1>
         <div class="pull-right">
           <table>
             <tr>
-              <td class="text-left">Invoice #</td>
+              <td class="text-left">{{type}} #</td>
               <td class="col-sm-6"><span contenteditable ng-model='invoice.invoice_number'></span></td>
             </tr>
             <tr>
-              <td class="text-left">Invoice Date</td>
+              <td class="text-left">{{type}} Date</td>
               <td class="col-sm-6">
                 <span ng-hide="edit_date">{{invoice.open_date | moment:'M/D/YY'}}</span>
                 <span class="hidden-print" ng-click="edit_date=!edit_date"><i class="fa fa-calendar"></i></span>
@@ -77,7 +77,7 @@
     <div class="row text-right" ng-show="invoice.invoice_total">
       <div class="col-sm-4 col-xs-offset-8">
         <table>
-          <tr>
+          <tr ng-show="invoice.hours_sum">
             <td>Total Hours:</td>
             <td class="col-sm-6">{{invoice.hours_sum}}</td>
           </tr>
@@ -104,7 +104,10 @@
     </span>
   </div>
 
-  <div class="alert alert-info margin-top-60 text-center" ng-show="invoice.status!='Paid'">
+  <div class="alert alert-info margin-top-60 text-center" ng-show="invoice.status=='Proposal'">
+    This proposal is valid for 30 days - Please respond by {{expires}}
+  </div>
+  <div class="alert alert-info margin-top-60 text-center" ng-show="invoice.status!='Paid' && invoice.status!='Proposal'">
     Invoice is payable upon receipt. Thank You
   </div>
   <div class="alert alert-success margin-top-60 text-center" ng-show="invoice.status=='Paid'">Invoice Paid in Full on {{invoice.paid_date}}. Thank you!</div>
@@ -113,7 +116,8 @@
     <span class="pull-left" ng-show="more_activities">
       <a ng-click="add_more()">+ Add {{more_activities.length}} new activities</a>
     </span>
-    <button class="btn btn-success btn-lg" ng-disabled="saveInProgress || invoiceForm.$pristine" ng-click="update()" ng-show="!success">Update</button>
+    <button class="btn btn-success btn-lg" ng-disabled="saveInProgress || invoiceForm.$pristine" ng-click="update()" ng-show="!success && type=='Invoice'">Update</button>
+    <button class="btn btn-success btn-lg" ng-disabled="saveInProgress" ng-click="accept()" ng-show="!success && type=='Proposal'">Accept</button>
     <span ng-show="update_success" class="text-success"><i class="fa fa-smile"></i> Updated!</span>
     <span ng-show="update_fail" class="text-success"><i class="fa fa-frown"></i> Oops! Something broke</span>
     <span class="pull-right">
