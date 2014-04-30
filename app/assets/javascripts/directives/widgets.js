@@ -1,4 +1,4 @@
-var avmoneyDirectives = angular.module('avmoneyDirectives', []);
+var avmoneyDirectives = angular.module('avmoneyDirectives');
 
 avmoneyDirectives.directive('clientSearch', function(){
   return {

@@ -28,6 +28,13 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   });
 
   // Filter by client and project
+  $scope.status = 'Active';
+  $scope.status_list = ['Active', 'Invoiced', 'Paid', 'All'];
+  $scope.set_status = function (status) {
+    $scope.status = status;
+    $scope.filterItems();
+  };
+
   var filterFilter = $filter('filter');
   var orderByFilter = $filter('orderBy');
   $scope.filterItems = function() {
@@ -37,9 +44,13 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     if (!!$scope.search_project) {
       q_activities = _.filter(q_activities, { 'project': $scope.search_project});
     }
+    if (!!$scope.status && $scope.status != 'All') {
+      q_activities = _.filter(q_activities, { 'status': $scope.status});
+    }
     var orderedItems = orderByFilter(q_activities, ['client_name','status','date']);
 
     $scope.filtered_items = orderedItems;
+    get_totals($scope.filtered_items);
   };
 
   $scope.$watch('activities', $scope.filterItems);
@@ -78,6 +89,17 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
       $scope.projects = $scope.projectlist[client_id];
       $scope.projects_select = $scope.projects.map( function (project) { return { value: project, text: project }; });
     }
+  };
+
+  // reduce functions
+  var get_totals = function (list) {
+    $scope.hours_sum = list.reduce(function(m, activity) { return m + activity.hours; }, 0);
+    $scope.hours_amount = list.reduce(function(m, activity) { return m + (activity.hours * activity.rate); }, 0);
+
+    $scope.expenses = list.reduce(function(m, activity) { return m + (activity.expense); }, 0);
+    $scope.tax = list.reduce(function(m, activity) { return m + (activity.expense * activity.tax_rate * 0.01); }, 0);
+
+    $scope.total_amount = $scope.hours_amount + $scope.expenses + $scope.tax;
   };
 
   // Fetch activities

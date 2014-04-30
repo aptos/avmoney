@@ -382,6 +382,10 @@ ul.thumbs > li{
   color: white;
   padding: 8px 0 5px;
   border-radius: 5px;
+  a.dropdown-toggle {
+    color: white;
+    text-decoration: underline;
+  }
 }
 .row.heading-lab {
   background-color: rgba(19, 8, 63, 0.55);
@@ -391,6 +395,17 @@ ul.thumbs > li{
   button {
     margin-right: 8px;
   }
+}
+
+.dropdown-menu {
+  font-size: 1em;
+  text-align: right;
+  min-width: 120px;
+}
+
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
+  background-color: #74A69C;
+  color: white;
 }
 
 .table-set {

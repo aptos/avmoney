@@ -24,5 +24,6 @@
 //= require ngDialog
 //= require select2
 //= require ui-select2
+//= require jquery.calendario
 //= require app
 //= require_tree .

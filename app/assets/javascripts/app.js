@@ -17,6 +17,7 @@ avmoneyModule.config(['$routeProvider',function($routeProvider) {
   when('/Payments',{templateUrl: 'assets/payments/index.html', controller: PaymentsCtrl}).
   when('/Clients',{templateUrl: 'assets/clients/index.html', controller: ClientsCtrl}).
   when('/Reports',{templateUrl: 'assets/reports/index.html', controller: ReportsCtrl}).
+  when('/Calendar',{templateUrl: 'assets/calendar.html', controller: CalendarCtrl}).
 
     // Default
     otherwise({templateUrl: 'assets/welcome.html', controller: StartCtrl});
