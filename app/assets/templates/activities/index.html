@@ -60,9 +60,7 @@
           </tr>
           <tr ng-show="subtype=='Expense'"><td class="muted input-label" >Tax</td>
             <td class="input">
-              <label>
-                <input type="checkbox" ng-model="tax_paid"> Tax Paid
-              </label>
+              <input type="checkbox" ng-model="tax_paid"> Tax Paid
               <div class="col-sm-5" ng-hide="tax_paid">
                 <div class="input-group">
                   <span class="input-group-addon">%</span>
@@ -72,7 +70,7 @@
               <div class="col-sm-5" ng-show="tax_paid">
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
-                  <input name="activityPrice" type="tel" min="1" class="form-control" ng-model="activity.tax_paid" placeholder="100.00" ng-pattern="/^\d{0,5}(\.\d{1,2})?$/">
+                  <input name="activityPrice" type="tel" min="1" class="form-control" ng-model="activity.tax_paid" placeholder="8.50" ng-pattern="/^\d{0,5}(\.\d{1,2})?$/">
                 </div>
               </div>
             </td>
@@ -89,7 +87,8 @@
           </tr>
           <tr ng-show="activity.expense">
             <td class="muted input-label">Total</td>
-            <td>{{activity.expense * (1 + activity.tax_rate * .01) | currency}}</td>
+            <td ng-hide="activity.tax_paid">{{activity.expense * (1 + activity.tax_rate * .01) | currency}}</td>
+            <td ng-show="activity.tax_paid">{{activity.expense + activity.tax_paid | currency}}</td>
           </tr>
         </table>
         <div class="button-row">

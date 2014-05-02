@@ -55,55 +55,57 @@
 
     <div class="alert alert-info" ng-show="invoice.project"><b>Project:</b> {{invoice.project}}</div>
     <div>
-      <h4>Hours</h4>
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th><h4>Date</h4></th>
-            <th><h4>Description</h4></th>
-            <th><h4>Hrs</h4></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="activity in invoice.activities | orderBy:'date'" ng-show="activity.hours">
-            <td>{{activity.date | moment:'M/D/YY'}}</td>
-            <td><span contenteditable ng-model="activity.notes"></span></td>
-            <td>{{activity.hours}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="row text-right" ng-show="invoice.invoice_total">
-        <div class="col-sm-4 col-xs-offset-8">
-          <table>
-            <tr ng-show="invoice.hours_sum">
-              <td>Total Hours:</td>
-              <td class="col-sm-6">{{invoice.hours_sum}}</td>
+      <div ng-show="invoice.hours_sum">
+        <h4>Hours</h4>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th><h4>Date</h4></th>
+              <th><h4>Description</h4></th>
+              <th><h4>Hours</h4></th>
             </tr>
-          </table>
+          </thead>
+          <tbody>
+            <tr ng-repeat="activity in invoice.activities | orderBy:'date'" ng-show="activity.hours">
+              <td>{{activity.date | moment:'M/D/YY'}}</td>
+              <td><span contenteditable ng-model="activity.notes"></span></td>
+              <td>{{activity.hours}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row text-right" ng-show="invoice.invoice_total">
+          <div class="col-sm-4 col-xs-offset-8">
+            <table>
+              <tr ng-show="invoice.hours_sum">
+                <td>Total Hours:</td>
+                <td class="col-sm-6">{{invoice.hours_sum}}</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
-
-      <h4>Expenses</h4>
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th><h4>Date</h4></th>
-            <th><h4>Description</h4></th>
-            <th><h4>Tax</h4></th>
-            <th><h4>Total</h4></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="activity in invoice.activities | orderBy:'date'" ng-show="activity.expense">
-            <td>{{activity.date | moment:'M/D/YY'}}</td>
-            <td><span contenteditable ng-model="activity.notes"></span></td>
-            <td>{{activity.expense * activity.tax_rate * 0.01 | currency}}</td>
-            <td>{{activity.expense | currency}}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div ng-show="invoice.expenses">
+        <h4>Expenses</h4>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th><h4>Date</h4></th>
+              <th><h4>Description</h4></th>
+              <th><h4>Tax</h4></th>
+              <th><h4>Total</h4></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="activity in invoice.activities | orderBy:'date'" ng-show="activity.expense">
+              <td>{{activity.date | moment:'M/D/YY'}}</td>
+              <td><span contenteditable ng-model="activity.notes"></span></td>
+              <td>{{activity.expense * activity.tax_rate * 0.01 | currency}}</td>
+              <td>{{activity.expense | currency}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-
     <div class="row text-right" ng-show="invoice.invoice_total">
       <div class="col-sm-4 col-xs-offset-8">
         <table>
