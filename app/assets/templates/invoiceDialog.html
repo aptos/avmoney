@@ -91,6 +91,7 @@
             <tr>
               <th><h4>Date</h4></th>
               <th><h4>Description</h4></th>
+              <th><h4>Amount</h4></th>
               <th><h4>Tax</h4></th>
               <th><h4>Total</h4></th>
             </tr>
@@ -99,8 +100,9 @@
             <tr ng-repeat="activity in invoice.activities | orderBy:'date'" ng-show="activity.expense">
               <td>{{activity.date | moment:'M/D/YY'}}</td>
               <td><span contenteditable ng-model="activity.notes"></span></td>
-              <td>{{activity.expense * activity.tax_rate * 0.01 | currency}}</td>
               <td>{{activity.expense | currency}}</td>
+              <td>{{activity.expense * activity.tax_rate * .01 | currency}}</td>
+              <td>{{activity.expense * (1 + activity.tax_rate * .01) | currency}}</td>
             </tr>
           </tbody>
         </table>
