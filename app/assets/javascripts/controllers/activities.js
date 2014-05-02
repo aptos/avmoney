@@ -29,7 +29,8 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
 
   // Filter by client and project
   $scope.status = 'Active';
-  $scope.status_list = ['Active', 'Invoiced', 'Paid', 'All'];
+  // $scope.status_list = ['Active', 'Invoiced', 'Paid', 'All'];
+  $scope.status_list = [{value: 'Active', text: 'Active'}, {value: 'Invoiced', text: 'Invoiced'},{value: 'Paid', text: 'Paid'},{value: 'All', text: 'All'}];
   $scope.set_status = function (status) {
     $scope.status = status;
     $scope.filterItems();
@@ -157,7 +158,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.type = (status == "Proposal") ? "Proposal" : "Invoice";
 
     $scope.invoice.activities = _.filter($scope.filtered_items, {'status': 'Active'});
-    console.info("activities", $scope.invoice.activities)
 
     $scope.invoice.client_data = _.find($scope.clients, function (v) { return v.value == $scope.client; });
     $scope.invoice.name = $scope.invoice.client_data.text;
