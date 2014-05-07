@@ -20,7 +20,9 @@ class InvoicesController < ApplicationController
       @invoice.hours_sum = @invoice.activities.map{|i| i['hours'] || 0 }.reduce(:+)
       @invoice.hours_amount = @invoice.activities.map{|i| i['hours'] && (i['hours'] * i['rate']) || 0 }.reduce(:+)
       @invoice.expenses = @invoice.activities.map{|i| i['expense'] || 0 }.reduce(:+)
-      @invoice.tax = @invoice.activities.map{|i| i['expense'] && i['tax_rate']  && (i['expense'] * i['tax_rate'] * 0.01) || 0 }.reduce(:+)
+
+      tax_paid = @invoice.activities.map{|i| i['expense'] && i['tax_paid'] && i['tax_paid'] > 0  && i['tax_paid'] || 0 }.reduce(:+)
+      @invoice.tax = tax_paid + @invoice.activities.map{|i| i['expense'] && i['tax_rate']  && (i['expense'] * i['tax_rate'] * 0.01) || 0 }.reduce(:+)
 
       @invoice.invoice_total = @invoice.hours_amount + @invoice.expenses + @invoice.tax
 

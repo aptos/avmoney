@@ -101,8 +101,11 @@
               <td>{{activity.date | moment:'M/D/YY'}}</td>
               <td><span contenteditable ng-model="activity.notes"></span></td>
               <td>{{activity.expense | currency}}</td>
-              <td>{{activity.expense * activity.tax_rate * .01 | currency}}</td>
-              <td>{{activity.expense * (1 + activity.tax_rate * .01) | currency}}</td>
+              <!-- taxes -->
+              <td ng-hide="activity.tax_paid > 0">{{activity.expense * (activity.tax_rate * .01) | currency}}</td>
+              <td ng-show="activity.tax_paid > 0">{{activity.tax_paid * 1 | currency}}</td>
+              <!-- total -->
+              <td>{{activity.expense * (1 + activity.tax_rate * .01) + activity.tax_paid | currency}}</td>
             </tr>
           </tbody>
         </table>

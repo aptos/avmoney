@@ -149,6 +149,11 @@ input.ng-invalid.ng-dirty {
   color: white;
 }
 
+.select2-container .select2-choice {
+  background-image: none;
+  height: 28px;
+}
+
 @media print {
   .panel-default > .panel-heading { background-color: #f5f5f5 !important;}
   .alert-info {

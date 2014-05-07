@@ -60,7 +60,7 @@
           </tr>
           <tr ng-show="subtype=='Expense'"><td class="muted input-label" >Tax</td>
             <td class="input">
-              <input type="checkbox" ng-model="tax_paid"> Tax Paid
+              <input type="checkbox" ng-model="tax_paid" ng-change="change_tax()"> Tax Paid
               <div class="col-sm-5" ng-hide="tax_paid">
                 <div class="input-group">
                   <span class="input-group-addon">%</span>
@@ -70,7 +70,7 @@
               <div class="col-sm-5" ng-show="tax_paid">
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
-                  <input name="activityTaxPaid" type="tel" min="1" class="form-control" ng-model="activity.tax_paid" placeholder="8.50" ng-pattern="/^\d{0,5}(\.\d{1,2})?$/">
+                  <input name="activityTaxPaid" type="tel" min="0" class="form-control" ng-model="activity.tax_paid" placeholder="0" ng-pattern="/^\d{0,5}(\.\d{1,2})?$/">
                 </div>
               </div>
             </td>
@@ -87,8 +87,8 @@
           </tr>
           <tr ng-show="activity.expense">
             <td class="muted input-label">Total</td>
-            <td ng-hide="activity.tax_paid">{{activity.expense * (1 + activity.tax_rate * .01) | currency}}</td>
-            <td ng-show="activity.tax_paid">{{activity.expense + activity.tax_paid | currency}}</td>
+            <td ng-hide="tax_paid">{{activity.expense * (1 + activity.tax_rate * .01) | currency}}</td>
+            <td ng-show="tax_paid">{{(activity.expense * 1) + (activity.tax_paid * 1) | currency}}</td>
           </tr>
         </table>
         <div class="button-row">
@@ -147,7 +147,7 @@
         <div class="col-xs-2 data-cell" >{{activity.date | moment:dateformat}}</div>
         <div class="col-xs-3 data-cell text-left">{{activity.client_name}}:<br> {{activity.project}}</div>
         <div class="col-xs-2 data-cell" ng-show="activity.hours">{{activity.hours}} @ ${{activity.rate}}</div>
-        <div class="col-xs-2 data-cell" ng-show="activity.expense">{{activity.expense * (1 + activity.tax_rate * 0.01) | currency}}</div>
+        <div class="col-xs-2 data-cell" ng-show="activity.expense">{{activity.expense * (1 + activity.tax_rate * 0.01) + activity.tax_paid | currency}}</div>
         <div class="col-xs-3 text-left data-cell">{{activity.notes | truncate:'48'}}</div>
         <div class="col-xs-2 text-left data-cell" ng-show="!status || status=='All'">{{activity.status}}</div>
         <span ng-show="false">{{activity._id}}</span>

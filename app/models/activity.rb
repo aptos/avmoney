@@ -9,6 +9,7 @@ class Activity < CouchRest::Model::Base
   property :rate, Float
   property :expense, Float
   property :tax_rate, Float
+  property :tax_paid, Float
   property :status, String, default: "Active"
   property :invoice_id, String
 

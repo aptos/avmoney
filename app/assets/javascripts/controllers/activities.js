@@ -123,6 +123,14 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.min_date = "2014-01-01";
   $scope.max_date = moment().format("YYYY-MM-DD");
 
+  $scope.change_tax = function () {
+    if ($scope.tax_paid) {
+      $scope.activity.tax_rate = $scope.activity.tax_paid = 0;
+    } else {
+      $scope.activity.tax_paid = 0;
+    }
+  };
+
   $scope.new_activity = function (subtype) {
     $scope.add_project = false;
     $scope.subtype = subtype || $scope.subtype;
@@ -168,7 +176,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.invoice.hours_amount = $scope.invoice.activities.reduce(function(m, activity) { return m + (activity.hours * activity.rate); }, 0);
 
     $scope.invoice.expenses = $scope.invoice.activities.reduce(function(m, activity) { return m + (activity.expense); }, 0);
-    $scope.invoice.tax = $scope.invoice.activities.reduce(function(m, activity) { return m + (activity.expense * activity.tax_rate * 0.01); }, 0);
+    $scope.invoice.tax = $scope.invoice.activities.reduce(function(m, activity) { return m + (activity.expense * activity.tax_rate * 0.01 + activity.tax_paid); }, 0);
 
     $scope.invoice.invoice_total = $scope.invoice.hours_amount + $scope.invoice.expenses + $scope.invoice.tax;
 
@@ -236,6 +244,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     Restangular.one('activities', id).get().then(function (activity) {
       $scope.activity = Restangular.copy(activity);
       $scope.subtype = ($scope.activity.hours) ? 'Timesheet' : 'Expense';
+      if ( $scope.subtype == 'Expense')  $scope.tax_paid = $scope.activity.tax_paid > 0;
       $scope.projects = $scope.projectlist[$scope.activity.client_id];
       $scope.show_form = true;
       $scope.activityEditForm.$setPristine();
@@ -248,6 +257,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     if ($scope.activity._id) {
       $scope.activity.remove();
       refresh();
+      $scope.filterItems();
       $scope.close();
     }
   };
