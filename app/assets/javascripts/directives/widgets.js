@@ -1,12 +1,5 @@
 var avmoneyDirectives = angular.module('avmoneyDirectives');
 
-avmoneyDirectives.directive('clientSearch', function(){
-  return {
-    restrict:'A',
-    templateUrl:'assets/clientSearch.html'
-  };
-});
-
 avmoneyDirectives.directive('clientEdit', function(){
   return {
     restrict:'A',

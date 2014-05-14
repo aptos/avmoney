@@ -123,6 +123,7 @@
       <button class="btn btn-sm btn-info" ng-click="new_activity('Timesheet')">+ hours</button>
       <button class="btn btn-sm btn-info" ng-click="new_activity('Expense')">+ expense</button>
       <button class="btn btn-sm btn-success" ng-click="create_invoice()" ng-disabled="!client || !filtered_items.length">invoice</button>
+      <button class="btn btn-sm btn-warning" ng-click="create_invoice('Proposal')" ng-disabled="!client || !filtered_items.length">proposal</button>
       <span class="pull-right">
         <select class="form-control" name="Status" ui-select2="{ width: '120px'}" ng-model="status" ng-change="set_status(status)">
         <option ng-repeat="s in status_list" value="{{s.value}}">{{s.text}}</option>

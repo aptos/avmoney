@@ -22,6 +22,7 @@ class Invoice < CouchRest::Model::Base
   design do
     view :by_name
     view :by_client_id
+    view :by_status
   end
 
 end

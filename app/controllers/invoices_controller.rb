@@ -1,7 +1,11 @@
 class InvoicesController < ApplicationController
 
   def index
-    @invoices = Invoice.by_name.all
+    if params[:status]
+      @invoices = Invoice.by_status.key(params[:status]).all
+    else
+      @invoices =  Invoice.by_name.all
+    end
     render :json => @invoices
   end
 

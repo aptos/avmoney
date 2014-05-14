@@ -1,1 +1,29 @@
-reports
+<div class="screen-content transparent margin-top-30" >
+  <div client-search></div>
+
+  <div class="container white-rounded text-center padding-bottom-60">
+    <h2>{{client_name(client)}}</h2>
+    <h3 ng-show="search_project">{{search_project}}</h3>
+
+    <div class="row heading">
+      <div class="col-xs-3" ng-show="!search_project">Project</div>
+      <div class="col-xs-2">Invoice Id</div>
+      <div class="col-xs-2">Date</div>
+      <div class="col-xs-2">Amount</div>
+      <div class="col-xs-2">Due</div>
+    </div>
+    <div class="scrolling-list row scrolling-list-clickable" ng-repeat="invoice in filtered_items">
+      <div class="row">
+        <div class="col-xs-3 data-cell text-left" ng-show="!search_project">
+          <span ng-show="!client">{{invoice.name}} : </span>{{invoice.project}}
+        </div>
+        <div class="col-xs-2 data-cell">{{invoice.invoice_number}}</div>
+        <div class="col-xs-2 data-cell">{{invoice.open_date | moment:'MM/DD/YYYY'}}</div>
+        <div class="col-xs-2 data-cell">{{invoice.invoice_total | currency}}</div>
+        <div class="col-xs-2 data-cell">
+          <span ng-show="age(invoice.open_date) > 29">Late </span>{{age(invoice.open_date)}} days
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

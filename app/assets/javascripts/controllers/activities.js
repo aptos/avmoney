@@ -4,29 +4,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.metadata = metadata;
   });
 
-  $scope.client = Storage.get('client');
-  $scope.projects_select = Storage.get('projects_select') || [];
-  $scope.search_project = Storage.get('search_project');
-
-  // Fetch Clients
-  $scope.projectlist = {};
-  $scope.clients = [];
-  Restangular.all('clients').getList({active: true}).then( function (list) {
-    $scope.clients = list.map( function (client) {
-      return {
-        value: client._id,
-        text: client.name,
-        rate: client.rate,
-        tax_rate: client.tax_rate,
-        address: client.address,
-        invoice_count: client.invoice_count
-      };
-    });
-    angular.forEach(list, function (client) {
-      $scope.projectlist[client._id] = client.projects;
-    });
-  });
-
   // Filter by client and project
   $scope.status = 'Active';
   // $scope.status_list = ['Active', 'Invoiced', 'Paid', 'All'];
@@ -68,19 +45,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     if ($scope.projects.length == 1) {
       $scope.activity.project = $scope.projects[0];
     }
-  };
-
-  $scope.search_client = function (id) {
-    Storage.set('client', id);
-    Storage.erase('search_project');
-    $scope.filterItems();
-    if (!id) {
-      $scope.projects_select = [];
-      return;
-    }
-    $scope.projects = $scope.projectlist[id] || [];
-    $scope.projects_select = $scope.projects.map( function (project) { return { value: project, text: project }; });
-    Storage.set('projects_select', $scope.projects_select);
   };
 
   var update_projects = function (client_id, project) {
