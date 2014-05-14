@@ -1,5 +1,12 @@
 var avmoneyDirectives = angular.module('avmoneyDirectives');
 
+avmoneyDirectives.directive('accountsReceivable', function(){
+  return {
+    restrict:'A',
+    templateUrl:'assets/reports/accounts_receivable.html'
+  };
+});
+
 avmoneyDirectives.directive('clientEdit', function(){
   return {
     restrict:'A',
