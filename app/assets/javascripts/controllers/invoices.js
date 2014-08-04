@@ -4,6 +4,14 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
     $scope.metadata = metadata;
   });
 
+  $scope.status = 'Open';
+  // $scope.status_list = ['Active', 'Invoiced', 'Paid', 'All'];
+  $scope.status_list = [{value: 'Open', text: 'Open'} ,{value: 'Paid', text: 'Paid'},{value: 'All', text: 'All'}];
+  $scope.set_status = function (status) {
+    $scope.status = status;
+    $scope.filterItems();
+  };
+
   // Filter by client and project
   var filterFilter = $filter('filter');
   var orderByFilter = $filter('orderBy');
@@ -12,19 +20,31 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
     var q = filterFilter($scope.invoices, $scope.query);
     if (!!$scope.client) {
       q = _.filter(q, {'client_id': $scope.client});
-      console.info("q", q)
     }
     if (!!$scope.search_project) {
       q = _.filter(q, {'project': $scope.search_project});
-      console.info("project list", q);
     }
-    var orderedItems = orderByFilter(q, ['client_name','status','date']);
-    console.info("orderedItems filtered", orderedItems)
+
+    // Get Totals before applying status filter
+    get_totals(q);
+
+    if (!!$scope.status && $scope.status != 'All') {
+      q = _.filter(q, { 'status': $scope.status});
+    }
+    var orderedItems = orderByFilter(q, ['client_name','date']);
     $scope.filtered_items = orderedItems;
   };
 
   $scope.$watch('invoices', $scope.filterItems);
   $scope.$watch('query', $scope.filterItems);
+
+  // reduce functions
+  var get_totals = function (list) {
+    if (!list) return;
+    $scope.billed_amount = list.reduce(function(m, invoice) { return m + invoice.invoice_total; }, 0);
+    $scope.paid_amount = list.reduce(function(m, invoice) { return m + invoice.paid; }, 0);
+    $scope.open_amount = $scope.billed_amount - $scope.paid_amount;
+  };
 
   // Fetch invoices
   var refresh = function () {

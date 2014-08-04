@@ -46,6 +46,31 @@
     </div>
   </div>
 
+  <!-- Totals -->
+  <div class="container">
+    <div ng-show="show_totals" class="floating-container fixed-top-10 col-xs-10 col-md-4 animated fadeIn" draggable>
+      <span ng-click="show_totals=!show_totals" ><i class="fa fa-times-circle close pull-right"></i></span>
+      <h3>Totals</h3>
+      <table class="table table-striped">
+        <tr><td>Open: </td><td>{{open_amount | currency}}</td></tr>
+        <tr><td>Paid: </td><td>{{paid_amount | currency}}</td></tr>
+        <tr class="info"><td>Total: </td><td>{{billed_amount | currency}}</td></tr>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- Table -->
+  <div class="container margin-bottom-5">
+    <div class="row actions">
+      <span class="pull-right">
+        Status:
+        <select class="form-control" name="Status" ui-select2="{ width: '120px'}" ng-model="status" ng-change="set_status(status)">
+          <option ng-repeat="s in status_list" value="{{s.value}}">{{s.text}}</option>
+        </select>
+      </span>
+    </div>
+  </div>
   <!-- Large Format List -->
   <div class="container white-rounded text-center padding-bottom-60">
     <div class="row heading">
@@ -53,25 +78,25 @@
         <span>Date</span>
         <span class="pull-right clickable-icon"><i ng-class="{true: 'fa fa-clock-o', false: 'fa fa-calendar'}[dateformat=='timeago']" ng-click="toggle_date()"></i></span>
       </div>
-      <div class="col-xs-2">Status</div>
       <div class="col-xs-3">Client : Project</div>
       <div class="col-xs-1">Invoice</div>
-      <div class="col-xs-2">Billed</div>
+      <div class="col-xs-2">
+        <a class="dropdown-toggle" ng-click="show_totals=!show_totals">Billed</a>
+      </div>
       <div class="col-xs-2">Paid</div>
     </div>
     <div class="scrolling-list row scrolling-list-clickable" ng-repeat="invoice in filtered_items">
       <div class="row">
         <div class="col-xs-2 col-md-2 col-lg-2 data-cell" ng-click="open(invoice._id)">{{invoice.created_at | moment:dateformat}}</div>
+        <div class="col-xs-3 data-cell text-left" ng-click="open(invoice._id)">{{invoice.name}} <span ng-show="!!invoice.project">:<br/> {{invoice.project}}</span></div>
+        <div class="col-xs-1 data-cell" ng-click="open(invoice._id)">{{invoice.invoice_number}}</div>
+        <div class="col-xs-2 data-cell" ng-click="open(invoice._id)">{{invoice.invoice_total | currency}}</div>
         <div class="col-xs-2 data-cell">
           <span ng-show="invoice.status=='Open'">
-            <a ng-click="pay(invoice._id)" title="pay...">{{invoice.status}}</a>
+            <a ng-click="pay(invoice._id)" title="Enter Payment...">payment...</a>
           </span>
-          <span ng-hide="invoice.status=='Open'">{{invoice.status}}</a>
+          <span ng-hide="invoice.status=='Open'">{{invoice.paid| currency}}</a>
           </div>
-          <div class="col-xs-3 data-cell text-left" ng-click="open(invoice._id)">{{invoice.name}} : {{invoice.project}}</div>
-          <div class="col-xs-1 data-cell" ng-click="open(invoice._id)">{{invoice.invoice_number}}</div>
-          <div class="col-xs-2 data-cell" ng-click="open(invoice._id)">{{invoice.invoice_total | currency}}</div>
-          <div class="col-xs-2 data-cell" ng-click="open(invoice._id)">{{invoice.paid| currency}}</div>
         </div>
       </div>
     </div>

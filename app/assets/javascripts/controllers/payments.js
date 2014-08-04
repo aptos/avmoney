@@ -17,10 +17,16 @@ function PaymentsCtrl($scope, $rootScope, $routeParams, $filter, Restangular, St
       q = _.filter(q, {'project': $scope.search_project});
       console.info("project list", q);
     }
+    get_totals(q);
     var orderedItems = orderByFilter(q, ['client_name','status','date']);
-    console.info("orderedItems filtered", orderedItems)
     $scope.filtered_items = orderedItems;
   }
+
+  // reduce functions
+  var get_totals = function (list) {
+    if (!list) return;
+    $scope.paid_amount = list.reduce(function(m, payment) { return m + payment.amount; }, 0);
+  };
 
   $scope.$watch('payments', $scope.filterItems);
   $scope.$watch('query', $scope.filterItems);

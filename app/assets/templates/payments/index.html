@@ -1,6 +1,9 @@
 <div class="screen-content transparent margin-top-30" >
   <div client-search></div>
 
+  <div class="text-center">
+    <h4>Total Payments: {{paid_amount | currency}}</h4>
+  </div>
   <!-- Large Format List -->
   <div class="container white-rounded text-center padding-bottom-60">
     <div class="row heading">
@@ -15,7 +18,7 @@
     <div class="scrolling-list row scrolling-list-clickable" ng-repeat="payment in filtered_items">
       <div class="row">
         <div class="col-xs-2 data-cell">{{payment.date | moment:dateformat}}</div>
-        <div class="col-xs-3 data-cell">{{payment.client_name}} : {{payment.project}}</div>
+        <div class="col-xs-3 data-cell text-left">{{payment.client_name}} <span ng-show="!!payment.project">:<br/> {{payment.project}}</span></div>
         <div class="col-xs-2 data-cell">{{payment.invoice_number}}</div>
         <div class="col-xs-2 data-cell">{{payment.amount | currency}}</div>
       </div>
