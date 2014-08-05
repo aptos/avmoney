@@ -1,0 +1,59 @@
+<div class="container background-white invoice-container">
+  <div class="col-xs-7">
+    <div class="col-xs-4">
+      <img src="assets/avdesigns-logo.jpg" style="height: 140px;" alt="andrea vollersen designs">
+    </div>
+    <div class="col-xs-8">
+      <h3 class="sans">Andrea Vollersen Designs</h3>
+      <div class="pre">520 Nisene Meadows Ct.
+        Aptos, CA &nbsp&nbsp 95003
+        831.684.1680
+        andreavollersen@gmail.com
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-5 text-right">
+    <h2>Payments Received</h2>
+    <div class="pull-right">
+      <table>
+        <tr>
+          <td class="text-left">Date</td>
+          <td class="col-sm-6">
+            <span ng-hide="edit_date">{{today}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-left"><strong>Total Payments</strong></td>
+          <td class="col-sm-6"><strong>{{report.paidAmount() | currency}}</strong></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container white-rounded text-center margin-top-30 padding-bottom-60">
+  <h2>{{client_name(client)}}</h2>
+  <h3 ng-show="search_project">{{search_project}}</h3>
+  <div class="report-body">
+    <div class="row heading">
+      <div class="col-xs-2 pointer" ng-click="reverse=!reverse">
+        Date <i class="fa fa-caret-down" ng-class="{'fa-rotate-180': !!reverse}" ></i>
+      </div>
+      <div class="col-xs-3" ng-show="!search_project">Project</div>
+      <div class="col-xs-2">Invoice</div>
+      <div class="col-xs-2">Amount</div>
+    </div>
+    <div class="scrolling-list row scrolling-list-clickable" ng-repeat="payment in filtered_items | orderBy:order:reverse">
+      <div class="row">
+        <div class="col-xs-2 data-cell">{{payment.date | moment:'MM/DD/YYYY'}}</div>
+        <div class="col-xs-3 data-cell text-left" ng-show="!search_project">
+          <span ng-show="!client">{{payment.name}}</span>
+          <span ng-show="!client && !!payment.project">:<br/></span>
+          <span ng-show="!!payment.project">{{payment.project}}</span>
+        </div>
+        <div class="col-xs-2 data-cell">{{payment.invoice_number}}</div>
+        <div class="col-xs-2 data-cell">{{payment.amount | currency}}</div>
+      </div>
+    </div>
+  </div>
+</div>
