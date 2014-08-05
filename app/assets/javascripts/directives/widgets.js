@@ -7,6 +7,13 @@ avmoneyDirectives.directive('accountsReceivable', function(){
   };
 });
 
+avmoneyDirectives.directive('payments', function(){
+  return {
+    restrict:'A',
+    templateUrl:'assets/reports/payments.html'
+  };
+});
+
 avmoneyDirectives.directive('clientEdit', function(){
   return {
     restrict:'A',

@@ -11,11 +11,9 @@ function PaymentsCtrl($scope, $rootScope, $routeParams, $filter, Restangular, St
     var q = filterFilter($scope.payments, $scope.query);
     if (!!$scope.client) {
       q = _.filter(q, {'client_id': $scope.client});
-      console.info("q", q)
     }
     if (!!$scope.search_project) {
       q = _.filter(q, {'project': $scope.search_project});
-      console.info("project list", q);
     }
     get_totals(q);
     var orderedItems = orderByFilter(q, ['client_name','status','date']);

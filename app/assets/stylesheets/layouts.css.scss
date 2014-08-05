@@ -308,6 +308,24 @@ ul.scrolling-list.force-two-lines li {
   border-top: 3px solid rgba(80, 62, 43, 0.11);
 }
 
+.row.scrolling-list a {
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  color: #503e2b;
+  padding: 20px;
+}
+
+.row.scrolling-list:hover a {
+  text-decoration: underline;
+}
+
+.row.scrolling-list a:hover {
+  color: #fff;
+  background-color: #74A69C;
+  text-decoration: none;
+}
+
 [draggable] {
     cursor: move;
 }

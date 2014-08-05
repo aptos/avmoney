@@ -83,7 +83,7 @@
       <div class="col-xs-2">
         <a class="dropdown-toggle" ng-click="show_totals=!show_totals">Billed</a>
       </div>
-      <div class="col-xs-2">Paid</div>
+      <div class="col-xs-2">Status</div>
     </div>
     <div class="scrolling-list row scrolling-list-clickable" ng-repeat="invoice in filtered_items">
       <div class="row">
@@ -93,7 +93,7 @@
         <div class="col-xs-2 data-cell" ng-click="open(invoice._id)">{{invoice.invoice_total | currency}}</div>
         <div class="col-xs-2 data-cell">
           <span ng-show="invoice.status=='Open'">
-            <a ng-click="pay(invoice._id)" title="Enter Payment...">payment...</a>
+            <a ng-click="pay(invoice._id)" title="Enter Payment...">open</a>
           </span>
           <span ng-hide="invoice.status=='Open'">{{invoice.paid| currency}}</a>
           </div>

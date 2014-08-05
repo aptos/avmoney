@@ -113,6 +113,8 @@ input.search-box-small {
   color:#e62929;
 }
 
+.pointer { cursor: pointer;}
+
 .dot {
   border: 1px solid;
   border-radius: 50%;
@@ -146,6 +148,57 @@ a.wp-link {
 a.wp-link:hover {
   border-bottom: 1px solid #ccc;
   text-decoration: none;
+}
+
+/* Action buttons list */
+ul.action-buttons { padding-left: 0;}
+.action-buttons li {
+  display: inline-block;
+  list-style-type: none;
+  font-size: 14px;
+  width: 160px;
+  margin: 8px;
+  padding: 8px;
+  text-align: center;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #777;
+  border-radius: 10px;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  a {
+    color: #333;
+    font-weight: normal;
+    display: block;
+    cursor: pointer;
+  }
+  a:hover { text-decoration: none; }
+  i {
+    font-size: 2em;
+    line-height: 2em;
+    display: block;
+  }
+}
+
+.action-buttons li:hover, .action-buttons li.active {
+  background-color: rgba(116, 166, 156, 0.78);
+  border-color: rgba(116, 166, 156, 0.78);
+}
+
+.hover-spin:hover {
+  -webkit-animation: rotate 1s forwards;
+  animation: rotate 1s forwards;
+}
+@-webkit-keyframes rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media all and (max-width: 640px) {

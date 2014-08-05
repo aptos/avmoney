@@ -1,9 +1,8 @@
 <% if current_user %>
-<div ng-controller="HeaderController" class="layout-single-column hidden-print">
+<div ng-controller="HeaderController" class="text-center hidden-print">
   <ul class="nav nav-pills margin-top-5">
     <li ng-class="{ active: isActive('/Activities')}"><a href="/#/Activities">Activities</a></li>
     <li ng-class="{ active: isActive('/Invoices')}"><a href="/#/Invoices">Invoices</a></li>
-    <li ng-class="{ active: isActive('/Payments')}"><a href="/#/Payments">Payments</a></li>
     <li ng-class="{ active: isActive('/Clients')}"><a href="/#/Clients">Clients</a></li>
     <li ng-class="{ active: isActive('/Reports')}"><a href="/#/Reports">Reports</a></li>
     <li ng-class="{ active: isActive('/Calendar')}"><a href="/#/Calendar">Calendar</a></li>

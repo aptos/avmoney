@@ -1,40 +1,61 @@
 function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDialog, Restangular, Storage) {
 
   // Reports Selector
-  $scope.report = function (type) {
-    $scope.type = type;
-    fetch_invoices();
+  $scope.report = {
+    accountsReceivable: function () {
+      $scope.type = 'AccountsReceivable';
+      fetch_invoices();
+    },
+    totalDue: function () {
+      if (!!$scope.filtered_items && $scope.filtered_items.length) {
+        return $scope.filtered_items.reduce(function(m, invoice) { return m + (invoice.invoice_total); }, 0);
+      }
+    },
+    payments: function () {
+      $scope.type = 'Payments';
+      fetch_payments();
+    },
+    paidAmount: function () {
+      if (!!$scope.filtered_items && $scope.filtered_items.length) {
+        return $scope.filtered_items.reduce(function(m, payment) { return m + payment.amount; }, 0);
+      }
+    }
   };
 
   // Accounts Receivable Report
   var filterFilter = $filter('filter');
-  var orderByFilter = $filter('orderBy');
+  $scope.reverse = false;
+
   $scope.filterItems = function() {
     Storage.set('search_project', $scope.search_project);
-    var q = filterFilter($scope.invoices, $scope.query);
+    var q = filterFilter($scope.list, $scope.query);
     if (!!$scope.client) {
       q = _.filter(q, {'client_id': $scope.client});
-      console.info("q", q)
     }
     if (!!$scope.search_project) {
       q = _.filter(q, {'project': $scope.search_project});
-      console.info("project list", q);
     }
-    var orderedItems = orderByFilter(q, ['open_date']);
-
-    $scope.filtered_items = orderedItems;
-    if (typeof($scope.filtered_items) != 'undefined') {
-      $scope.total_due = $scope.filtered_items.reduce(function(m, invoice) { return m + (invoice.invoice_total); }, 0);
-    }
-
+    $scope.filtered_items = q;
   };
+
   $scope.$watch('query', $scope.filterItems);
+
 
   // Fetch invoices
   var fetch_invoices = function () {
+    $scope.order = 'open_date';
     Restangular.all('invoices').getList({status: 'Open'}).then( function (list) {
-      $scope.invoices = list;
+      $scope.list = list;
       $scope.filterItems();
+    });
+  };
+
+  // Fetch payments
+  var fetch_payments = function () {
+    $scope.order = 'date';
+    Restangular.all('payments').getList().then( function (list) {
+      $scope.list = list;
+      $scope.filterItems(list);
     });
   };
 

@@ -1,8 +1,20 @@
 <div class="screen-content transparent margin-top-30" >
   <div client-search></div>
   <div class="container margin-top-30 text-center hidden-print">
-    <a ng-click="report('AccountsReceivable')">Accounts Receivable</a>
+    <ul class="action-buttons">
+      <li ng-class="{'active': type=='AccountsReceivable'}">
+        <a ng-click="report.accountsReceivable()">
+          <span>Accounts Receivable</span>
+        </a>
+      </li>
+      <li ng-class="{'active': type=='Payments'}">
+        <a ng-click="report.payments()">
+          <span>Payments</span>
+        </a>
+      </li>
+    </ul>
   </div>
 </div>
 <hr class="gradient">
 <div accounts-receivable ng-show="type=='AccountsReceivable'" />
+<div payments ng-show="type=='Payments'" />
