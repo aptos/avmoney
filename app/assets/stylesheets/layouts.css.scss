@@ -44,6 +44,7 @@ $label: #382B50;
 .margin-top-40 { margin-top: 40px; }
 .margin-top-60 { margin-top: 60px; }
 .margin-bottom-5 { margin-bottom: 5px; }
+.margin-bottom-20 { margin-bottom: 20px; }
 .margin-bottom-30 { margin-bottom: 30px; }
 .margin-bottom-40 { margin-bottom: 40px; }
 .margin-bottom-60 { margin-bottom: 60px; }
@@ -273,7 +274,7 @@ ul.scrolling-list {
   padding-left: 10px;
 }
 
-.scrolling-list li {
+.scrolling-list > li {
   border-top: 1px solid rgba(80, 62, 43, 0.11);
   margin: 0;
   p {margin: 0;}
@@ -288,6 +289,43 @@ ul.scrolling-list.force-two-lines li {
   min-height: 60px;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+ul.checklist > li {
+  cursor: pointer;
+  list-style:none;
+  padding-left: 1.2em;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+ul.checklist > li:hover {
+  text-decoration: underline;
+}
+
+ul.checklist > li:before {
+  content: "\f111";
+  color: #3c763d;
+  font-family: FontAwesome;
+  display: inline-block;
+  margin-left: -1.2em;
+  width: 1.2em;
+}
+
+ul.checklist > li:hover:before {
+  content: "\f10c";
+  color: #bbb;
+}
+
+ul.checklist > li.off:before {
+  content: "\f10c";
+  color: #6B3800;
+}
+
+ul.checklist > li.off:hover:before {
+  content: "\f111";
+  color: #bbb;
 }
 
 .row.scrolling-list {
@@ -326,9 +364,11 @@ ul.scrolling-list.force-two-lines li {
   text-decoration: none;
 }
 
+/*
 [draggable] {
     cursor: move;
 }
+*/
 
 .invoice-container {
   width: 940px;
@@ -390,6 +430,16 @@ ul.thumbs > li{
   }
   .close:hover {
     opacity: 1;
+  }
+}
+
+ul.stats-list {
+  padding-left: 0;
+  li {
+    text-decoration: none;
+    display: inline-block;
+    padding-left: 20px;
+    border: none;
   }
 }
 

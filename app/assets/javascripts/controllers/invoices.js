@@ -4,7 +4,10 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
     $scope.metadata = metadata;
   });
 
+
   $scope.status = 'Open';
+  if ($routeParams.status) $scope.status = $routeParams.status;
+
   // $scope.status_list = ['Active', 'Invoiced', 'Paid', 'All'];
   $scope.status_list = [{value: 'Open', text: 'Open'} ,{value: 'Paid', text: 'Paid'},{value: 'All', text: 'All'}];
   $scope.set_status = function (status) {
@@ -31,7 +34,7 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
     if (!!$scope.status && $scope.status != 'All') {
       q = _.filter(q, { 'status': $scope.status});
     }
-    var orderedItems = orderByFilter(q, ['client_name','date']);
+    var orderedItems = orderByFilter(q, ['client_name','created_at']);
     $scope.filtered_items = orderedItems;
   };
 

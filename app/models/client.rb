@@ -14,8 +14,9 @@ class Client < CouchRest::Model::Base
   property :phone2, String
   property :cell2, String
   property :projects, [String]
+  property :archived_projects, [String]
   property :invoice_count, Integer, default: 0
-
+  property :archived, TrueClass, default: false
   timestamps!
 
   design do

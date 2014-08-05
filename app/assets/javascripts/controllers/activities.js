@@ -169,8 +169,10 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.save = function (add) {
     if (($scope.activityEditForm.$valid) && (!$scope.saveInProgress) ) {
       $scope.saveInProgress = true;
-
-      update_projects($scope.activity.client_id, $scope.activity.project);
+      if ($scope.activity.project && $scope.activity.project.length > 1) {
+        console.info("Update Projects", $scope.activity.project)
+        update_projects($scope.activity.client_id, $scope.activity.project);
+      }
       $scope.search_project = $scope.activity.project;
       Storage.set('projects_select', $scope.projects_select);
 

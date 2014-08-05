@@ -1,4 +1,4 @@
-function ClientsCtrl($scope, Restangular) {
+function ClientsCtrl($scope, Restangular, Storage, $location) {
 
   // Fetch clients
   var refresh = function () {
@@ -54,6 +54,32 @@ function ClientsCtrl($scope, Restangular) {
     });
   };
 
+  $scope.archive = function (id) {
+    Restangular.one('clients', id).get().then(function (client) {
+      client.archived = !client.archived;
+      client.put().then(function () { refresh(); });
+    });
+  };
+
+  $scope.toggle_project = function (index, id, project) {
+    var index = index;
+    $scope.show_projects = true;
+    Restangular.one('clients', id).get().then(function (client) {
+      var idx = _.indexOf(client.projects, project);
+      var archived_idx = _.indexOf(client.archived_projects, project);
+      if (idx >= 0) {
+        client.archived_projects.push(project);
+        client.projects.splice(idx, 1);
+      } else if (archived_idx >= 0) {
+        client.projects.push(project);
+        client.archived_projects.splice(archived_idx, 1);
+      }
+      client.put().then(function (client) {
+        refresh();
+      });
+    });
+  };
+
   $scope.remove = function () {
     console.info("delete requested!", $scope.client);
     $scope.saveInProgress = true;
@@ -62,5 +88,10 @@ function ClientsCtrl($scope, Restangular) {
     }
   };
 
+  $scope.show_invoices = function (id) {
+    Storage.set('client', id);
+    $location.path('/Invoices').search({status: 'All'});
+  }
+
 }
-ClientsCtrl.$inject = ['$scope','Restangular'];
+ClientsCtrl.$inject = ['$scope','Restangular','Storage','$location'];

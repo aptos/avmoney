@@ -63,10 +63,12 @@ class ActivitiesController < ApplicationController
   private
 
   def update_projects client_id, project
+    return unless client_id && !project.nil? && project.strip.length >= 1
+    logger.info "project #{project.inspect}"
     client = Client.find(client_id)
 
     unless client.projects.include? project
-      client.projects.push(project).uniq!
+      client.projects.push(project.strip).uniq!
       client.save
     end
   end

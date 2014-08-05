@@ -2,6 +2,9 @@ class ClientsController < ApplicationController
 
   def index
     @clients = Client.by_name.all
+    if params[:active]
+      @clients.delete_if {|client| client.archived }
+    end
     render :json => @clients
   end
 

@@ -100,6 +100,14 @@ input.search-box-small {
   -webkit-transform:rotate(45deg);
 }
 
+.clickable-icon.active {
+  color: #6B3800;
+}
+
+.clickable-icon.active:hover {
+  opacity: 0.5;
+}
+
 .delete-icon {
   cursor:pointer;
   color:#cc5454;
