@@ -24,6 +24,7 @@ AVMoney::Application.routes.draw do
 
   resources :payments
   resources :clients
+  get "/clients/:id/next_invoice" => 'clients#next_invoice'
 
   get "/reports" => 'reports#index'
 

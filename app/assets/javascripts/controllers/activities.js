@@ -58,7 +58,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.project_selected = function () {
     $scope.search_project = $scope.activity.project;
     $scope.filterItems();
-  }
+  };
 
   var update_projects = function (client_id, project) {
     $scope.projectlist[client_id].push(project);
@@ -147,6 +147,10 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
       project: $scope.search_project
     };
 
+    Restangular.one('clients', $scope.client).one('next_invoice').get().then( function (invoice_number) {
+      $scope.invoice.invoice_number = invoice_number;
+    });
+
     if (status == 'Proposal') {
       $scope.invoice.status = status;
       $scope.expires = moment().add('d',30).format('MMM DD, YYYY');
@@ -157,7 +161,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
 
     $scope.invoice.client_data = _.find($scope.clients, function (v) { return v.value == $scope.client; });
     $scope.invoice.name = $scope.invoice.client_data.text;
-    $scope.invoice.invoice_number = $scope.invoice.client_data.invoice_count + 1;
     $scope.invoice.open_date = moment().format("YYYY-MM-DD");
 
     $scope.invoice.hours_sum = $scope.invoice.activities.reduce(function(m, activity) { return m + activity.hours; }, 0);

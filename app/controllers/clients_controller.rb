@@ -57,4 +57,12 @@ class ClientsController < ApplicationController
     render :json => { status: 'Deleted' }
   end
 
+  def next_invoice
+    @client = Client.find(params[:id])
+    unless @client
+      render :json => { error: "client not found: #{params[:id]}" }, :status => 404 and return
+    end
+    render :json => @client.next_invoice
+  end
+
 end

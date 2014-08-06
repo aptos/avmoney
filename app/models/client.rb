@@ -1,4 +1,6 @@
 class Client < CouchRest::Model::Base
+  validates_uniqueness_of :name, :case_sensitive => false, :message => "We already have client with that name"
+
   property :_id, String
   property :name, String
   property :rate, Float
@@ -15,12 +17,23 @@ class Client < CouchRest::Model::Base
   property :cell2, String
   property :projects, [String]
   property :archived_projects, [String]
-  property :invoice_count, Integer, default: 0
   property :archived, TrueClass, default: false
   timestamps!
 
   design do
     view :by_name
+  end
+
+  def next_invoice
+    invoice_ids = Invoice.by_name.key(self.name).rows.map{|r| r["value"]}.sort
+    return 1 if invoice_ids.empty?
+
+    missing = (invoice_ids.first..invoice_ids.last).to_a - invoice_ids
+    if missing.empty?
+      return invoice_ids.last + 1
+    else
+      return missing[0]
+    end
   end
 
 end

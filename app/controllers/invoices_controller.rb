@@ -48,11 +48,6 @@ class InvoicesController < ApplicationController
       render :json => { error: e.message, invoice: @invoice }, :status => status and return
     end
 
-    # increment client invoice count - also makes the client 'active' by update_at
-    @client = Client.find(params[:client_id])
-    @client.invoice_count += 1
-    @client.save
-
     # update each activity status
     params[:activities].each do |activity|
       if a = Activity.find(activity["_id"])
