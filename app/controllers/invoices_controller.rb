@@ -30,7 +30,7 @@ class InvoicesController < ApplicationController
 
       @invoice.invoice_total = @invoice.hours_amount + @invoice.expenses + @invoice.tax
 
-      @invoice.save
+      @invoice.save!
     end
 
     render :json => @invoice
@@ -39,7 +39,7 @@ class InvoicesController < ApplicationController
   def create
     @invoice = Invoice.new(params[:invoice])
     begin
-      @invoice.save
+      @invoice.save!
     rescue Exception => e
       status = 400
       if e.message.include? "Conflict"

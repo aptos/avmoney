@@ -172,7 +172,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.invoice.invoice_total = $scope.invoice.hours_amount + $scope.invoice.expenses + $scope.invoice.tax;
 
     $scope.success = false;
-
+    $scope.errors = false;
     ngDialog.open({
       template: 'assets/invoiceDialog.html',
       showClose: true,
@@ -182,6 +182,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   };
 
   $scope.save_invoice = function () {
+    $scope.errors = false;
     $scope.saveInProgress = true;
     $scope.success = false;
     Restangular.all('invoices').post($scope.invoice).then( function (invoice) {
@@ -190,7 +191,11 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
       _.where($scope.clients, { value: $scope.invoice.client_id})[0].invoice_count += 1;
       $scope.success = true;
       $location.path("/Invoice/" + invoice._id);
-    },$scope.close);
+    }, function (response) {
+      console.error("Eek!", response.data.error);
+      $scope.errors = "Sorry, something bad happened!\n" + response.data.error;
+      $scope.saveInProgress = false;
+    });
   };
 
   $scope.save = function (add) {
@@ -213,7 +218,10 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
             $scope.close();
           }
           refresh();
-        }, $scope.close);
+        }, function (response) {
+          console.error("Eek!", response.data.error);
+          $scope.close;
+        });
       } else {
         Restangular.all('activities').post($scope.activity).then( function () {
           if (add) {
@@ -223,7 +231,10 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
             $scope.close();
           }
           refresh();
-        },$scope.close);
+        }, function (response) {
+          console.error("Eek!", response);
+          $scope.close;
+        });
       }
     }
   };
@@ -231,6 +242,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.close = function () {
     $scope.saveInProgress = false;
     $scope.show_form = false;
+    $scope.errors = false;
   };
 
   $scope.edit = function (id) {
