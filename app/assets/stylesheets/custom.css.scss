@@ -80,6 +80,10 @@ h3.panel-title {
   font-size: 1.2em;
 }
 
+.underline-dashed {
+  border-bottom: 1px dashed #ccc;
+}
+
 .sans {
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
 }
@@ -179,4 +183,5 @@ hr.gradient {
   .report-body, .report-heading {
     font-size: 12px;
   }
+  .contenteditable.underline-dashed { border-bottom: none; }
 }

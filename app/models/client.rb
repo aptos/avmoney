@@ -16,6 +16,7 @@ class Client < CouchRest::Model::Base
   property :phone2, String
   property :cell2, String
   property :projects, [String]
+  property :base_invoice_id, Integer, default: 1
   property :archived_projects, [String]
   property :archived, TrueClass, default: false
   timestamps!
@@ -28,12 +29,19 @@ class Client < CouchRest::Model::Base
     invoice_ids = Invoice.by_name.key(self.name).rows.map{|r| r["value"]}.sort
     return 1 if invoice_ids.empty?
 
-    missing = (invoice_ids.first..invoice_ids.last).to_a - invoice_ids
+    missing = (base_invoice_id..invoice_ids.last).to_a - invoice_ids
     if missing.empty?
       return invoice_ids.last + 1
     else
       return missing[0]
     end
+  end
+
+  def invoice_stats
+    @stats = {}
+    i = Invoice.by_client_id_and_status.startkey([self._id]).endkey([self._id,{}]).reduce.group_level(2).rows
+    i.each {|r| @stats[r["key"][1]] = r["value"]}
+    @stats
   end
 
 end

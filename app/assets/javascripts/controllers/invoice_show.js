@@ -31,6 +31,7 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location) {
   };
 
   $scope.update = function () {
+    $scope.update_fail = false;
     $scope.invoice.post().then( function (data) {
       refresh(data);
     }, function () {

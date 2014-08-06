@@ -19,7 +19,7 @@ class ClientsController < ApplicationController
   def create
     @client = Client.new(params[:client])
     begin
-      @client.save
+      @client.save!
     rescue Exception => e
       status = 400
       if e.message.include? "Conflict"
@@ -36,7 +36,7 @@ class ClientsController < ApplicationController
       render :json => { error: "client not found: #{params[:id]}" }, :status => 404 and return
     end
     @client.attributes = params[:client]
-    if @client.save
+    if @client.save!
       render :json => @client
     else
       respond_with(@client.errors, status: :unprocessable_entity)

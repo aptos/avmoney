@@ -18,6 +18,7 @@ AVMoney::Application.routes.draw do
 
   resources :activities
 
+  get "/invoices/stats" => 'invoices#stats'
   resources :invoices
   post "/invoices/:id" => 'invoices#update'
   delete "/invoices/:id" => 'invoices#delete'

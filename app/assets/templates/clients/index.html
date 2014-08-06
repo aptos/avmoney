@@ -81,8 +81,8 @@
           </div>
           <hr>
           <ul class="stats-list">
-            <li ng-show="client.invoice_count">
-              <a ng-click="show_invoices(client._id)">{{client.invoice_count}} Invoice<span ng-show="client.invoice_count>1">s</span></a>
+            <li ng-show="stats[client._id]['Open']">
+              <a ng-click="show_invoices(client._id)">{{stats[client._id]['Open']}} Open Invoice<span ng-show="stats[client._id]['Open']>1">s</span></a>
             </li>
             <li ng-show="!!client.projects.length">
               <a ng-click="show_projects=!show_projects">{{client.projects.length}} Project<span ng-show="client.projects.length>1">s</span></a>

@@ -3,6 +3,7 @@ class Invoice < CouchRest::Model::Base
 
   property :_id, String
   property :invoice_number, Integer
+  property :po_number, String
   property :client_id, String
   property :name, String
   property :client_data, Hash
@@ -22,6 +23,7 @@ class Invoice < CouchRest::Model::Base
 
   design do
     view :by_status
+    view :by_client_id_and_status
   end
 
   design do
@@ -32,6 +34,18 @@ class Invoice < CouchRest::Model::Base
       emit(doc['name'], doc.invoice_number);
     }
     };"
+  end
+
+  def self.stats client=nil
+    startkey = [client]
+    client = client || {}
+    endkey = [client, {}]
+    Rails.logger.info "Keys: #{startkey}, #{endkey}"
+    rows = self.by_client_id_and_status.startkey(startkey).endkey(endkey).reduce.group_level(2).rows
+    @stats = Hash.new
+    rows.each {|r| @stats[r["key"][0]] = {}}
+    rows.each {|r| @stats[r["key"][0]][r["key"][1]] = r["value"]}
+    return @stats
   end
 
 end

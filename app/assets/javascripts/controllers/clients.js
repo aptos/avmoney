@@ -5,6 +5,7 @@ function ClientsCtrl($scope, Restangular, Storage, $location) {
     Restangular.one('clients').getList().then( function (list) {
       $scope.clients = list;
     });
+    $scope.stats = Restangular.one('invoices/stats').getList().$object;
   };
   refresh();
 
@@ -12,7 +13,7 @@ function ClientsCtrl($scope, Restangular, Storage, $location) {
   $scope.saveInProgress = false;
 
   $scope.new_client = function () {
-    $scope.client = { name: '' };
+    $scope.client = { name: '', base_invoice_id: 1 };
     $scope.clientEditForm.$setPristine();
     $scope.show_form = true;
   };
@@ -90,7 +91,7 @@ function ClientsCtrl($scope, Restangular, Storage, $location) {
 
   $scope.show_invoices = function (id) {
     Storage.set('client', id);
-    $location.path('/Invoices').search({status: 'All'});
+    $location.path('/Invoices').search({status: 'Open'});
   }
 
 }

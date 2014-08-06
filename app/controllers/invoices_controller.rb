@@ -9,6 +9,11 @@ class InvoicesController < ApplicationController
     render :json => @invoices
   end
 
+  def stats
+    client = params[:client] || nil
+    render :json => Invoice.stats(client)
+  end
+
   def show
     @invoice = Invoice.find(params[:id])
     unless @invoice

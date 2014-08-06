@@ -12,7 +12,7 @@
         </tr>
         <tr><td class="muted input-label" >Rate</td>
           <td class="input">
-            <div class="input-group col-md-6 col-lg-6">
+            <div class="input-group col-md-6">
               <span class="input-group-addon">$</span>
               <input name="clientRate" type="number" ng-model="client.rate" placeholder="125" class="form-control" required>
             </div>
@@ -20,9 +20,17 @@
         </tr>
         <tr><td class="muted input-label" >Tax Rate</td>
           <td class="input">
-            <div class="input-group col-md-6 col-lg-6">
+            <div class="input-group col-md-6">
               <span class="input-group-addon">%</span>
               <input name="clientTaxRate" type="number" ng-model="client.tax_rate" placeholder="8.25" class="form-control">
+            </div>
+          </td>
+        </tr>
+        <tr><td></td>
+          <td class="input">
+            <span class="pull-left" style="padding-top: 5px;">First Invoice Number</span>
+            <div class="input col-md-4">
+              <input name="base_invoice_id" type="number" ng-model="client.base_invoice_id" placeholder="1" class="form-control">
             </div>
           </td>
         </tr>

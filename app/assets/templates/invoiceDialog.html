@@ -20,7 +20,8 @@
           <table>
             <tr>
               <td class="text-left">{{type}} #</td>
-              <td class="col-sm-6"><span contenteditable ng-model='invoice.invoice_number'></span></td>
+              <!-- <td class="col-sm-6"><span contenteditable ng-model='invoice.invoice_number'></span></td> -->
+              <td class="col-sm-6">{{invoice.invoice_number}}</td>
             </tr>
             <tr>
               <td class="text-left">{{type}} Date</td>
@@ -28,6 +29,12 @@
                 <span ng-hide="edit_date">{{invoice.open_date | moment:'M/D/YY'}}</span>
                 <span class="hidden-print" ng-click="edit_date=!edit_date"><i class="fa fa-calendar"></i></span>
                 <input ng-show="edit_date" ng-model="invoice.open_date" my-datepicker></input>
+              </td>
+            </tr>
+            <tr ng-class="{'hidden-print': !invoice.po_number}">
+              <td class="text-left">Client PO #</td>
+              <td class="col-sm-6 contenteditable underline-dashed">
+                <span contenteditable ng-model='invoice.po_number'></span>
               </td>
             </tr>
             <tr>
