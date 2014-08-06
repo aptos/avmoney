@@ -5,7 +5,7 @@ avmoneyDirectives.directive('clientSearch', ['Restangular', 'Storage', function(
     restrict:'A',
     templateUrl:'assets/clientSearch.html',
     link:function (scope, element, attrs) {
-      scope.client = Storage.get('client')
+      scope.client = Storage.get('client');
       scope.projects_select = Storage.get('projects_select') || [];
       scope.search_project = Storage.get('search_project');
 

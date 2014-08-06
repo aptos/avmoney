@@ -42,10 +42,23 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.activity.tax_rate = client.tax_rate;
     $scope.projects = $scope.projectlist[id] || [];
     $scope.projects_select = $scope.projects.map( function (project) { return { value: project, text: project }; });
+    Storage.set('projects_select', $scope.projects_select);
+
+    $scope.client = id;
+    Storage.set('client', id);
+    Storage.erase('search_project');
+
     if ($scope.projects.length == 1) {
       $scope.activity.project = $scope.projects[0];
+      $scope.search_project = $scope.activity.project;
     }
+    $scope.filterItems();
   };
+
+  $scope.project_selected = function () {
+    $scope.search_project = $scope.activity.project;
+    $scope.filterItems();
+  }
 
   var update_projects = function (client_id, project) {
     $scope.projectlist[client_id].push(project);
@@ -87,6 +100,16 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.min_date = "2014-01-01";
   $scope.max_date = moment().format("YYYY-MM-DD");
 
+  $scope.add_day = function () {
+    if (!$scope.activity.date) return;
+    $scope.activity.date = moment($scope.activity.date).add('d',1).format("YYYY-MM-DD");
+  };
+
+  $scope.subtract_day = function () {
+    if (!$scope.activity.date) return;
+    $scope.activity.date = moment($scope.activity.date).subtract('d',1).format("YYYY-MM-DD");
+  };
+
   $scope.change_tax = function () {
     if ($scope.tax_paid) {
       $scope.activity.tax_rate = $scope.activity.tax_paid = 0;
@@ -98,17 +121,18 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.new_activity = function (subtype) {
     $scope.add_project = false;
     $scope.subtype = subtype || $scope.subtype;
+    if ($scope.activity) var default_date = $scope.activity.date;
     $scope.activity = {
       client_name: '',
       tax_rate: 0.0
     };
+    if (!!default_date) $scope.activity.date = default_date;
     if ($scope.client) {
       $scope.activity.client_id = $scope.client;
       $scope.client_selected($scope.client);
     }
     if ($scope.search_project) $scope.activity.project = $scope.search_project;
     if (!$scope.activity.project && $scope.activity.client_id && $scope.projectlist[$scope.activity.client_id].length == 1) {
-      $scope.activity.date = moment().format("YYYY-MM-DD");
       $scope.activity.project = $scope.projectlist[$scope.activity.client_id][0];
     }
     $scope.activityEditForm.$setPristine();

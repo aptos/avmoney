@@ -19,7 +19,7 @@
           </tr>
           <tr><td class="muted input-label" >Project</td>
             <td class="input">
-              <select class="form-control" name="Project" ui-select2="{allowClear: true}" ng-model="activity.project" data-placeholder="Project...">
+              <select class="form-control" name="Project" ui-select2="{allowClear: true}" ng-model="activity.project" data-placeholder="Project..." ng-change="project_selected()">
                 <option value=""></option>
                 <option ng-repeat="p in projects_select | orderBy:'text'" value="{{p.value}}">{{p.text}}</option>
               </select>
@@ -33,12 +33,16 @@
           <tr><td class="muted input-label" >Date</td>
             <td class="input">
               <input name="activityDate" type="text" class="form-control text_field date-input" min-date="{{min_date}}" max-date="{{max_date}}" ng-model="activity.date" my-datepicker required>
+              <span>
+              <i class="fa fa-arrow-up clickable-icon icon-small" ng-click="add_day()" title="Forward a day"></i>
+              <i class="fa fa-arrow-down clickable-icon icon-small" ng-click="subtract_day()" title="Back a day"></i>
+              <span>
             </td>
           </tr>
           <tr ng-show="subtype=='Timesheet'"><td class="muted input-label" >Hours</td>
             <td class="input">
               <div class="col-sm-5">
-                <input name="activityHours" type="tel" min="0" class="form-control" ng-model="activity.hours" placeholder="1" ng-required="subtype=='Timesheet'" ng-pattern="/^\d{0,3}(\.\d{1,2})?$/">
+                <input name="activityHours" type="tel" min="0" class="form-control" ng-model="activity.hours" ng-required="subtype=='Timesheet'" ng-pattern="/^\d{0,3}(\.\d{1,2})?$/">
               </div>
               <div class="col-sm-5">
                 <div class="input-group">
@@ -92,11 +96,11 @@
           </tr>
         </table>
         <div class="button-row">
-          <button class="btn btn-success" ng-click="save(true)" ng-disabled="activityEditForm.$invalid || !activityEditForm.$dirty">Save and Add</button>
-          <button class="btn btn-success" ng-click="save()" ng-disabled="activityEditForm.$invalid || !activityEditForm.$dirty">Save</button>
+          <button class="btn btn-success" ng-click="save(true)" ng-disabled="activityEditForm.$invalid || !activityEditForm.$dirty">Save</button>
           <button class="btn btn-danger pull-right" ng-click="remove()" ng-show="activity.status == 'Active'">
             <i class="fa fa-trash-o"></i>
           </button>
+          <a ng-click="close()" class="text-muted pull-right">close</a>
         </div>
       </form>
     </div>
