@@ -38,7 +38,17 @@ class InvoicesController < ApplicationController
       @invoice.save!
     end
 
-    render :json => @invoice
+    respond_to do |format|
+      format.pdf { 
+        @client = Client.find(@invoice.client_id)
+        if @invoice.status == 'Proposal'
+          @expires = @invoice.open_date + 30.days
+        end
+        render :pdf => "invoice" 
+      }
+      format.all { render :json => @invoice }
+    end
+
   end
 
   def create

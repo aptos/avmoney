@@ -51,6 +51,10 @@ gem 'aws-sdk', '~> 1.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
+# PDF print support
+gem 'wisepdf'
+gem 'wkhtmltopdf-binary'
+
 group :test, :development do
 	gem "rspec-rails", "~> 2.8"
 	gem 'debugger'
