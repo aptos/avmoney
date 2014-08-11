@@ -1,4 +1,4 @@
-function InvoiceShowCtrl($scope, $routeParams, Restangular, $location) {
+function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) {
 
   $scope.editable = false;
 
@@ -53,5 +53,9 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location) {
     });
   };
 
+  $scope.print = function () {
+    $window.print();
+  }
+
 }
-InvoiceShowCtrl.$inject = ['$scope','$routeParams','Restangular', '$location'];
+InvoiceShowCtrl.$inject = ['$scope','$routeParams','Restangular', '$location', '$window'];
