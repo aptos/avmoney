@@ -43,7 +43,6 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
     $scope.billed_amount = list.reduce(function(m, invoice) { return m + invoice.invoice_total; }, 0);
     $scope.paid_amount = list.reduce(function(m, invoice) { return m + invoice.paid; }, 0);
     $scope.open_amount = $scope.billed_amount - $scope.paid_amount;
-    console.info("amt",$scope.billed_amount, $scope.paid_amount  )
   };
 
   // Fetch invoices
