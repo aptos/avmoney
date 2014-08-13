@@ -4,7 +4,6 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
     $scope.metadata = metadata;
   });
 
-
   $scope.status = 'Open';
   if ($routeParams.status) $scope.status = $routeParams.status;
 
@@ -21,9 +20,6 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
   $scope.filterItems = function() {
     Storage.set('search_project', $scope.search_project);
     var q = filterFilter($scope.invoices, $scope.query);
-    if (!!$scope.client) {
-      q = _.filter(q, {'client_id': $scope.client});
-    }
     if (!!$scope.search_project) {
       q = _.filter(q, {'project': $scope.search_project});
     }
@@ -47,15 +43,19 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
     $scope.billed_amount = list.reduce(function(m, invoice) { return m + invoice.invoice_total; }, 0);
     $scope.paid_amount = list.reduce(function(m, invoice) { return m + invoice.paid; }, 0);
     $scope.open_amount = $scope.billed_amount - $scope.paid_amount;
+    console.info("amt",$scope.billed_amount, $scope.paid_amount  )
   };
 
   // Fetch invoices
-  var refresh = function () {
-    Restangular.all('invoices').getList().then( function (list) {
+  $scope.refresh = function () {
+    if (!$scope.client) return;
+    Restangular.all('invoices').getList({client: $scope.client}).then( function (list) {
       $scope.invoices = list;
     });
   };
-  refresh();
+  $scope.client = Storage.get('client');
+  if (!!$scope.client) $scope.refresh();
+
 
   // Open Invoice in new tab
   $scope.open = function (id) {
@@ -64,9 +64,9 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
 
   // Pay
   $scope.pay = function (id) {
-    var invoice = _.find($scope.invoices, function (v) { return v._id == id; });
+    var invoice = _.find($scope.invoices, function (v) { return v.id == id; });
     $scope.payment = {
-      invoice_id: invoice._id,
+      invoice_id: invoice.id,
       invoice_number: invoice.invoice_number,
       client_id: invoice.client_id,
       client_name: invoice.name,

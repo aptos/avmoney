@@ -1,11 +1,14 @@
 class InvoicesController < ApplicationController
 
   def index
-    if params[:status]
-      @invoices = Invoice.by_status.key(params[:status]).all
+    if params[:client]
+      @invoices = Invoice.by_client.key(params[:client]).rows
+      @invoices.map! {|i| i.merge(i['value'])}
+      @invoices.each {|i| i.delete('value')}
     else
-      @invoices =  Invoice.by_name.all
+      @invoices = Invoice.by_name.rows
     end
+
     render :json => @invoices
   end
 
@@ -38,7 +41,17 @@ class InvoicesController < ApplicationController
       @invoice.save!
     end
 
-    render :json => @invoice
+    respond_to do |format|
+      format.pdf {
+        @client = Client.find(@invoice.client_id)
+        if @invoice.status == 'Proposal'
+          @expires = @invoice.open_date + 30.days
+        end
+        render :pdf => "invoice"
+      }
+      format.all { render :json => @invoice }
+    end
+
   end
 
   def create

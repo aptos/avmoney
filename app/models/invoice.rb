@@ -27,6 +27,17 @@ class Invoice < CouchRest::Model::Base
   end
 
   design do
+    view :by_client,
+    :map =>
+    "function(doc) {
+      if (doc['type'] == 'Invoice') {
+        var paid = (!!doc.paid) ? doc.paid : 0.0;
+        emit(doc.client_id, { created_at: doc.created_at, name: doc.name, client_id: doc.client_id, project: doc.project, invoice_number: doc.invoice_number, invoice_total: doc.invoice_total, paid: paid,  status: doc.status});
+      }
+    }"
+  end
+
+  design do
     view :by_name,
     :map =>
     "function(doc) {

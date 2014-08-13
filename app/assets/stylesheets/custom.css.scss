@@ -122,6 +122,8 @@ iframe {
   font-size: 1.2em;
 }
 
+.ngdialog-content .hidden-overlay { display: none;}
+
 input.ng-invalid.ng-dirty {
   border: 1px solid #fa787e;
   border-radius: 5px;

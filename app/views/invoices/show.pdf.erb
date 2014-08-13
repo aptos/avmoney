@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<%= wisepdf_stylesheet_tag "pdf" -%>
+	<%= wisepdf_stylesheet_tag "application.css" -%>
+	<%= wisepdf_stylesheet_tag "custom.css" -%>
+
+	<%= wisepdf_javascript_tag "number_pages" %>
+</head>
+<body onload='number_pages'>
+	<div class="container background-white invoice-container">
+		<div class="row margin-top-30">
+			<div class="col-xs-7">
+				<div class="col-xs-4">
+					<%= wisepdf_image_tag 'avdesigns-logo.jpg', :style=> "height: 140px;" %>
+				</div>
+				<div class="col-xs-8">
+					<h3 class="sans">Andrea Vollersen Designs</h3>
+					<div class="pre">520 Nisene Meadows Ct.
+						Aptos, CA &nbsp;&nbsp; 95003
+						831.684.1680
+						andreavollersen@gmail.com
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-5 text-right">
+				<h1>Invoice</h1>
+				<div class="pull-right">
+					<table>
+						<tbody><tr>
+							<td class="text-left ">Invoice #</td>
+							<td class="col-sm-6 "><%= @invoice.invoice_number %></td>
+						</tr>
+						<tr>
+							<td class="text-left ">Invoice Date</td>
+							<td class="col-sm-6">
+								<span ng-hide="edit_date"><%= @invoice.open_date.strftime("%b %d, %Y") %></span>
+							</td>
+						</tr>
+						<% if @invoice.po_number %>
+						<tr>
+							<td class="text-left">Client PO #</td>
+							<td class="col-sm-6">
+								<span><%= @invoice.po_number %></span>
+							</td>
+						</tr>
+						<% end %>
+						<tr>
+							<td class="text-left"><strong>Amount Due</strong></td>
+							<td class="col-sm-6"><strong><%= number_to_currency @invoice.invoice_total %></strong></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="row margin-top-60">
+		<div class="col-xs-5">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4><%= @client.name %></h4>
+				</div>
+				<div class="panel-body">
+					<span class="pre"><%= @client.address %></span>
+					<p></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<% if @invoice.project %>
+	<div class="alert alert-info"><b>Project:</b> <%= @invoice.project %> </div>
+	<% end %>
+
+	<% if @invoice.hours_sum %>
+	<div>
+		<h4>Hours</h4>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th><h4>Date</h4></th>
+					<th><h4>Description</h4></th>
+					<th><h4>Hours</h4></th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @invoice.activities.each do |activity| %>
+				<% if activity.hours %>
+				<tr>
+					<td><%= activity.date.strftime('%D') %></td>
+					<td><%= activity.notes %></td>
+					<td><%= activity.hours %></td>
+				</tr>
+				<% end %>
+				<% end %>            
+			</tbody>
+		</table>
+		<div class="row text-right">
+			<div class="col-sm-4 col-xs-offset-8">
+				<table>
+					<tbody>
+						<tr>
+							<td>Total Hours:</td>
+							<td class="col-sm-6 "><%= @invoice.hours_sum %></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<% end %>
+
+	<% if @invoice.expenses %>
+	<div>
+		<h4>Expenses</h4>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th><h4>Date</h4></th>
+					<th><h4>Description</h4></th>
+					<th><h4>Amount</h4></th>
+					<th><h4>Tax</h4></th>
+					<th><h4>Total</h4></th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @invoice.activities.each do |activity| %>
+				<% if activity.expense %>
+					<tr>
+						<td><%= activity.date.strftime('%D') %></td>
+						<td><%= activity.notes %></td>
+						<td><%= number_to_currency activity.expense %></td>
+						<% if activity.tax_paid && (activity.tax_paid > 0) %>
+							<td><%= number_to_currency activity.tax_paid %></td>
+							<td><%= number_to_currency(activity.expense + activity.tax_paid) %></td>
+						<% else %>
+							<td><%= number_to_currency(activity.expense * activity.tax_rate * 0.01) %></td>
+							<td><%= number_to_currency(activity.expense * (1 + activity.tax_rate * 0.01)) %></td>
+						<% end %>
+					</tr>
+				<% end %>
+				<% end %> 
+			</tbody>
+		</table>
+	</div>
+	<% end %>
+
+	<div class="row text-right" ng-show="invoice.invoice_total">
+		<div class="col-sm-4 col-xs-offset-8">
+			<table>
+				<tbody>
+					<tr ng-show="invoice.expenses">
+						<td>Total Expenses:</td>
+						<td class="col-sm-6 ">
+							<%= number_to_currency @invoice.expenses %>
+						</td>
+					</tr>
+					<tr>
+						<td>SubTotal:</td>
+						<td class="col-sm-6 ">
+							<%= number_to_currency (@invoice.hours_amount + @invoice.expenses) %>
+						</td>
+					</tr>
+					<tr>
+						<td>Tax:</td>
+						<td class="col-sm-6 ">
+							<%= number_to_currency @invoice.tax %>
+						</td>
+					</tr>
+					<tr class="invoice-total">
+						<td><strong>Total Due:</strong></td>
+						<td class="col-sm-6">
+							<strong><%= number_to_currency @invoice.invoice_total %></strong>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<% if @invoice.status == 'Paid' %>
+	<div class="alert alert-success margin-top-60 text-center">
+		Invoice Paid in Full on <%= @invoice.paid_date %>. Thank you!
+	</div>
+	<% elsif @invoice.status == 'Proposal' %>
+	<div class="alert alert-info margin-top-60 text-center">
+		This proposal is valid for 30 days - Please respond by <%= @expires %>
+	</div>
+	<% else %>
+	<div class="alert alert-info margin-top-60 text-center">
+    Invoice is payable upon receipt. Thank You
+	</div>
+	<% end %>
+</body>
+</html>

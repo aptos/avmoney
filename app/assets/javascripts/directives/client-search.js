@@ -32,7 +32,7 @@ avmoneyDirectives.directive('clientSearch', ['Restangular', 'Storage', function(
       scope.search_client = function (id) {
         Storage.set('client', id);
         Storage.erase('search_project');
-        scope.filterItems();
+        scope.refresh();
 
         if (!id) {
           scope.projects_select = [];

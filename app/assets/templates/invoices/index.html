@@ -87,13 +87,13 @@
     </div>
     <div class="scrolling-list row scrolling-list-clickable" ng-repeat="invoice in filtered_items">
       <div class="row">
-        <div class="col-xs-2 col-md-2 col-lg-2 data-cell" ng-click="open(invoice._id)">{{invoice.created_at | moment:dateformat}}</div>
-        <div class="col-xs-3 data-cell text-left" ng-click="open(invoice._id)">{{invoice.name}} <span ng-show="!!invoice.project">:<br/> {{invoice.project}}</span></div>
-        <div class="col-xs-1 data-cell" ng-click="open(invoice._id)">{{invoice.invoice_number}}</div>
-        <div class="col-xs-2 data-cell" ng-click="open(invoice._id)">{{invoice.invoice_total | currency}}</div>
+        <div class="col-xs-2 col-md-2 col-lg-2 data-cell" ng-click="open(invoice.id)">{{invoice.created_at | moment:dateformat}}</div>
+        <div class="col-xs-3 data-cell text-left" ng-click="open(invoice.id)">{{invoice.name}} <span ng-show="!!invoice.project">:<br/> {{invoice.project}}</span></div>
+        <div class="col-xs-1 data-cell" ng-click="open(invoice.id)">{{invoice.invoice_number}}</div>
+        <div class="col-xs-2 data-cell" ng-click="open(invoice.id)">{{invoice.invoice_total | currency}}</div>
         <div class="col-xs-2 data-cell">
           <span ng-show="invoice.status=='Open'">
-            <a ng-click="pay(invoice._id)" title="Enter Payment...">open</a>
+            <a ng-click="pay(invoice.id)" title="Enter Payment...">open</a>
           </span>
           <span ng-hide="invoice.status=='Open'" class="text-success">Paid</a>
           </div>
