@@ -59,18 +59,19 @@
                   <span class="input-group-addon">$</span>
                   <input name="activityPrice" type="tel" min="1" class="form-control" ng-model="activity.expense" placeholder="100.00" ng-required="subtype=='Expense'" ng-pattern="/^\d{0,5}(\.\d{1,2})?$/">
                 </div>
-                <input type="checkbox" ng-model="tax_paid" ng-change="change_tax()"> Includes Tax
               </div>
+              <input type="checkbox" ng-model="tax_paid" ng-change="change_tax()"> Tax Paid?
             </td>
           </tr>
-          <tr ng-show="subtype=='Expense' && !tax_paid"><td class="muted input-label" >Tax</td>
+          <tr ng-show="subtype=='Expense'"><td class="muted input-label" >Tax</td>
             <td class="input">
-              <div class="col-sm-5">
+              <div class="col-sm-5" ng-hide="tax_paid">
                 <div class="input-group">
                   <span class="input-group-addon">%</span>
                   <input name="activityTaxRate" type="tel" class="form-control" ng-model="activity.tax_rate" placeholder="8.5" ng-pattern="/^\d{0,2}(\.\d{1,2})?$/">
                 </div>
               </div>
+              <span class="text-muted" ng-hide="tax_paid">Included in reseller tax report</span>
               <div class="col-sm-5" ng-show="tax_paid">
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
@@ -100,7 +101,7 @@
           <button class="btn btn-danger pull-right" ng-click="remove()" ng-show="activity.status == 'Active'">
             <i class="fa fa-trash-o"></i>
           </button>
-          <a ng-click="close()" class="text-muted pull-right">close</a>
+          <a ng-click="close()" class="text-muted pull-right" ng-hide="!!activity.status">close</a>
         </div>
       </form>
     </div>

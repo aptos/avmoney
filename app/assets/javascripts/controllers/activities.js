@@ -126,6 +126,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
       client_name: '',
       tax_rate: 0.0
     };
+    $scope.taxable = true;
     if (!!default_date) $scope.activity.date = default_date;
     if ($scope.client) {
       $scope.activity.client_id = $scope.client;
