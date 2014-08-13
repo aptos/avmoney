@@ -1,10 +1,12 @@
 class ActivitiesController < ApplicationController
 
   def index
-    if params[:status] && params[:client_id]
+    if params[:client]
+      @activities = Activity.by_client_id.key(params[:client]).all
+    elsif params[:status] && params[:client_id]
       @activities = Activity.by_client_id_and_status.key([params[:client_id],params[:status]]).all
     else
-      @activities = Activity.by_date.all
+      @activities = Activity.by_date.rows
     end
 
     if params[:project]

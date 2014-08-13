@@ -5,6 +5,10 @@ class InvoicesController < ApplicationController
       @invoices = Invoice.by_client.key(params[:client]).rows
       @invoices.map! {|i| i.merge(i['value'])}
       @invoices.each {|i| i.delete('value')}
+    elsif params[:status]
+      @invoices = Invoice.by_status.key(params[:status]).rows
+      @invoices.map! {|i| i.merge(i['value'])}
+      @invoices.each {|i| i.delete('value')}
     else
       @invoices = Invoice.by_name.rows
     end

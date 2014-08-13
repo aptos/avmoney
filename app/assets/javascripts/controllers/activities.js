@@ -18,7 +18,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.filterItems = function() {
     Storage.set('search_project', $scope.search_project);
     var q_activities = filterFilter($scope.activities, $scope.query);
-    if (!!$scope.client) q_activities = filterFilter(q_activities, $scope.client);
     if (!!$scope.search_project) {
       q_activities = _.filter(q_activities, { 'project': $scope.search_project});
     }
@@ -81,12 +80,15 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   };
 
   // Fetch activities
-  var refresh = function () {
-    Restangular.all('activities').getList().then( function (list) {
+  $scope.refresh = function () {
+    if (!$scope.client) return;
+    Restangular.all('activities').getList({client: $scope.client}).then( function (list) {
       $scope.activities = list;
     });
   };
-  refresh();
+  $scope.client = Storage.get('client');
+  if (!!$scope.client) $scope.refresh();
+
 
   // Date Format
   $scope.dateformat = 'M/D/YY';

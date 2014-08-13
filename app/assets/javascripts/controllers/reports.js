@@ -40,6 +40,13 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
 
   $scope.$watch('query', $scope.filterItems);
 
+  $scope.refresh = function () {
+    if (!$scope.type) return;
+    switch ($scope.type) {
+      case "AccountsReceivable": $scope.report.accountsReceivable(); break;
+      case "Payments": $scope.report.payments(); break;
+    }
+  };
 
   // Fetch invoices
   var fetch_invoices = function () {

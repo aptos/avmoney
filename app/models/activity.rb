@@ -21,4 +21,8 @@ class Activity < CouchRest::Model::Base
     view :by_invoice_id
   end
 
+  design do
+    view :by_client_id
+  end
+
 end

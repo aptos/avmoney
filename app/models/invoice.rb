@@ -22,7 +22,6 @@ class Invoice < CouchRest::Model::Base
   timestamps!
 
   design do
-    view :by_status
     view :by_client_id_and_status
   end
 
@@ -33,6 +32,17 @@ class Invoice < CouchRest::Model::Base
       if (doc['type'] == 'Invoice') {
         var paid = (!!doc.paid) ? doc.paid : 0.0;
         emit(doc.client_id, { created_at: doc.created_at, name: doc.name, client_id: doc.client_id, project: doc.project, invoice_number: doc.invoice_number, invoice_total: doc.invoice_total, paid: paid,  status: doc.status});
+      }
+    }"
+  end
+
+  design do
+    view :by_status,
+    :map =>
+    "function(doc) {
+      if (doc['type'] == 'Invoice') {
+        var paid = (!!doc.paid) ? doc.paid : 0.0;
+        emit(doc.status, { open_date: doc.open_date, name: doc.name, client_id: doc.client_id, project: doc.project, invoice_number: doc.invoice_number, invoice_total: doc.invoice_total, paid: paid,  status: doc.status});
       }
     }"
   end
