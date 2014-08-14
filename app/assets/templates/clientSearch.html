@@ -1,13 +1,13 @@
 <div class="layout-single-column hidden-print">
   <div class="row col-xs-offset-1 cols-md-6">
     <div class="form-group col-xs-10 col-md-5">
-      <select class="form-control" name="Client" ui-select2="{allowClear: true}" ng-model="client" ng-change="search_client(client)" data-placeholder="Clients...">
+      <select class="form-control" name="Client" ui-select2="{allowClear: true, dropdownAutoWidth: true}" ng-model="client" ng-change="search_client(client)" data-placeholder="Clients...">
         <option value=""></option>
         <option ng-repeat="c in clients | orderBy:'text'" value="{{c.value}}">{{c.text}}</option>
       </select>
     </div>
     <div class="form-group col-xs-10 col-md-5">
-      <select class="form-control" name="Project" ui-select2="{allowClear: true}" ng-model="search_project" ng-change="filterItems()" data-placeholder="Projects...">
+      <select class="form-control" name="Project" ui-select2="{allowClear: true, dropdownAutoWidth: true}" ng-model="search_project" ng-change="filterItems()" data-placeholder="Projects...">
         <option value=""></option>
         <option ng-repeat="p in projects_select | orderBy:'text'" value="{{p.value}}">{{p.text}}</option>
       </select>

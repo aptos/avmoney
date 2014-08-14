@@ -5,7 +5,7 @@ development: &development
   prefix: avmoney
   suffix: development
   username: admin
-  password: <%= ENV['COUCH_PASSWORD'] %>
+  password: admin
 
 test:
   <<: *development
