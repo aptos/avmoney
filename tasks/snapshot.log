@@ -1,0 +1,5 @@
+20140815
+avmoney_production
+{"ok":true,"session_id":"980be711d0f4add4b56ad67ac2eaee46","source_last_seq":"543-g1AAAAFFeJzLYWBgYMlgTmFQSElKzi9KdUhJstDLTS3KLElMT9VLzskvTUnMK9HLSy3JAapkSmRIsv___39WBlNiXS5QgN3YMNkyOc0YZIIi3ARDIzxGJDkAyaR6FFPSUszNTM2T0UwxwGNKHguQZGgAUkCD9mdlMCfOAZuUmmSebGSaTIw5xPsaYtkBiGVgZ7eDLTNPTLVMTTPOAgC422h1","replication_id_version":3,"history":[{"session_id":"980be711d0f4add4b56ad67ac2eaee46","start_time":"Fri, 15 Aug 2014 14:54:31 GMT","end_time":"Fri, 15 Aug 2014 14:54:42 GMT","start_last_seq":0,"end_last_seq":"543-g1AAAAFFeJzLYWBgYMlgTmFQSElKzi9KdUhJstDLTS3KLElMT9VLzskvTUnMK9HLSy3JAapkSmRIsv___39WBlNiXS5QgN3YMNkyOc0YZIIi3ARDIzxGJDkAyaR6FFPSUszNTM2T0UwxwGNKHguQZGgAUkCD9mdlMCfOAZuUmmSebGSaTIw5xPsaYtkBiGVgZ7eDLTNPTLVMTTPOAgC422h1","recorded_seq":"543-g1AAAAFFeJzLYWBgYMlgTmFQSElKzi9KdUhJstDLTS3KLElMT9VLzskvTUnMK9HLSy3JAapkSmRIsv___39WBlNiXS5QgN3YMNkyOc0YZIIi3ARDIzxGJDkAyaR6FFPSUszNTM2T0UwxwGNKHguQZGgAUkCD9mdlMCfOAZuUmmSebGSaTIw5xPsaYtkBiGVgZ7eDLTNPTLVMTTPOAgC422h1","missing_checked":540,"missing_found":540,"docs_read":540,"docs_written":540,"doc_write_failures":0}]}
+
+

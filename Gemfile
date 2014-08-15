@@ -63,4 +63,6 @@ group :test, :development do
 	gem 'poltergeist'
 	gem 'simplecov', :require => false
 	gem 'dotenv-rails'
+  gem 'pry'
+  gem 'pry-debugger'
 end
