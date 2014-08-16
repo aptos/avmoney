@@ -29,10 +29,10 @@ class Invoice < CouchRest::Model::Base
     view :by_client,
     :map =>
     "function(doc) {
-      if (doc['type'] == 'Invoice') {
-        var paid = (!!doc.paid) ? doc.paid : 0.0;
-        emit(doc.client_id, { created_at: doc.created_at, name: doc.name, client_id: doc.client_id, project: doc.project, invoice_number: doc.invoice_number, invoice_total: doc.invoice_total, paid: paid,  status: doc.status});
-      }
+    if (doc['type'] == 'Invoice') {
+      var paid = (!!doc.paid) ? doc.paid : 0.0;
+      emit(doc.client_id, { created_at: doc.created_at, name: doc.name, client_id: doc.client_id, project: doc.project, invoice_number: doc.invoice_number, invoice_total: doc.invoice_total, paid: paid,  status: doc.status});
+    }
     }"
   end
 
@@ -40,10 +40,10 @@ class Invoice < CouchRest::Model::Base
     view :by_status,
     :map =>
     "function(doc) {
-      if (doc['type'] == 'Invoice') {
-        var paid = (!!doc.paid) ? doc.paid : 0.0;
-        emit(doc.status, { open_date: doc.open_date, name: doc.name, client_id: doc.client_id, project: doc.project, invoice_number: doc.invoice_number, invoice_total: doc.invoice_total, paid: paid,  status: doc.status});
-      }
+    if (doc['type'] == 'Invoice') {
+      var paid = (!!doc.paid) ? doc.paid : 0.0;
+      emit(doc.status, { open_date: doc.open_date, name: doc.name, client_id: doc.client_id, project: doc.project, invoice_number: doc.invoice_number, invoice_total: doc.invoice_total, paid: paid,  status: doc.status});
+    }
     }"
   end
 
@@ -67,6 +67,15 @@ class Invoice < CouchRest::Model::Base
     rows.each {|r| @stats[r["key"][0]] = {}}
     rows.each {|r| @stats[r["key"][0]][r["key"][1]] = r["value"]}
     return @stats
+  end
+
+  # return map of invoice id to invoice_number
+  def self.map
+    invoices_map = {}
+    self.by_client['rows'].each do |r|
+      invoices_map[r['id']] = r['value']['invoice_number']
+    end
+    invoices_map
   end
 
 end

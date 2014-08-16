@@ -53,3 +53,24 @@ module ApplicationHelper
   end
 
 end
+
+class Array
+  def simple_csv
+    csv = String.new
+    if self[0].is_a?(Array)
+      self.each do |r|
+        str = r.inspect
+        str[0] = ''
+        str.chop!
+        str.gsub!(/\"|nil/, "")
+        csv += str + "\n"
+      end
+    else
+      csv = self.inspect
+      csv[0] = ''
+      csv.chop!
+      csv.gsub!(/\"|nil/, "")
+    end
+    return csv
+  end
+end

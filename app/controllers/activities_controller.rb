@@ -13,7 +13,23 @@ class ActivitiesController < ApplicationController
       @activities = @activities.select {|activity| activity["project"] == params[:project]}
     end
 
-    render :json => @activities
+    if params[:format] == "csv"
+      invoices_map = Invoice.map
+
+      rows = Activity.summary['rows']
+      rows.each do |activity|
+        if activity['value'][5] != 'Active'
+          invoice_number = invoices_map[activity['value'].last]
+          activity['value'].pop
+          activity['value'].push invoice_number
+        end
+      end
+      @activities = rows.map{|a| a['value']}
+      @activities.unshift ['date', 'client name', 'project', 'hours', 'expense', 'status', 'invoice number']
+      render text: @activities.simple_csv
+    else
+      render :json => @activities
+    end
   end
 
   def show
