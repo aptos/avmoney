@@ -61,7 +61,7 @@ task :snapshot do
 
   @remotes.each do |db|
     config = {
-      source: "https://#{ENV['DBCREDENTIALS']}@aptos.cloudant.com/#{db}",
+      source: "https://#{ENV['DBCREDENTIALS']}@taskit.cloudant.com/#{db}",
       target: "#{db}-#{@timestamp}",
       create_target: true,
       continuous: false
@@ -72,29 +72,6 @@ task :snapshot do
     status = JSON resp
     raise "FAIL!" unless status['ok']
     puts "OK: #{status['ok']}"
-  end
-end
-
-desc "activity dump"
-task :dump do
-  save_designs
-  dump = File.open("activity_dump.#{@timestamp}.csv", 'w+')
-  invoices_map = {}
-  invoices = []
-  @db.view('Invoice/by_client', include_docs: false){ |r|
-    invoices.push r['value'].values
-    invoices_map[r['id']] = r['value']['invoice_number']
-  }
-
-  dump.puts invoices.to_csv
-  dump.puts "*" * 64
-
-  @db.view('Activities/dump', include_docs: false)['rows'].each do |activity|
-    if activity['value'][4] != 'Active'
-      invoice_number = invoices_map[activity['value'].last]
-      activity['value'].push invoice_number
-    end
-    dump.puts activity['value'].to_csv
   end
 end
 

@@ -27,7 +27,7 @@ class Client < CouchRest::Model::Base
 
   def next_invoice
     invoice_ids = Invoice.by_name.key(self.name).rows.map{|r| r["value"]}.sort
-    return 1 if invoice_ids.empty?
+    return base_invoice_id if invoice_ids.empty?
 
     missing = (base_invoice_id..invoice_ids.last).to_a - invoice_ids
     if missing.empty?

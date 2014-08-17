@@ -59,18 +59,15 @@ class Array
     csv = String.new
     if self[0].is_a?(Array)
       self.each do |r|
-        str = r.inspect
-        str[0] = ''
-        str.chop!
-        str.gsub!(/\"|nil/, "")
-        csv += str + "\n"
+        csv += r.simple_csv + "\n"
       end
+      return csv
     else
-      csv = self.inspect
-      csv[0] = ''
-      csv.chop!
-      csv.gsub!(/\"|nil/, "")
+      ary = self.clone
+      ary.each_with_index {|c,i| ary[i] = ary[i].gsub("'","^") if c.is_a?(String)}
+      ary.each_with_index {|c,i| ary[i] = "'#{c}'" if c.is_a?(String) && c.include?(",") }
+      csv = ary.join(",")
+      return csv.gsub(/\"|nil/, "").gsub("'","\"").gsub("^","'")
     end
-    return csv
   end
 end

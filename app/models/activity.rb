@@ -29,7 +29,7 @@ class Activity < CouchRest::Model::Base
     view :summary,
     :map =>
     "function(doc) { if (doc.type == 'Activity') {
-      emit([doc.client_name, doc.date], [doc.date, doc.client_name, doc.project, doc.hours, doc.expense, doc.status, doc.invoice_id]);
+      emit([doc.client_name, doc.date], [doc.date, doc.client_name, doc.project, doc.notes, doc.hours, doc.expense, doc.status, doc.invoice_id]);
     }
     };"
   end

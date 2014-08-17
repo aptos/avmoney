@@ -1,12 +1,12 @@
 class ActivitiesController < ApplicationController
 
   def index
-    if params[:client]
-      @activities = Activity.by_client_id.key(params[:client]).all
-    elsif params[:status] && params[:client_id]
+    if params[:status] && params[:client_id]
       @activities = Activity.by_client_id_and_status.key([params[:client_id],params[:status]]).all
+    elsif params[:client]
+      @activities = Activity.by_client_id.key(params[:client]).all
     else
-      @activities = Activity.by_date.rows
+      @activities = Activity.summary
     end
 
     if params[:project]
@@ -18,14 +18,14 @@ class ActivitiesController < ApplicationController
 
       rows = Activity.summary['rows']
       rows.each do |activity|
-        if activity['value'][5] != 'Active'
+        if activity['value'][6] != 'Active'
           invoice_number = invoices_map[activity['value'].last]
           activity['value'].pop
           activity['value'].push invoice_number
         end
       end
       @activities = rows.map{|a| a['value']}
-      @activities.unshift ['date', 'client name', 'project', 'hours', 'expense', 'status', 'invoice number']
+      @activities.unshift ['date', 'client name', 'project', 'notes', 'hours', 'expense', 'status', 'invoice number']
       render text: @activities.simple_csv
     else
       render :json => @activities

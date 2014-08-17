@@ -220,7 +220,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
           } else {
             $scope.close();
           }
-          refresh();
+          $scope.refresh();
         }, function (response) {
           console.error("Eek!", response.data.error);
           $scope.close;
@@ -233,7 +233,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
           } else {
             $scope.close();
           }
-          refresh();
+          $scope.refresh();
         }, function (response) {
           console.error("Eek!", response);
           $scope.close;
