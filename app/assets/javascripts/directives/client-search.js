@@ -10,23 +10,31 @@ avmoneyDirectives.directive('clientSearch', ['Restangular', 'Storage', function(
       scope.search_project = Storage.get('search_project');
 
       // Fetch Clients
-      scope.projectlist = {};
-      scope.clients = [];
-      Restangular.all('clients').getList({active: true}).then( function (list) {
-        scope.clients = list.map( function (client) {
-          return {
-            value: client._id,
-            text: client.name,
-            rate: client.rate,
-            tax_rate: client.tax_rate,
-            address: client.address,
-            invoice_count: client.invoice_count
-          };
+      var fetchClients = function () {
+        Restangular.all('clients').getList({active: true}).then( function (list) {
+          console.info("Clients:", list.length)
+          scope.clients = list.map( function (client) {
+            return {
+              value: client._id,
+              text: client.name,
+              rate: client.rate,
+              tax_rate: client.tax_rate,
+              address: client.address,
+              invoice_count: client.invoice_count
+            };
+          });
+          Storage.set('clients', scope.clients);
+          scope.projectlist = {};
+          angular.forEach(list, function (client) {
+            scope.projectlist[client._id] = client.projects;
+          });
+          Storage.set('projectlist', scope.projectlist);
         });
-        angular.forEach(list, function (client) {
-          scope.projectlist[client._id] = client.projects;
-        });
-      });
+      };
+
+      scope.clients = Storage.get('clients');
+      !!scope.clients || fetchClients();
+      scope.projectlist = Storage.get('projectlist');
 
       // Client Select triggers update of projects
       scope.search_client = function (id) {

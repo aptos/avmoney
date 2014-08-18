@@ -4,6 +4,24 @@ function ClientsCtrl($scope, Restangular, Storage, $location) {
   var refresh = function () {
     Restangular.one('clients').getList().then( function (list) {
       $scope.clients = list;
+      var active_clients = _.filter(list, function (client) { return !client.archived; });
+      var client_summary = active_clients.map( function (client) {
+        return {
+          value: client._id,
+          text: client.name,
+          rate: client.rate,
+          tax_rate: client.tax_rate,
+          address: client.address,
+          invoice_count: client.invoice_count
+        };
+      });
+      Storage.set('clients',client_summary);
+      var projectlist = {};
+      angular.forEach(list, function (client) {
+        projectlist[client._id] = client.projects;
+      });
+      Storage.set('projectlist', projectlist);
+
     });
     $scope.stats = Restangular.one('invoices/stats').getList().$object;
   };
@@ -81,18 +99,10 @@ function ClientsCtrl($scope, Restangular, Storage, $location) {
     });
   };
 
-  $scope.remove = function () {
-    console.info("delete requested!", $scope.client);
-    $scope.saveInProgress = true;
-    if ($scope.client._id) {
-      $scope.client.remove();
-    }
-  };
-
   $scope.show_invoices = function (id) {
     Storage.set('client', id);
     $location.path('/Invoices').search({status: 'Open'});
-  }
+  };
 
 }
 ClientsCtrl.$inject = ['$scope','Restangular','Storage','$location'];
