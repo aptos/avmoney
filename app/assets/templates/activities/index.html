@@ -115,7 +115,7 @@
           <span ng-click="show_totals=!show_totals" ><i class="fa fa-times-circle close pull-right"></i></span>
           <h3>Totals</h3>
           <table class="table table-striped">
-            <tr><td>Hours: </td><td>{{hours_sum}}</td></tr>
+            <tr><td>Hours: </td><td>{{hours_sum | number: 2}}</td></tr>
             <tr><td>Charge: </td><td>{{hours_amount | currency}}</td></tr>
             <tr><td>Expenses: </td><td>{{expenses | currency}}</td></tr>
             <tr><td>Taxes: </td><td>{{tax | currency}}</td></tr>
