@@ -80,7 +80,7 @@
             <tr ng-repeat="activity in invoice.activities | orderBy:'date'" ng-show="activity.hours">
               <td>{{activity.date | moment:'M/D/YY'}}</td>
               <td><span contenteditable ng-model="activity.notes"></span></td>
-              <td>{{activity.hours}}</td>
+              <td>{{activity.hours }}</td>
             </tr>
           </tbody>
         </table>
@@ -89,7 +89,7 @@
             <table>
               <tr ng-show="invoice.hours_sum">
                 <td>Total Hours:</td>
-                <td class="col-sm-6">{{invoice.hours_sum}}</td>
+                <td class="col-sm-6">{{invoice.hours_sum | number:2 }}</td>
               </tr>
             </table>
           </div>

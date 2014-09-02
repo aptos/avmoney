@@ -19,7 +19,9 @@
 <div class="container white-rounded">
 	<ul class="scrolling-list" style="max-width: 640px;" >
 		<li ng-repeat="client in clients | filter:query">
-      <span class="pointer" ng-click="show_client=!show_client" ><h4>{{client.name}}</h4></span>
+      <span class="pointer" ng-click="show_client=!show_client">
+        <h4 ng-class="{'text-muted': client.archived}">{{client.name}}</h4>
+      </span>
       <div class="panel panel-default" ng-show="!!show_client">
         <div class="panel-heading">
           <h3 class="panel-title">
