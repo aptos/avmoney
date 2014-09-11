@@ -5,6 +5,13 @@ class PaymentsController < ApplicationController
     render :json => @payments
   end
 
+  def cashflow
+    @payments = Payment.summary.rows.map{|a| a['value']}
+    @expenses = Activity.expenses.rows.map{|a| a['value']}
+    @cashflow = @payments + @expenses
+    render :json => @cashflow
+  end
+
   def show
     @payment = Payment.find(params[:id])
     unless @payment

@@ -13,6 +13,12 @@ class Payment < CouchRest::Model::Base
 
   design do
     view :by_client_name
+    view :summary,
+    :map =>
+    "function(doc) { if (doc.type == 'Payment') {
+      emit([doc.date, doc.client_name], {date: doc.date, client_id: doc.client_id, client_name: doc.client_name, project: doc.project, type: 'payment', notes: doc.notes, amount: doc.amount});
+    }
+    };"
   end
 
   design do

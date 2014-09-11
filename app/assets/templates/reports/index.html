@@ -12,9 +12,15 @@
           <span>Payments</span>
         </a>
       </li>
+      <li ng-class="{'active': type=='CashFlow'}">
+        <a ng-click="report.cashflow()">
+          <span>Cash Flow</span>
+        </a>
+      </li>
     </ul>
   </div>
 </div>
 <hr class="gradient">
 <div accounts-receivable ng-show="type=='AccountsReceivable'" />
 <div payments ng-show="type=='Payments'" />
+<div cashflow ng-show="type=='CashFlow'" />

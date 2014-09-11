@@ -13,7 +13,7 @@
     </div>
   </div>
   <div class="col-xs-5 text-right">
-    <h2>Payments Received</h2>
+    <h2>Cash Flow</h2>
     <div class="pull-right">
       <table>
         <tr>
@@ -23,8 +23,16 @@
           </td>
         </tr>
         <tr>
-          <td class="text-left"><strong>Total Payments</strong></td>
-          <td class="col-sm-6"><strong>{{report.paidAmount() | currency}}</strong></td>
+          <td class="text-left">Total Expenses</td>
+          <td class="col-sm-6">{{report.cashflowExpenses() | currency}}</td>
+        </tr>
+        <tr>
+          <td class="text-left">Total Payments</td>
+          <td class="col-sm-6">{{report.cashflowPayments() | currency}}</td>
+        </tr>
+        <tr>
+          <td class="text-left"><strong>Total CashFlow</strong></td>
+          <td class="col-sm-6"><strong>{{report.cashflowPayments() - report.cashflowExpenses() | currency}}</strong></td>
         </tr>
       </table>
     </div>
@@ -40,19 +48,21 @@
         Date <i class="fa fa-caret-down" ng-class="{'fa-rotate-180': !!reverse}" ></i>
       </div>
       <div class="col-xs-3" ng-show="!search_project">Project</div>
-      <div class="col-xs-2">Invoice</div>
+      <div class="col-xs-2">Expense/Payment</div>
       <div class="col-xs-2">Amount</div>
+      <div class="col-xs-2">Description</div>
     </div>
-    <div class="scrolling-list row scrolling-list-clickable" ng-repeat="payment in filtered_items | orderBy:order:reverse">
-      <div class="row" ng-click="open(payment.invoice_id)">
-        <div class="col-xs-2 data-cell">{{payment.date | moment:'MM/DD/YYYY'}}</div>
+    <div class="scrolling-list row" ng-repeat="item in filtered_items | orderBy:order:reverse">
+      <div class="row">
+        <div class="col-xs-2 data-cell">{{item.date | moment:'MM/DD/YYYY'}}</div>
         <div class="col-xs-3 data-cell text-left" ng-show="!search_project">
-          <span ng-show="!client">{{payment.client_name}}</span>
-          <span ng-show="!client && !!payment.project">:<br/></span>
-          <span ng-show="!!payment.project">{{payment.project}}</span>
+          <span ng-show="!client">{{item.client_name}}</span>
+          <span ng-show="!client && !!item.project">:<br/></span>
+          <span ng-show="!!item.project">{{item.project}}</span>
         </div>
-        <div class="col-xs-2 data-cell">{{payment.invoice_number}}</div>
-        <div class="col-xs-2 data-cell">{{payment.amount | currency}}</div>
+        <div class="col-xs-2 data-cell">{{item.type}}</div>
+        <div class="col-xs-2 data-cell">{{item.amount | currency}}</div>
+        <div class="col-xs-2 data-cell text-left">{{item.notes}}</div>
       </div>
     </div>
   </div>

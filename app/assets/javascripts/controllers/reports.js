@@ -19,6 +19,22 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
       if (!!$scope.filtered_items && $scope.filtered_items.length) {
         return $scope.filtered_items.reduce(function(m, payment) { return m + payment.amount; }, 0);
       }
+    },
+    cashflow: function () {
+      $scope.type = 'CashFlow';
+      fetch_cashflow();
+    },
+    cashflowPayments: function () {
+      if (!!$scope.filtered_items && $scope.filtered_items.length) {
+        var payments = _.filter($scope.filtered_items, {'type': 'payment'});
+        return payments.reduce(function(m, payment) { return m + payment.amount; }, 0);
+      }
+    },
+    cashflowExpenses: function () {
+      if (!!$scope.filtered_items && $scope.filtered_items.length) {
+        var expenses = _.filter($scope.filtered_items, {'type': 'expense'});
+        return expenses.reduce(function(m, expense) { return m + expense.amount; }, 0);
+      }
     }
   };
 
@@ -45,6 +61,7 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
     switch ($scope.type) {
       case "AccountsReceivable": $scope.report.accountsReceivable(); break;
       case "Payments": $scope.report.payments(); break;
+      case "CashFlow": $scope.report.cashflow(); break;
     }
   };
 
@@ -62,8 +79,22 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
     $scope.order = 'date';
     Restangular.all('payments').getList().then( function (list) {
       $scope.list = list;
-      $scope.filterItems(list);
+      $scope.filterItems();
     });
+  };
+
+  // Fetch cashflow
+  var fetch_cashflow = function () {
+    $scope.order = 'date';
+    Restangular.all('cashflow').getList().then( function (list) {
+      $scope.list = list;
+      $scope.filterItems();
+    });
+  };
+
+  // Open Invoice
+  $scope.open = function (id) {
+    $location.path("/Invoice/" + id);
   };
 
   $scope.age = function (date) {

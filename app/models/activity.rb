@@ -32,6 +32,12 @@ class Activity < CouchRest::Model::Base
       emit([doc.client_name, doc.date], [doc.date, doc.client_name, doc.project, doc.notes, doc.hours, doc.expense, doc.status, doc.invoice_id]);
     }
     };"
+    view :expenses,
+    :map =>
+    "function(doc) { if (doc.type == 'Activity' && !!doc.expense) {
+      emit([doc.date, doc.client_name], {date: doc.date, client_id: doc.client_id, client_name: doc.client_name, project: doc.project, type: 'expense', notes: doc.notes, amount: doc.expense});
+    }
+    };"
   end
 
 end

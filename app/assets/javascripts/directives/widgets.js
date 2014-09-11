@@ -14,6 +14,13 @@ avmoneyDirectives.directive('payments', function(){
   };
 });
 
+avmoneyDirectives.directive('cashflow', function(){
+  return {
+    restrict:'A',
+    templateUrl:'assets/reports/cashflow.html'
+  };
+});
+
 avmoneyDirectives.directive('clientEdit', function(){
   return {
     restrict:'A',

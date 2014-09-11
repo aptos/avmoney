@@ -32,6 +32,11 @@ class ActivitiesController < ApplicationController
     end
   end
 
+  def expenses
+    @expenses = Activity.expenses
+    render :json => @expenses
+  end
+
   def show
     @activity = Activity.find(params[:id])
     unless @activity

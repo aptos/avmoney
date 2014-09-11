@@ -27,7 +27,8 @@ AVMoney::Application.routes.draw do
   resources :clients
   get "/clients/:id/next_invoice" => 'clients#next_invoice'
 
-  get "/reports" => 'reports#index'
+  # Special cashflow report
+  get "cashflow" => 'payments#cashflow'
 
   # S3 upload signature server
   resources :signed_url, only: :index
