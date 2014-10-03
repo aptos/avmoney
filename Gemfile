@@ -48,8 +48,8 @@ gem 'uglifier', '>= 1.3.0'
 # Storage on S3
 gem 'aws-sdk', '~> 1.0'
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+# Application exception handler, works for both rails and javascript errors
+gem 'rollbar', '~> 0.12.17'
 
 # PDF print support
 gem 'wisepdf'

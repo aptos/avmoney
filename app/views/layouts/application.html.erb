@@ -14,6 +14,10 @@
   <%= javascript_include_tag("pace.min.js") %>
   <%= stylesheet_link_tag("pace-theme-minimal.css") %>
   <%= csrf_meta_tags %>
+  <%= yield(:head) %>
+  <% unless Rails.env.test? %>
+    <%= render 'layouts/rollbar' %>
+  <% end %>
 </head>
 <body>
 <%= yield %>
