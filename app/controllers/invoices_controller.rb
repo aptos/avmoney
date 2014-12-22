@@ -82,7 +82,9 @@ class InvoicesController < ApplicationController
     unless @invoice
       render :json => { error: "invoice not found: #{params[:id]}" }, :status => 404 and return
     end
-    @invoice.update_attributes(activities: params[:activities])
+    @invoice.activities = params[:activities]
+    params[:po_number] && @invoice.po_number = params[:po_number]
+    params[:work_order] && @invoice.work_order = params[:work_order]
 
     # calculate totals
     @invoice.update_totals

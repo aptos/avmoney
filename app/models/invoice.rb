@@ -4,6 +4,7 @@ class Invoice < CouchRest::Model::Base
   property :_id, String
   property :invoice_number, Integer
   property :po_number, String
+  property :work_order, String
   property :client_id, String
   property :name, String
   property :client_data, Hash

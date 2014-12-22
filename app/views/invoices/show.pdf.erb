@@ -48,6 +48,14 @@
 							</td>
 						</tr>
 						<% end %>
+            <% if @invoice.work_order %>
+            <tr>
+              <td class="text-left">Work Order #</td>
+              <td class="col-sm-6">
+                <span><%= @invoice.work_order %></span>
+              </td>
+            </tr>
+            <% end %>
 						<tr>
 							<td class="text-left"><strong>Amount Due</strong></td>
 							<td class="col-sm-6"><strong><%= number_to_currency @invoice.invoice_total %></strong></td>
@@ -188,15 +196,17 @@
 	</div>
 	<% if @invoice.status == 'Paid' %>
 	<div class="alert alert-success margin-top-60 text-center">
-		Invoice Paid in Full on <%= @invoice.paid_date %>. Thank you!
+    <% if @invoice.work_order %><p ng-show="invoice.work_order">Work Order# <%= @invoice.work_order %></p><% end %>
+		<p>Invoice Paid in Full on <%= @invoice.paid_date %>. Thank you!</p>
 	</div>
 	<% elsif @invoice.status == 'Proposal' %>
 	<div class="alert alert-info margin-top-60 text-center">
-		This proposal is valid for 30 days - Please respond by <%= @expires %>
+		<p>This proposal is valid for 30 days - Please respond by <%= @expires %></p>
 	</div>
 	<% else %>
 	<div class="alert alert-info margin-top-60 text-center">
-    Invoice is payable upon receipt. Thank You
+    <% if @invoice.work_order %><p ng-show="invoice.work_order">Work Order# <%= @invoice.work_order %></p><% end %>
+    <p>Invoice is payable upon receipt. Thank You</p>
 	</div>
 	<% end %>
 </body>
