@@ -92,11 +92,16 @@
 				<% if activity.hours %>
 				<tr>
 					<td><%= activity.date.strftime('%D') %></td>
-					<td><%= activity.notes %></td>
+					<td>
+            <%= activity.notes %>
+            <% if @display_rates %>
+              <span class="pull-right">@ <%= number_to_currency(activity.rate) %>/hr</span>
+            <% end %>
+          </td>
 					<td><%= activity.hours %></td>
 				</tr>
 				<% end %>
-				<% end %>            
+				<% end %>
 			</tbody>
 		</table>
 		<div class="row text-right">
@@ -143,7 +148,7 @@
 						<% end %>
 					</tr>
 				<% end %>
-				<% end %> 
+				<% end %>
 			</tbody>
 		</table>
 	</div>

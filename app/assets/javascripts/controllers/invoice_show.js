@@ -8,32 +8,34 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
     });
   };
 
-  var refresh = function (data) {
-    $scope.invoice = data;
-    if ($scope.invoice.status == 'Proposal') {
-      $scope.expires = moment($scope.invoice.open_date).add('d',30).format('MMM DD, YYYY');
-    }
-    $scope.type = ($scope.invoice.status == "Proposal") ? "Proposal" : "Invoice";
-    if ($scope.type == "Invoice") get_active_items();
-    $scope.invoiceForm.$setPristine();
+  var refresh = function () {
+    Restangular.one('invoices',$routeParams.id).get().then(function (data) {
+      $scope.invoice = data;
+      if ($scope.invoice.status == 'Proposal') {
+        $scope.expires = moment($scope.invoice.open_date).add('d',30).format('MMM DD, YYYY');
+      }
+      $scope.type = ($scope.invoice.status == "Proposal") ? "Proposal" : "Invoice";
+      if ($scope.type == "Invoice") get_active_items();
+      $scope.invoiceForm.$setPristine();
+    });
   };
+  refresh();
 
-  Restangular.one('invoices',$routeParams.id).get().then(function (data) {
-    refresh(data);
-  });
 
   $scope.add_more = function () {
     var list = _.map($scope.more_activities, function (activity) {
       return _.pick(activity, ['_id','_rev','client_id','client_name','created_at','date','expense','notes','hours','project','rate','status','tax_rate']);
     });
     $scope.invoice.activities = $scope.invoice.activities.concat(list);
+    $scope.more_activities = [];
     $scope.invoiceForm.$setDirty();
+    $scope.update();
   };
 
   $scope.update = function () {
     $scope.update_fail = false;
-    $scope.invoice.post().then( function (data) {
-      refresh(data);
+    $scope.invoice.post().then( function () {
+      refresh();
     }, function () {
       $scope.update_fail = true;
     });

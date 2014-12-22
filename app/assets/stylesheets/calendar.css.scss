@@ -218,7 +218,7 @@ $calendar-color: #648F86;
 	color: #b7bbc2;
 }
 
-.custom-header nav span {
+.custom-header nav span, , span.custom-prev-day, span.custom-next-day {
 	position: absolute;
 	top: 17px;
 	width: 30px;
@@ -240,11 +240,18 @@ $calendar-color: #648F86;
 	left: 5px;
 }
 
+span.custom-prev-day {
+  left: 40px;
+}
 .custom-header nav span:last-child {
 	right: 5px;
 }
 
-.custom-header nav span:before {
+span.custom-next-day {
+  right: 120px;
+}
+
+.custom-header nav span:before, span.custom-prev-day:before, span.custom-next-day:before {
 	font-family: 'FontAwesome';
 	color: $calendar-color;
 	position: absolute;
@@ -252,15 +259,15 @@ $calendar-color: #648F86;
 	width: 100%;
 }
 
-.custom-header nav span.custom-prev:before {
+.custom-header nav span.custom-prev:before, span.custom-prev-day:before {
 	content: '\f053';
 }
 
-.custom-header nav span.custom-next:before {
+.custom-header nav span.custom-next:before, span.custom-next-day:before {
 	content: '\f054';
 }
 
-.custom-header nav span:hover:before {
+.custom-header nav span:hover:before, span.custom-prev-day, span.custom-next-day {
 	color: #495468;
 }
 

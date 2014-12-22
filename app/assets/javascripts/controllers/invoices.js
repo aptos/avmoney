@@ -87,7 +87,7 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
     Restangular.all('payments').post($scope.payment).then( function () {
       $scope.close();
       $scope.success = true;
-      refresh();
+      $scope.refresh();
     },$scope.close);
   };
 
@@ -101,16 +101,6 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
   $scope.saveInProgress = false;
 
   $scope.min_date = "2014-01-01";
-
-  $scope.save_payment = function () {
-    $scope.saveInProgress = true;
-    $scope.success = false;
-    Restangular.all('payments').post($scope.payment).then( function () {
-      $scope.close();
-      $scope.success = true;
-      refresh();
-    },$scope.close);
-  };
 
 }
 InvoicesCtrl.$inject = ['$scope','$rootScope','$routeParams','$location','$filter','ngDialog','Restangular','Storage'];

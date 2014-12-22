@@ -28,19 +28,15 @@ class InvoicesController < ApplicationController
     end
 
     if @invoice.status != 'Paid'
+      # pull latest version of each activity
       @invoice.activities.each_index do |idx|
         if a = Activity.find(@invoice.activities[idx]["_id"])
           @invoice.activities[idx] = a
         end
       end
-      @invoice.hours_sum = @invoice.activities.map{|i| i['hours'] || 0 }.reduce(:+)
-      @invoice.hours_amount = @invoice.activities.map{|i| i['hours'] && (i['hours'] * i['rate']) || 0 }.reduce(:+)
-      @invoice.expenses = @invoice.activities.map{|i| i['expense'] || 0 }.reduce(:+)
 
-      tax_paid = @invoice.activities.map{|i| i['expense'] && i['tax_paid'] && i['tax_paid'] > 0  && i['tax_paid'] || 0 }.reduce(:+)
-      @invoice.tax = tax_paid + @invoice.activities.map{|i| i['expense'] && i['tax_rate']  && (i['expense'] * i['tax_rate'] * 0.01) || 0 }.reduce(:+)
-
-      @invoice.invoice_total = @invoice.hours_amount + @invoice.expenses + @invoice.tax
+      # calculate totals
+      @invoice.update_totals
 
       @invoice.save!
     end
@@ -48,6 +44,7 @@ class InvoicesController < ApplicationController
     respond_to do |format|
       format.pdf {
         @client = Client.find(@invoice.client_id)
+        @display_rates = params[:display_rates] && params[:display_rates] == 'true'
         if @invoice.status == 'Proposal'
           @expires = @invoice.open_date + 30.days
         end
@@ -85,7 +82,11 @@ class InvoicesController < ApplicationController
     unless @invoice
       render :json => { error: "invoice not found: #{params[:id]}" }, :status => 404 and return
     end
-    @invoice.attributes = params[:invoice]
+    @invoice.update_attributes(activities: params[:activities])
+
+    # calculate totals
+    @invoice.update_totals
+
     if @invoice.save
       render :json => @invoice
     else
@@ -94,10 +95,12 @@ class InvoicesController < ApplicationController
 
     # update each activity status
     params[:activities].each do |activity|
-      if activity["status"] != "Invoiced"
-        if a = Activity.find(activity["_id"])
-          a.update_attributes({status: "Invoiced", invoice_id: @invoice._id})
-        end
+      if a = Activity.find(activity["_id"])
+        a.update_attributes({
+          status: "Invoiced",
+          invoice_id: @invoice._id,
+          notes: activity['notes']
+          })
       end
     end
 

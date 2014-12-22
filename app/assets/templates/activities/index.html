@@ -127,10 +127,10 @@
       <!-- Large Format List -->
       <div class="container margin-bottom-5">
         <div class="row actions">
-          <button class="btn btn-sm btn-info" ng-click="new_activity('Timesheet')">+ hours</button>
-          <button class="btn btn-sm btn-info" ng-click="new_activity('Expense')">+ expense</button>
-          <button class="btn btn-sm btn-success" ng-click="create_invoice()" ng-disabled="!client || !filtered_items.length">invoice</button>
-          <button class="btn btn-sm btn-warning" ng-click="create_invoice('Proposal')" ng-disabled="!client || !filtered_items.length">proposal</button>
+          <button class="btn btn-info" ng-click="new_activity('Timesheet')">+ hours</button>
+          <button class="btn btn-info" ng-click="new_activity('Expense')">+ expense</button>
+          <button class="btn btn-success" ng-click="create_invoice()" ng-disabled="!client || !filtered_items.length">invoice</button>
+          <button class="btn btn-warning" ng-click="create_invoice('Proposal')" ng-disabled="!client || !filtered_items.length">proposal</button>
           <span class="pull-right">
             Status:
             <select class="form-control" name="Status" ui-select2="{ width: '120px'}" ng-model="status" ng-change="set_status(status)">

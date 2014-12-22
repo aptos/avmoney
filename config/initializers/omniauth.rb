@@ -2,7 +2,6 @@
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :google_oauth2, ENV["GOOGLE_KEY"], ENV["GOOGLE_SECRET"], {name: "google_login", approval_prompt: ''}
-  provider :identity, :fields => [:email, :name], :on_failed_registration => AccountsController.action(:create)
 end
 
 OmniAuth.config.on_failure = Proc.new { |env|

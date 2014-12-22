@@ -1,6 +1,8 @@
 <div class="container hidden-print hidden-overlay text-center">
   <a class="btn btn-default" ng-click="print()" style="margin-right:10px;">print</a>
-  <a class="btn btn-default" ng-href="/invoices/{{invoice._id}}.pdf">pdf</a>
+  <a class="btn btn-default" ng-href="/invoices/{{invoice._id}}.pdf?display_rates={{display_rates}}" style="margin-right:10px;">pdf</a>
+  <a ng-show="!!display_rates" ng-click="display_rates = !display_rates">hide rates</a>
+  <a ng-show="!display_rates" ng-click="display_rates = !display_rates">display rates</a>
   <hr />
 </div>
 <div class="container background-white invoice-container">
@@ -79,7 +81,10 @@
           <tbody>
             <tr ng-repeat="activity in invoice.activities | orderBy:'date'" ng-show="activity.hours">
               <td>{{activity.date | moment:'M/D/YY'}}</td>
-              <td><span contenteditable ng-model="activity.notes"></span></td>
+              <td>
+                <span contenteditable ng-model="activity.notes"></span>
+                <span class="pull-right" ng-show="display_rates">@ {{activity.rate | currency}}/hr</span>
+              </td>
               <td>{{activity.hours }}</td>
             </tr>
           </tbody>

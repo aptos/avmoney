@@ -34,6 +34,9 @@ class PaymentsController < ApplicationController
 
     # update invoice status
     invoice = Invoice.find(params[:invoice_id])
+    unless invoice
+      render :json => { error: "invoice not found: #{params[:invoice_id]}" }, :status => 404 and return
+    end
     paid = Payment.by_invoice_id.key(params[:invoice_id]).reduce.rows[0]['value']
     if paid ==  invoice.invoice_total
       invoice.update_attributes({ status: "Paid", paid_date: @payment.date, paid: paid })
