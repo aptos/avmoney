@@ -42,6 +42,10 @@ gem "font-awesome-rails", '~> 4.1'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
+# Serve up precompiled compressed assets.
+group :production, :staging do
+  gem 'rails_12factor'
+end
 
 # Storage on S3
 gem 'aws-sdk', '~> 1.0'
