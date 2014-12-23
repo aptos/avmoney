@@ -11,8 +11,7 @@
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <%= stylesheet_link_tag "application", media: "all" %>
   <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-  <%= javascript_include_tag("pace.min.js") %>
-  <%= stylesheet_link_tag("pace-theme-minimal.css") %>
+
   <%= csrf_meta_tags %>
   <%= yield(:head) %>
   <% unless Rails.env.test? %>

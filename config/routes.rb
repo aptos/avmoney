@@ -6,15 +6,8 @@ AVMoney::Application.routes.draw do
   get '/signin' => 'sessions#new'
   get '/signin/:provider' => 'sessions#new'
   get '/signout' => 'sessions#destroy'
-  get '/auth/failure' => 'accounts#password_recovery'
+  get '/auth/failure' => 'pages#home'
   resources :identities
-
-  # Accounts
-  get "/accounts/signin_page" => 'accounts#signin_page'
-  match "/accounts/password_recovery" => 'accounts#password_recovery', via: [:get, :post]
-  get "/accounts/password_reset/:token" => 'accounts#password_reset'
-  post "/accounts/password_update/:token" => 'accounts#password_update'
-  get "/accounts/create" => 'accounts#create'
 
   resources :activities
 
