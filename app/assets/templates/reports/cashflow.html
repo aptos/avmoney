@@ -39,7 +39,7 @@
   </div>
 </div>
 
-<div class="container white-rounded text-center margin-top-30 padding-bottom-60">
+<div class="container white-rounded margin-top-30 padding-bottom-60">
   <h2>{{client_name(client)}}</h2>
   <h3 ng-show="search_project">{{search_project}}</h3>
   <div class="report-body">
@@ -62,7 +62,10 @@
         </div>
         <div class="col-xs-2 data-cell">{{item.type}}</div>
         <div class="col-xs-2 data-cell">{{item.amount | currency}}</div>
-        <div class="col-xs-2 data-cell text-left">{{item.notes}}</div>
+        <div class="col-xs-2 data-cell text-left">
+          <span ng-show="item.invoice">Invoice #{{item.invoice}}<br /></span>
+          <span>{{item.notes}}</span>
+        </div>
       </div>
     </div>
   </div>
