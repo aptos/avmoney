@@ -17,17 +17,22 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   var orderByFilter = $filter('orderBy');
   $scope.filterItems = function() {
     Storage.set('search_project', $scope.search_project);
-    var q_activities = filterFilter($scope.activities, $scope.query);
+    var q_activities = $scope.activities;
     if (!!$scope.search_project) {
       q_activities = _.filter(q_activities, { 'project': $scope.search_project});
     }
+    // get totals by project
+    $scope.stats = get_totals(q_activities);
+    if (!!$scope.search_project) get_project_data($scope.client);
+
+    var q_activities = filterFilter(q_activities, $scope.query);
     if (!!$scope.status && $scope.status != 'All') {
       q_activities = _.filter(q_activities, { 'status': $scope.status});
     }
     var orderedItems = orderByFilter(q_activities, ['client_name','status','date']);
 
     $scope.filtered_items = orderedItems;
-    get_totals($scope.filtered_items);
+    $scope.filtered_stats = get_totals($scope.filtered_items);
   };
 
   $scope.$watch('activities', $scope.filterItems);
@@ -57,6 +62,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.project_selected = function () {
     $scope.search_project = $scope.activity.project;
     $scope.filterItems();
+    console.info("project_selected", $scope.search_project)
   };
 
   var update_projects = function (client_id, project) {
@@ -70,13 +76,52 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
 
   // reduce functions
   var get_totals = function (list) {
-    $scope.hours_sum = list.reduce(function(m, activity) { return m + activity.hours; }, 0);
-    $scope.hours_amount = list.reduce(function(m, activity) { return m + (activity.hours * activity.rate); }, 0);
+    if (!list) return;
+    var stats = {};
+    stats.hours_sum = list.reduce(function(m, activity) { return m + activity.hours; }, 0);
+    stats.hours_amount = list.reduce(function(m, activity) { return m + (activity.hours * activity.rate); }, 0);
 
-    $scope.expenses = list.reduce(function(m, activity) { return m + (activity.expense); }, 0);
-    $scope.tax = list.reduce(function(m, activity) { return m + (activity.expense * activity.tax_rate * 0.01); }, 0);
+    stats.expenses = list.reduce(function(m, activity) { return m + (activity.expense); }, 0);
+    stats.tax = list.reduce(function(m, activity) { return m + (activity.expense * activity.tax_rate * 0.01); }, 0);
 
-    $scope.total_amount = $scope.hours_amount + $scope.expenses + $scope.tax;
+    stats.total_amount = stats.hours_amount + stats.expenses + stats.tax;
+
+    return stats;
+  };
+
+  var last_project;
+  var get_project_data = function () {
+    if (!$scope.client || !$scope.search_project || $scope.search_project == last_project) return;
+    last_project = $scope.search_project;
+    $scope.project_data = {
+      client_id: $scope.client,
+      name: $scope.search_project,
+      cap: 'set cap'
+    };
+    Restangular.one('clients', $scope.client).one('projects').getList().then(function (data) {
+      var project_data = _.where(data, {'name': $scope.search_project});
+      if (!!project_data.length) {
+        $scope.project_data = project_data[0];
+        update_chart();
+      }
+    });
+  };
+
+  $scope.update_project = function () {
+    console.info("update cap", $scope.project_data)
+    Restangular.one('clients', $scope.client).post('projects', $scope.project_data).then(function (data) {
+      $scope.project_data = data;
+      update_chart();
+    });
+  };
+
+  var update_chart = function () {
+    if ($scope.stats.total_amount && $scope.project_data.cap) {
+      $scope.cap_percent = Math.floor($scope.stats.total_amount/$scope.project_data.cap * 100);
+    } else {
+      $scope.project_data.cap = 'set cap';
+      $scope.cap_percent = 0;
+    }
   };
 
   // Fetch activities

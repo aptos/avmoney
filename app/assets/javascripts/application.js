@@ -25,5 +25,6 @@
 //= require select2
 //= require ui-select2
 //= require jquery.calendario
+//= require angular.easypiechart
 //= require app
 //= require_tree .

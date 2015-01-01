@@ -23,7 +23,7 @@ function ClientsCtrl($scope, Restangular, Storage, $location) {
       Storage.set('projectlist', projectlist);
 
     });
-    $scope.stats = Restangular.one('invoices/stats').getList().$object;
+    $scope.stats = Restangular.one('invoices/stats').get().$object;
   };
   refresh();
 

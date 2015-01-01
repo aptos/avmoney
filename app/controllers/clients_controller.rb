@@ -57,6 +57,38 @@ class ClientsController < ApplicationController
     render :json => { status: 'Deleted' }
   end
 
+  def projects
+    @projects = Project.by_client_id.key(params[:id])
+    render :json => @projects
+  end
+
+  def update_project
+    params[:wo_number] || params[:wo_number] = nil
+    params[:po_number] || params[:po_number] = nil
+    params[:cap] || params[:cap] = 0
+    if params[:_id]
+      @project = Project.find(params[:_id])
+      unless @project
+        render :json => { error: "project not found: #{params[:_id]}" }, :status => 404 and return
+      end
+      @project.update_attributes({
+        name: params[:name],
+        wo_number: params[:wo_number],
+        po_number: params[:po_number],
+        cap: params[:cap]
+        })
+    else
+      @project = Project.create({
+        client_id: params[:id],
+        name: params[:name],
+        wo_number: params[:wo_number],
+        po_number: params[:po_number],
+        cap: params[:cap]
+        })
+    end
+    render :json => @project
+  end
+
   def next_invoice
     @client = Client.find(params[:id])
     unless @client

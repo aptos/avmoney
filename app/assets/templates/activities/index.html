@@ -2,6 +2,24 @@
 
   <div client-search></div>
 
+  <div class="col-sm-3 right-corner">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">Project Total: {{stats.total_amount | currency}}</h4>
+        <span ng-show="project_data.cap > 0">Cap: $</span><span contenteditable ng-model='project_data.cap'></span>
+        <span class="fa fa-check text-success fa-lg pointer" ng-click="update_project()" ng-show="project_data.cap && project_data.cap != 'set cap'">
+        </span>
+      </div>
+      <div class="panel-body text-center" ng-show="cap_percent > 0">
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="{{cap_percent}}" aria-valuemin="0" aria-valuemax="{{project_data.cap}}" style="width: {{cap_percent}}%;">
+            {{stats.total_amount | currency}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Form -->
   <div class="container">
     <div ng-show="show_form" class="floating-container fixed-top-10 col-xs-10 col-md-6 animated fadeIn" draggable>
@@ -115,11 +133,11 @@
           <span ng-click="show_totals=!show_totals" ><i class="fa fa-times-circle close pull-right"></i></span>
           <h3>Totals</h3>
           <table class="table table-striped">
-            <tr><td>Hours: </td><td>{{hours_sum | number: 2}}</td></tr>
-            <tr><td>Charge: </td><td>{{hours_amount | currency}}</td></tr>
-            <tr><td>Expenses: </td><td>{{expenses | currency}}</td></tr>
-            <tr><td>Taxes: </td><td>{{tax | currency}}</td></tr>
-            <tr class="info"><td>Total: </td><td>{{total_amount | currency}}</td></tr>
+            <tr><td>Hours: </td><td>{{filtered_stats.hours_sum | number: 2}}</td></tr>
+            <tr><td>Charge: </td><td>{{filtered_stats.hours_amount | currency}}</td></tr>
+            <tr><td>Expenses: </td><td>{{filtered_stats.expenses | currency}}</td></tr>
+            <tr><td>Taxes: </td><td>{{filtered_stats.tax | currency}}</td></tr>
+            <tr class="info"><td>Total: </td><td>{{filtered_stats.total_amount | currency}}</td></tr>
           </table>
         </div>
       </div>

@@ -93,6 +93,7 @@ class ActivitiesController < ApplicationController
     unless client.projects.include? project
       client.projects.push(project.strip).uniq!
       client.save
+      Project.create({ client_id: client_id, name: project})
     end
   end
 
