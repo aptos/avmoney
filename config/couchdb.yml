@@ -13,9 +13,9 @@ test:
 
 production:
   protocol: 'https'
-  host: taskit.cloudant.com
+  host: <%= ENV['COUCH_USER'] %>.cloudant.com
   port: 443
   prefix: avmoney
   suffix: production
-  username: taskit
+  username: <%= ENV['COUCH_USER'] %>
   password: <%= ENV['COUCH_PASSWORD'] %>
