@@ -20,7 +20,7 @@ Written as a single page app, the main components are:
  * Omniauth authentication
 
 
-## Configuration
+## Getting Started
 
 In order to configure the app for your own use, create a .env file at the root level with the following settings:
 

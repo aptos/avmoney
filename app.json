@@ -1,0 +1,34 @@
+{
+  "name": "AV Money",
+  "description": "AV Money is an invoicing application written specifically for an interior designer, but can be used for anyone who needs to track hours, expenses and resale taxes",
+  "repository": "https://github.com/aptos/avmoney.git",
+  "keywords": ["accounting", "invoicing", "angularjs", "rails", "omniauth", "couchdb"],
+  "env": {
+    "SECRET_KEY_BASE": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    },
+    "GOOGLE_KEY": {
+      "description": "Your google apps user key"
+      },
+    "GOOGLE_SECRET": {
+      "description": "Your google apps user secret"
+    },
+    "COUCH_USER": {
+      "description": "Your couchdb user name"
+    },
+    "COUCH_PASSWORD": {
+      "description": "Your couchdb password"
+    },
+    "ALLOWED_USERS": {
+      "description": "Array of allowed gmail account addresses"
+      },
+    "ROLLBAR_ACCESS_TOKEN": {
+      "description": "Rollbar access token for exception alerts"
+    }
+  },
+  "addons": [
+    "memcachier:dev",
+    "rollbar"
+  ]
+}
