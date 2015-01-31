@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-AVMoney::Application.config.secret_key_base = 'c2b8921e8ea8b1a906d293b70906a359235d6ca679f7fb56621e933f488d20b5757f17ebabe4acf65004f2f54f0acc24efd39ed858cd09e7b00f69cf1b4dc841'
+AVMoney::Application.config.secret_key_base = ENV["SECRET_KEY_BASE"]

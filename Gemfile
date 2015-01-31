@@ -47,9 +47,6 @@ group :production, :staging do
   gem 'rails_12factor'
 end
 
-# Storage on S3
-gem 'aws-sdk', '~> 1.0'
-
 # Application exception handler, works for both rails and javascript errors
 gem 'rollbar', '~> 0.12.17'
 
