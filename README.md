@@ -16,5 +16,6 @@ Written as a single page app, the main components are:
 
  * Rails backend, as API server
  * AngularJS frontend
+ * Couchdb database
  * Omniauth authentication
   
