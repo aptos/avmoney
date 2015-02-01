@@ -49,4 +49,4 @@ then push your config with `heroku config:push`
 
 You're welcome to try the heroku one-click deploy:
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/aptos/avmoney)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
