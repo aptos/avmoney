@@ -44,3 +44,9 @@ ROLLBAR_ACCESS_TOKEN=0..e
 ```
 
 then push your config with `heroku config:push`
+
+## Heroku Deploy
+
+You're welcome to try the heroku one-click deploy:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/aptos/avmoney)
