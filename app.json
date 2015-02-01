@@ -1,9 +1,10 @@
 {
-  "name": "AV Money",
-  "description": "AV Money is an invoicing application written specifically for an interior designer, but can be used for anyone who needs to track hours, expenses and resale taxes",
+  "description": "AV Money is an invoicing application for anyone who needs to track hours, expenses and resale taxes",
   "repository": "https://github.com/aptos/avmoney.git",
   "keywords": ["accounting", "invoicing", "angularjs", "rails", "omniauth", "couchdb"],
   "env": {
+    "LANG": "en_US.UTF-8",
+    "RAILS_ENV": "production",
     "SECRET_KEY_BASE": {
       "description": "A secret key for verifying the integrity of signed cookies.",
       "generator": "secret"
@@ -28,7 +29,7 @@
     }
   },
   "addons": [
-    "memcachier:dev",
-    "rollbar"
+    "heroku-postgresql:hobby-dev",
+    "memcachier:dev"
   ]
 }
