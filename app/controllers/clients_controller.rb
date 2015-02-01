@@ -45,14 +45,6 @@ class ClientsController < ApplicationController
 
   def destroy
     @client = Client.find(params[:id])
-    if @client.attachments
-      begin
-        key = "uploads/#{params[:id]}"
-        AWS.s3.buckets[ENV['AWS_S3_BUCKET']].objects.with_prefix(key).delete_all
-      rescue Exception => e
-        logger.error "AWS ERROR: while deleting #{key} \n#{e.inspect}"
-      end
-    end
     @client.destroy
     render :json => { status: 'Deleted' }
   end

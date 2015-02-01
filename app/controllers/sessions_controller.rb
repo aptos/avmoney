@@ -23,6 +23,9 @@ class SessionsController < ApplicationController
     logger.info "Signin Succeeded: #{user.inspect}"
     logger.info "Current User: #{current_user.inspect}"
     url = session[:return_to] || '/#/Activities'
+    unless Client.count > 0
+      url = '/#/Clients'
+    end
     session[:return_to] = nil
     url = root_path if url.eql?('/signout')
 
