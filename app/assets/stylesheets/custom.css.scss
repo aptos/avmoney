@@ -58,8 +58,8 @@ input, textarea {
 
 form input[type='number']::-webkit-outer-spin-button,
 form input[type='number']::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 h1, h2, h3 {
@@ -168,13 +168,13 @@ ul.nav-pills { display: inline-block;}
 }
 
 hr.gradient {
-    border: 0;
-    height: 1px;
-    background: #333;
-    background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc);
-    background-image:    -moz-linear-gradient(left, #ccc, #333, #ccc);
-    background-image:     -ms-linear-gradient(left, #ccc, #333, #ccc);
-    background-image:      -o-linear-gradient(left, #ccc, #333, #ccc);
+  border: 0;
+  height: 1px;
+  background: #333;
+  background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc);
+  background-image:    -moz-linear-gradient(left, #ccc, #333, #ccc);
+  background-image:     -ms-linear-gradient(left, #ccc, #333, #ccc);
+  background-image:      -o-linear-gradient(left, #ccc, #333, #ccc);
 }
 
 @media print {

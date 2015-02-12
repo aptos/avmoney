@@ -172,10 +172,10 @@
         <div class="scrolling-list row scrolling-list-clickable" ng-repeat="activity in filtered_items">
           <div class="row" ng-click="edit(activity._id)">
             <div class="col-xs-2 data-cell" >{{activity.date | moment:dateformat}}</div>
-            <div class="col-xs-3 data-cell text-left">{{activity.client_name}}<span ng-show="!!activity.project">:<br> {{activity.project}}</span></div>
+            <div class="col-xs-4 data-cell text-left">{{activity.client_name}}<span ng-show="!!activity.project">:<br> <small>{{activity.project}}</small></span></div>
             <div class="col-xs-2 data-cell" ng-show="activity.hours">{{activity.hours}} @ ${{activity.rate}}</div>
             <div class="col-xs-2 data-cell" ng-show="activity.expense">{{activity.expense * (1 + activity.tax_rate * 0.01) + activity.tax_paid | currency}}</div>
-            <div class="col-xs-3 text-left data-cell">{{activity.notes}}</div>
+            <div class="col-xs-3 text-left data-cell"><small>{{activity.notes}}</small></div>
             <div class="col-xs-2 text-left data-cell" ng-show="!status || status=='All'">{{activity.status}}</div>
             <span ng-show="false">{{activity._id}}</span>
           </div>
