@@ -96,7 +96,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% @invoice.activities.each do |activity| %>
+				<% @invoice.activities.sort_by{|a| a['date']}.each do |activity| %>
 				<% if activity.hours %>
 				<tr>
 					<td><%= activity.date.strftime('%D') %></td>
@@ -141,7 +141,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% @invoice.activities.each do |activity| %>
+				<% @invoice.activities.sort_by{|a| a['date']}.each do |activity| %>
 				<% if activity.expense %>
 					<tr>
 						<td><%= activity.date.strftime('%D') %></td>
