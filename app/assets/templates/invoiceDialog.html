@@ -1,8 +1,8 @@
 <div class="container hidden-print hidden-overlay text-center">
   <a class="btn btn-default" ng-click="print()" style="margin-right:10px;">print</a>
   <a class="btn btn-default" ng-href="/invoices/{{invoice._id}}.pdf?display_rates={{display_rates}}" style="margin-right:10px;">pdf</a>
-  <a ng-show="!!display_rates" ng-click="display_rates = !display_rates">hide rates</a>
-  <a ng-show="!display_rates" ng-click="display_rates = !display_rates">display rates</a>
+  <a ng-show="!!display_rates" ng-click="toggleDisplayRates()">hide rates</a>
+  <a ng-show="!display_rates" ng-click="toggleDisplayRates()">display rates</a>
   <hr />
 </div>
 <div class="container background-white invoice-container">

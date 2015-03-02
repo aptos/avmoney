@@ -60,18 +60,19 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
     $window.print();
   };
 
+  $scope.toggleDisplayRates = function () {
+    $scope.display_rates = !$scope.display_rates;
+    getPages();
+  };
+
   var current_page = 1;
   $scope.page_break = function (page) {
-    console.info("page", current_page, page)
     if (page != current_page) {
-      console.info("Break!")
       current_page = page;
       return 'page-break';
     }
     return;
   };
-
-
 
   // Paging
   var page = 1,
@@ -79,12 +80,15 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
   page_break_lines = 36,
   heading_lines = 20,
   page_heading_lines = 6,
-  page_lines = heading_lines,
-  totals_lines = 10;
-
+  totals_lines = 10,
+  page_lines = heading_lines;
 
   var getPages = function () {
     if (!$scope.invoice.activities) return;
+
+    page = 1;
+    page_lines = heading_lines;
+    chars_per_line = (!!$scope.display_rates) ? 74 : 84;
 
     var hours_items = _.filter($scope.invoice.activities, function (a) { return !!a.hours; });
     if (!!hours_items) {
