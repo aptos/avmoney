@@ -11,6 +11,14 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
   var refresh = function () {
     Restangular.one('invoices',$routeParams.id).get().then(function (data) {
       $scope.invoice = data;
+
+      Restangular.one('clients', data.client_id).get().then(function (data) {
+        var client = {
+          address: data.address
+        };
+        angular.extend($scope.invoice.client_data, client);
+      });
+
       if ($scope.invoice.status == 'Proposal') {
         $scope.expires = moment($scope.invoice.open_date).add('d',30).format('MMM DD, YYYY');
       }
@@ -21,7 +29,6 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
     });
   };
   refresh();
-
 
   $scope.add_more = function () {
     var list = _.map($scope.more_activities, function (activity) {
