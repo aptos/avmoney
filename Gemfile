@@ -58,6 +58,8 @@ group :test, :development do
 	gem "rspec-rails", "~> 2.8"
 	gem "factory_girl_rails", "~> 4.0"
 	gem 'dotenv-rails'
+  gem 'guard'
+  gem 'guard-livereload', require: false
   gem 'pry'
   gem 'pry-byebug'
 end

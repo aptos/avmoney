@@ -17,10 +17,12 @@
  *= require select2-bootstrap
  *= require jquery-ui-1.10.4.custom
  *= require calendar
+ *= require _print
  *= require custom
  */
 
 @import "font-awesome";
 @import "layouts";
 @import "buttons";
+@import "print";
 @import "custom-animations"

@@ -17,6 +17,7 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
       $scope.type = ($scope.invoice.status == "Proposal") ? "Proposal" : "Invoice";
       if ($scope.type == "Invoice") get_active_items();
       $scope.invoiceForm.$setPristine();
+      getPages();
     });
   };
   refresh();
@@ -57,7 +58,71 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
 
   $scope.print = function () {
     $window.print();
-  }
+  };
+
+  var current_page = 1;
+  $scope.page_break = function (page) {
+    console.info("page", current_page, page)
+    if (page != current_page) {
+      console.info("Break!")
+      current_page = page;
+      return 'page-break';
+    }
+    return;
+  };
+
+
+
+  // Paging
+  var page = 1,
+  chars_per_line = 84,
+  page_break_lines = 36,
+  heading_lines = 20,
+  page_heading_lines = 6,
+  page_lines = heading_lines,
+  totals_lines = 10;
+
+
+  var getPages = function () {
+    if (!$scope.invoice.activities) return;
+
+    var hours_items = _.filter($scope.invoice.activities, function (a) { return !!a.hours; });
+    if (!!hours_items) {
+      hours_items = _.sortBy(hours_items, function (a) { return a.date; });
+      hours_items = setPages(hours_items);
+      $scope.hours_activities = _.groupBy(hours_items, function (h) { return h.page;} );
+    }
+    $scope.hours_pages = Object.keys($scope.hours_activities).length;
+
+    var exp_items = _.filter($scope.invoice.activities, function (a) { return !a.hours; });
+    if (!!exp_items) {
+      page_lines += 8;
+      if (page_lines > page_break_lines) $scope.break_before_expenses = page;
+
+      exp_items = _.sortBy(exp_items, function (a) { return a.date; });
+      exp_items = setPages(exp_items);
+      $scope.exp_activities = _.groupBy(exp_items, function (h) { return h.page;} );
+    }
+    if (page_lines + totals_lines > page_break_lines) page += 1;
+    $scope.pages = page;
+  };
+
+  var setPages = function (items) {
+    if (!items.length) return;
+
+    _.forEach(items, function (a) {
+      a.lines = Math.floor(a.notes.length/chars_per_line) + 1;
+      page_lines += a.lines;
+      if (page_lines > page_break_lines) {
+        page += 1;
+        page_lines = page_heading_lines;
+      }
+      a.page = page;
+      a.page_lines = page_lines;
+      // console.log("item", a.date, page_lines, page)
+    });
+    return items;
+  };
 
 }
 InvoiceShowCtrl.$inject = ['$scope','$routeParams','Restangular', '$location', '$window'];
