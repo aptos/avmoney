@@ -85,6 +85,7 @@ class InvoicesController < ApplicationController
     @invoice.activities = params[:activities]
     params[:po_number] && @invoice.po_number = params[:po_number]
     params[:work_order] && @invoice.work_order = params[:work_order]
+    params[:open_date] && @invoice.open_date = params[:open_date]
 
     # calculate totals
     @invoice.update_totals
