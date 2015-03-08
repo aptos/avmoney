@@ -206,6 +206,10 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.type = (status == "Proposal") ? "Proposal" : "Invoice";
 
     $scope.invoice.activities = _.filter($scope.filtered_items, {'status': 'Active'});
+    var hours_items = _.filter($scope.invoice.activities, function (a) { return !!a.hours; });
+    $scope.hours_activities = { 1: hours_items};
+    var exp_items = _.filter($scope.invoice.activities, function (a) { return !a.hours; });
+    $scope.exp_activities = { 1: exp_items };
 
     $scope.invoice.client_data = _.find($scope.clients, function (v) { return v.value == $scope.client; });
     $scope.invoice.name = $scope.invoice.client_data.text;
