@@ -108,7 +108,7 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
 
     var exp_items = _.filter($scope.invoice.activities, function (a) { return !a.hours; });
     if (!!exp_items) {
-      page_lines += 8;
+      if (!!hours_items) page_lines += 8;
       if (page_lines > page_break_lines) $scope.break_before_expenses = page;
 
       exp_items = _.sortBy(exp_items, function (a) { return a.date; });
