@@ -88,7 +88,7 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
   page_break_lines = 36,
   heading_lines = 21,
   page_heading_lines = 6,
-  totals_lines = 10,
+  totals_lines = 6,
   page_lines = heading_lines;
 
   var getPages = function () {
@@ -107,7 +107,7 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
     $scope.hours_pages = Object.keys($scope.hours_activities).length;
 
     var exp_items = _.filter($scope.invoice.activities, function (a) { return !a.hours; });
-    if (!!exp_items) {
+    if (!!exp_items.length) {
       if (!!hours_items) page_lines += 8;
       if (page_lines > page_break_lines) $scope.break_before_expenses = page;
 

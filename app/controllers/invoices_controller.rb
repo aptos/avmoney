@@ -48,7 +48,8 @@ class InvoicesController < ApplicationController
         if @invoice.status == 'Proposal'
           @expires = @invoice.open_date + 30.days
         end
-        render :pdf => "invoice"
+        render :pdf => "invoice",
+        :margin => { :top => 15 }
       }
       format.all { render :json => @invoice }
     end
