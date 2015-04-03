@@ -76,6 +76,9 @@ class ActivitiesController < ApplicationController
 
   def destroy
     @activity = Activity.find(params[:id])
+    unless @activity
+      render :json => { error: "activity not found: #{params[:id]}" }, :status => 404 and return
+    end
     unless @activity.status == 'Active'
       render :json => { error: "Only Active activities may be removed" }, :status => 400 and return
     end
