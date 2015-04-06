@@ -39,7 +39,9 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
   };
 
   // Accounts Receivable Report
-  var filterFilter = $filter('filter');
+  var filterFilter = $filter('filter'),
+  dateRangeFilter = $filter('dateRange'),
+  date_el = 'date';
   $scope.reverse = false;
 
   $scope.filterItems = function() {
@@ -50,6 +52,10 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
     }
     if (!!$scope.search_project) {
       q = _.filter(q, {'project': $scope.search_project});
+    }
+
+    if (!!$scope.dateRange) {
+      q = dateRangeFilter(q, $scope.dateRange, date_el);
     }
     $scope.filtered_items = q;
   };
@@ -67,7 +73,7 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
 
   // Fetch invoices
   var fetch_invoices = function () {
-    $scope.order = 'open_date';
+    $scope.order = date_el = 'open_date';
     Restangular.all('invoices').getList({status: 'Open'}).then( function (list) {
       $scope.list = list;
       $scope.filterItems();
@@ -76,7 +82,7 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
 
   // Fetch payments
   var fetch_payments = function () {
-    $scope.order = 'date';
+    $scope.order = date_el = 'date';
     Restangular.all('payments').getList().then( function (list) {
       $scope.list = list;
       $scope.filterItems();
@@ -85,7 +91,7 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
 
   // Fetch cashflow
   var fetch_cashflow = function () {
-    $scope.order = 'date';
+    $scope.order = date_el = 'date';
     Restangular.all('cashflow').getList().then( function (list) {
       $scope.list = list;
       $scope.filterItems();

@@ -1,12 +1,10 @@
-var avmoneyFilters = angular.module('avmoneyFilters', []);
-
-avmoneyFilters.filter('timeAgo', function() {
+angular.module('avmoneyFilters', [])
+.filter('timeAgo', function() {
   return function(dateString, format) {
     return moment(dateString).fromNow();
   };
-});
-
-avmoneyFilters.filter('moment', function() {
+})
+.filter('moment', function() {
   return function(dateString, format, eob) {
     if (!dateString) { return "-"; }
     if (format) {
@@ -23,9 +21,8 @@ avmoneyFilters.filter('moment', function() {
       return moment(dateString).format("YYYY-MM-DD");
     }
   };
-});
-
-avmoneyFilters.filter('truncate', function () {
+})
+.filter('truncate', function () {
   return function (text, length, end, disabled) {
     if (!text) return;
     if (isNaN(length))
@@ -38,9 +35,8 @@ avmoneyFilters.filter('truncate', function () {
       return String(text).substring(0, length-end.length) + end;
     }
   };
-});
-
-avmoneyFilters.filter('humanBytes', function () {
+})
+.filter('humanBytes', function () {
   return function (fileSizeInBytes) {
     if (!fileSizeInBytes) return null;
     var i = -1;
@@ -52,4 +48,22 @@ avmoneyFilters.filter('humanBytes', function () {
 
     return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
   };
+})
+.filter('dateRange', function () {
+  return function (list, query, el, d1, d2) {
+    var matches = [],
+    today = moment();
+    if (query == 'This Year') {
+      _.each(list, function (item) {
+        if (moment(item[el]).isSame(today, 'year')) matches.push(item);
+      });
+    } else if (query == 'Last Year') {
+      _.each(list, function (item) {
+        if (moment(item[el]).isBefore(today, 'year')) matches.push(item);
+      });
+    } else {
+      matches = list;
+    }
+    return matches;
+  }
 });

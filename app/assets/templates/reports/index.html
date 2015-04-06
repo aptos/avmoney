@@ -1,5 +1,15 @@
 <div class="screen-content transparent margin-top-30" >
   <div client-search></div>
+  <div class="row">
+    <div class="form-group col-sm-3 col-sm-offset-4">
+      <select class="form-control" name="dateRange" ui-select2="{allowClear: true, dropdownAutoWidth: true}" ng-model="dateRange" ng-change="filterItems()" data-placeholder="Date Range...">
+        <option value=""></option>
+        <option value="This Year">This Year</option>
+        <option value="Last Year">Last Year</option>
+<!--         <option value="Between">Between</option>
+ -->      </select>
+    </div>
+  </div>
   <div class="container margin-top-30 text-center hidden-print">
     <ul class="action-buttons">
       <li ng-class="{'active': type=='AccountsReceivable'}">
