@@ -176,7 +176,7 @@
             <div class="col-xs-2 data-cell" ng-show="activity.hours">{{activity.hours}} @ ${{activity.rate}}</div>
             <div class="col-xs-2 data-cell" ng-show="activity.expense">{{activity.expense * (1 + activity.tax_rate * 0.01) + activity.tax_paid | currency}}</div>
             <div class="col-xs-3 text-left data-cell"><small>{{activity.notes}}</small></div>
-            <div class="col-xs-2 text-left data-cell" ng-show="!status || status=='All'">{{activity.status}}</div>
+            <div class="col-xs-1 text-left data-cell" ng-show="!status || status=='All'">{{activity.status}}</div>
             <span ng-show="false">{{activity._id}}</span>
           </div>
         </div>

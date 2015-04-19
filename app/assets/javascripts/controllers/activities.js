@@ -29,7 +29,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     if (!!$scope.status && $scope.status != 'All') {
       q_activities = _.filter(q_activities, { 'status': $scope.status});
     }
-    var orderedItems = orderByFilter(q_activities, ['client_name','status','date']);
+    var orderedItems = orderByFilter(q_activities, ['date','client_name','status']);
 
     $scope.filtered_items = orderedItems;
     $scope.filtered_stats = get_totals($scope.filtered_items);
