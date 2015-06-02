@@ -28,4 +28,27 @@ namespace :db do
     puts "OK: #{status['ok']}"
   end
 
+  desc "change project"
+  task :change_project => :environment do
+    client = "PG & E Facilities Management Office"
+    from_project = "Reprographics - Project Management"
+    to_project = "Reprographics - Project Management - 3"
+    cap = 7000
+
+    client_id = Client.by_name.key(client).first.id
+
+    total = 0
+    activities = Activity.by_client_id.key(client_id).all
+    activities.sort_by{|a| a.created_at}.each do |activity|
+      if activity.project == from_project
+        expense = (activity.hours) ? activity.hours * activity.rate : activity.expense
+        total += expense
+        break if total > cap
+        puts "#{activity.created_at} #{activity.status} #{total} : #{expense} - #{activity.notes}"
+        activity.update_attributes(project: to_project)
+      end
+    end
+
+  end
+
 end

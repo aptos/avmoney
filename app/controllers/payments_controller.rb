@@ -21,33 +21,28 @@ class PaymentsController < ApplicationController
   end
 
   def create
-    @payment = Payment.new(params[:payment])
-    begin
-      @payment.save
-    rescue Exception => e
-      status = 400
-      if e.message.include? "Conflict"
-        status = 409
-      end
-      render :json => { error: e.message, payment: @payment }, :status => status and return
-    end
-
-    # update invoice status
     invoice = Invoice.find(params[:invoice_id])
     unless invoice
       render :json => { error: "invoice not found: #{params[:invoice_id]}" }, :status => 404 and return
     end
-    paid = Payment.by_invoice_id.key(params[:invoice_id]).reduce.rows[0]['value']
-    if paid ==  invoice.invoice_total
-      invoice.update_attributes({ status: "Paid", paid_date: @payment.date, paid: paid })
-      invoice.activities.each do |activity|
-        if a = Activity.find(activity["_id"])
-          a.update_attributes({status: "Paid"})
-        end
-      end
-    else
-      invoice.update_attributes({ paid: paid })
+    if invoice.status == "Paid"
+      render :json => { error: "invoice has already been paid" }, :status => 404 and return
     end
+
+    @payment = Payment.new(params[:payment])
+    unless @payment.amount
+      render :json => { error: "no amount in payment" }, :status => 400 and return
+    end
+    @payment.save!
+
+    # update invoice status
+    invoice.update_attributes({ status: "Paid", paid_date: @payment.date, paid: @payment.amount })
+    invoice.activities.each do |activity|
+      if a = Activity.find(activity["_id"])
+        a.update_attributes({status: "Paid"})
+      end
+    end
+
     render :json => @payment
   end
 
