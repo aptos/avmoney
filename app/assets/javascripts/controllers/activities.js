@@ -68,6 +68,8 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   var update_projects = function (client_id, project) {
     $scope.projectlist[client_id].push(project);
     $scope.projectlist[client_id] = _.uniq($scope.projectlist[client_id]);
+    console.info("add new project", project)
+    Storage.set('projectlist', $scope.projectlist);
     if ($scope.client) {
       $scope.projects = $scope.projectlist[client_id];
       $scope.projects_select = $scope.projects.map( function (project) { return { value: project, text: project }; });
