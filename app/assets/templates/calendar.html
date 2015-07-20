@@ -1,3 +1,7 @@
 <div class="container margin-top-60">
+  <span ng-show="!!spinning" ng-class="{'animated fadeIn': !!spinning}">
+    <i class="fa fa-2x fa-spinner fa-spin color-green" style="position:absolute;"></i>
+  </span>
+
   <div calendario ng-model="calendar_data" ></div>
 </div>

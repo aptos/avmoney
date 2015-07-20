@@ -177,6 +177,10 @@ hr.gradient {
   background-image:      -o-linear-gradient(left, #ccc, #333, #ccc);
 }
 
+.color-green {
+  color: #648F86;
+}
+
 @media print {
   .panel-default > .panel-heading { background-color: #f5f5f5 !important;}
   .alert-info {

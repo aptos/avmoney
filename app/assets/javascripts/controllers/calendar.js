@@ -34,15 +34,18 @@ function CalendarCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Resta
     });
     _.forEach(events, function (event, date) {
       if (hours_totals[date]) events[date] = "<span>Total: " + hours_totals[date] + " hours</span>" + events[date];
-    })
+    });
     $scope.calendar_data = events;
   };
 
   // Fetch activities
+  $scope.spinning = false;
   var refresh = function () {
+    $scope.spinning = true;
     Restangular.all('activities').getList().then( function (list) {
       $scope.events = list;
-    });
+      $scope.spinning = false;
+    }, function (error) { $scope.spinning = false; });
   };
   refresh();
 
