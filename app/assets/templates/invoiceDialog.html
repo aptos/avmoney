@@ -159,7 +159,7 @@
           <td>SubTotal:</td>
           <td class="col-sm-6">{{invoice.hours_amount + invoice.expenses | currency}}</td>
         </tr>
-        <tr>
+        <tr ng-show="invoice.tax">
           <td>Tax:</td>
           <td class="col-sm-6">{{invoice.tax | currency}}</td>
         </tr>
