@@ -32,7 +32,9 @@ class Invoice < CouchRest::Model::Base
     "function(doc) {
     if (doc['type'] == 'Invoice') {
       var paid = (!!doc.paid) ? doc.paid : 0.0;
-      emit(doc.client_id, { created_at: doc.created_at, name: doc.name, client_id: doc.client_id, project: doc.project, invoice_number: doc.invoice_number, invoice_total: doc.invoice_total, paid: paid,  status: doc.status});
+      var work_order = (!!doc.work_order) ? doc.work_order : '';
+      var po_number = (!!doc.po_number) ? doc.po_number : '';
+      emit(doc.client_id, { created_at: doc.created_at, name: doc.name, client_id: doc.client_id, project: doc.project, po_number: po_number, work_order: work_order, invoice_number: doc.invoice_number, invoice_total: doc.invoice_total, paid: paid,  status: doc.status});
     }
     }"
   end
@@ -43,7 +45,9 @@ class Invoice < CouchRest::Model::Base
     "function(doc) {
     if (doc['type'] == 'Invoice') {
       var paid = (!!doc.paid) ? doc.paid : 0.0;
-      emit(doc.status, { open_date: doc.open_date, name: doc.name, client_id: doc.client_id, project: doc.project, invoice_number: doc.invoice_number, invoice_total: doc.invoice_total, paid: paid,  status: doc.status});
+      var work_order = (!!doc.work_order) ? doc.work_order : '';
+      var po_number = (!!doc.po_number) ? doc.po_number : '';
+      emit(doc.status, { open_date: doc.open_date, name: doc.name, client_id: doc.client_id, project: doc.project, po_number: po_number, work_order: work_order, invoice_number: doc.invoice_number, invoice_total: doc.invoice_total, paid: paid,  status: doc.status});
     }
     }"
   end

@@ -10,6 +10,7 @@ class Project < CouchRest::Model::Base
 
   design do
     view :by_client_id
+    view :by_client_id_and_name
   end
 
 end

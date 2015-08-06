@@ -54,6 +54,23 @@ class ClientsController < ApplicationController
     render :json => @projects
   end
 
+  def projects_report
+    client_id = params[:id]
+    @projects = Project.by_client_id.key(client_id).all.map!(&:to_hash)
+    @projects.each do |project|
+      project['activities'] = Activity.project_summary client_id, project['name']
+    end
+
+    if params[:format] == "csv"
+      report = @projects.map{|p| [p['wo_number'], p['name'], p['cap'], p['activities'][:total]]}
+      report.unshift ['work order', 'name', 'cap', 'total']
+      render text: report.simple_csv
+    else
+      render :json => @projects
+    end
+
+  end
+
   def update_project
     params[:wo_number] || params[:wo_number] = nil
     params[:po_number] || params[:po_number] = nil

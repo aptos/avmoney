@@ -20,6 +20,7 @@ AVMoney::Application.routes.draw do
   resources :clients
   get "/clients/:id/next_invoice" => 'clients#next_invoice'
   get "/clients/:id/projects" => 'clients#projects'
+  get "/clients/:id/projects_report" => 'clients#projects_report'
   post "/clients/:id/projects" => 'clients#update_project'
 
   # Special cashflow report
