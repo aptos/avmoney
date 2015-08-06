@@ -2,6 +2,10 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
 
   // Reports Selector
   $scope.report = {
+    projects: function () {
+      $scope.type = "Projects";
+      fetch_projects();
+    },
     accountsReceivable: function () {
       $scope.type = 'AccountsReceivable';
       fetch_invoices();
@@ -69,6 +73,14 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
       case "Payments": $scope.report.payments(); break;
       case "CashFlow": $scope.report.cashflow(); break;
     }
+  };
+
+  // Fetch projects
+  var fetch_projects = function () {
+    console.info("Projects")
+    Restangular.all('clients/' + $scope.client + '/projects_report').getList().then( function (list) {
+      $scope.list = list;
+    });
   };
 
   // Fetch invoices

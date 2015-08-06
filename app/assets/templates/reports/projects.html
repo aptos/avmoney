@@ -1,0 +1,52 @@
+<div class="container background-white invoice-container">
+  <div class="col-xs-7">
+    <div class="col-xs-4">
+      <img src="assets/avdesigns-logo.jpg" style="height: 140px;" alt="andrea vollersen designs">
+    </div>
+    <div class="col-xs-8">
+      <h3 class="sans">Andrea Vollersen Designs</h3>
+      <div class="pre">520 Nisene Meadows Ct.
+        Aptos, CA &nbsp&nbsp 95003
+        831.684.1680
+        andreavollersen@gmail.com
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-5 text-right">
+    <h2>Projects Status</h2>
+    <div class="pull-right">
+      <table>
+        <tr>
+          <td class="text-left">Date</td>
+          <td class="col-sm-6">
+            <span ng-hide="edit_date">{{today}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-left"><strong>Total Due</strong></td>
+          <td class="col-sm-6"><strong>{{report.totalDue() | currency}}</strong></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container white-rounded text-center margin-top-30 padding-bottom-60">
+  <h2>{{client_name(client)}}</h2>
+  <div class="report-body">
+    <div class="row heading">
+      <div class="col-xs-2">Work Order</div>
+      <div class="col-xs-3">Project</div>
+      <div class="col-xs-2">Cap</div>
+      <div class="col-xs-2">Total</div>
+    </div>
+    <div class="scrolling-list row" ng-repeat="project in list | orderBy:'name'">
+      <div class="row">
+        <div class="col-xs-2 data-cell">{{project.wo_number || project.po_number || "-"}}</div>
+        <div class="col-xs-3 data-cell text-left">{{project.name}}</div>
+        <div class="col-xs-2 data-cell">{{project.cap || "-" | currency}}</div>
+        <div class="col-xs-2 data-cell">{{project.activities.total | currency}}</div>
+      </div>
+    </div>
+  </div>
+</div>

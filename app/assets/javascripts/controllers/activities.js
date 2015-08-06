@@ -91,7 +91,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     return stats;
   };
 
-  var last_project;
+  var last_project, orig_project_data;
   var get_project_data = function () {
     if (!$scope.client || !$scope.search_project || $scope.search_project == last_project) return;
     last_project = $scope.search_project;
@@ -110,9 +110,9 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   };
 
   $scope.update_project = function () {
-    console.info("update cap", $scope.project_data)
     Restangular.one('clients', $scope.client).post('projects', $scope.project_data).then(function (data) {
       $scope.project_data = data;
+      $scope.project_updated = true;
       update_chart();
     });
   };

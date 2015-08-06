@@ -12,6 +12,11 @@
   </div>
   <div class="container margin-top-30 text-center hidden-print">
     <ul class="action-buttons">
+      <li ng-class="{'active': type=='Projects'}">
+        <a ng-click="report.projects()">
+          <span>Projects</span>
+        </a>
+      </li>
       <li ng-class="{'active': type=='AccountsReceivable'}">
         <a ng-click="report.accountsReceivable()">
           <span>Accounts Receivable</span>
@@ -31,6 +36,7 @@
   </div>
 </div>
 <hr class="gradient">
+<div projects ng-show="type=='Projects'" />
 <div accounts-receivable ng-show="type=='AccountsReceivable'" />
 <div payments ng-show="type=='Payments'" />
 <div cashflow ng-show="type=='CashFlow'" />

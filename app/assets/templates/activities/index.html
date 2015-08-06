@@ -4,181 +4,187 @@
 
   <div class="col-sm-3 right-corner">
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">Project Total: {{stats.total_amount | currency}}</h4>
+      <div class="panel-heading project-data">
+        <h4 class="panel-title">Project Total: {{stats.total_amount | currency}}
+          <span class="fa fa-check pull-right pointer" ng-click="update_project()" ng-show="project_data" ng-class="{'text-success': project_updated}">
+          </span>
+        </h4>
         <span ng-show="project_data.cap > 0">Cap: $</span><span contenteditable ng-model='project_data.cap'></span>
-        <span class="fa fa-check text-success fa-lg pointer" ng-click="update_project()" ng-show="project_data.cap && project_data.cap != 'set cap'">
-        </span>
+      </span>
+      <div ng-show="project_data">
+        <span>PO #:</span><span contenteditable ng-model='project_data.po_number'></span><br>
+        <span>Work Order:</span><span contenteditable ng-model='project_data.wo_number'></span><br>
       </div>
-      <div class="panel-body text-center" ng-show="cap_percent > 0">
-        <div class="progress">
-          <div class="progress-bar" role="progressbar" aria-valuenow="{{cap_percent}}" aria-valuemin="0" aria-valuemax="{{project_data.cap}}" style="width: {{cap_percent}}%;">
-            {{stats.total_amount | currency}}
-          </div>
+    </div>
+    <div class="panel-body text-center" ng-show="cap_percent > 0">
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{cap_percent}}" aria-valuemin="0" aria-valuemax="{{project_data.cap}}" style="width: {{cap_percent}}%;">
+          {{stats.total_amount | currency}}
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Form -->
-  <div class="container">
-    <div ng-show="show_form" class="floating-container fixed-top-10 col-xs-10 col-md-6 animated fadeIn" draggable>
-      <span ng-click="close()" ng-show="show_form" ><i class="fa fa-times-circle close pull-right"></i></span>
-      <form name="activityEditForm" novalidate>
-        <h3>{{subtype}}</h3>
-        <table class="table table-condensed">
-          <tr><td class="muted input-label" >Client</td>
-            <td class="input">
-              <select class="form-control" name="Client" ui-select2 ng-model="activity.client_id" data-placeholder="Client..." ng-change="client_selected(activity.client_id)" required>
-                <option value=""></option>
-                <option ng-repeat="c in clients | orderBy:'text'" value="{{c.value}}">{{c.text}}</option>
-              </select>
-            </td>
-          </tr>
-          <tr><td class="muted input-label" >Project</td>
-            <td class="input">
-              <select class="form-control" name="Project" ui-select2="{allowClear: true}" ng-model="activity.project" data-placeholder="Project..." ng-change="project_selected()">
-                <option value=""></option>
-                <option ng-repeat="p in projects_select | orderBy:'text'" value="{{p.value}}">{{p.text}}</option>
-              </select>
-              <a class="pull-right margin-top-10" ng-click="add_project=true" ng-show="!add_project">+ new project</a>
-              <div class="margin-top-10" ng-show="add_project">
-                <input type="text" class="form-control" ng-model="activity.project" placeholder="New Project">
-                <span ng-click="add_project=false"><i class="fa fa-times-circle close input-upper-inside"></i></span>
-              </div>
-            </td>
-          </tr>
-          <tr><td class="muted input-label" >Date</td>
-            <td class="input">
-              <input name="activityDate" type="text" class="form-control text_field date-input" min-date="{{min_date}}" max-date="{{max_date}}" ng-model="activity.date" my-datepicker required>
-              <span>
-                <i class="fa fa-arrow-up clickable-icon icon-small" ng-click="add_day()" title="Forward a day"></i>
-                <i class="fa fa-arrow-down clickable-icon icon-small" ng-click="subtract_day()" title="Back a day"></i>
-                <span>
-                </td>
-              </tr>
-              <tr ng-show="subtype=='Timesheet'"><td class="muted input-label" >Hours</td>
-                <td class="input">
-                  <div class="col-sm-5">
-                    <input name="activityHours" type="tel" min="0" class="form-control" ng-model="activity.hours" ng-required="subtype=='Timesheet'" ng-pattern="/^\d{0,3}(\.\d{1,2})?$/">
-                  </div>
-                  <div class="col-sm-5">
-                    <div class="input-group">
-                      <span class="input-group-addon">@</span>
-                      <input name="activityRate" type="tel" class="form-control" ng-model="activity.rate" placeholder="Rate" ng-required="subtype=='Timesheet'" ng-pattern="/^\d{0,3}(\.\d{1,2})?$/" >
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr ng-show="subtype=='Expense'"><td class="muted input-label" >Expense</td>
-                <td class="input">
-                  <div class="col-sm-5">
-                    <div class="input-group">
-                      <span class="input-group-addon">$</span>
-                      <input name="activityPrice" type="tel" min="1" class="form-control" ng-model="activity.expense" placeholder="100.00" ng-required="subtype=='Expense'" ng-pattern="/^\d{0,5}(\.\d{1,2})?$/">
-                    </div>
-                    <input type="checkbox" ng-model="tax_paid" ng-change="change_tax()"> Includes Tax
-                  </div>
-                </td>
-              </tr>
-              <tr ng-show="subtype=='Expense' && !tax_paid"><td class="muted input-label" >Tax</td>
-                <td class="input">
-                  <div class="col-sm-5">
-                    <div class="input-group">
-                      <span class="input-group-addon">%</span>
-                      <input name="activityTaxRate" type="tel" class="form-control" ng-model="activity.tax_rate" placeholder="8.5" ng-pattern="/^\d{0,2}(\.\d{1,2})?$/">
-                    </div>
-                  </div>
-                  <div class="col-sm-5" ng-show="tax_paid">
-                    <div class="input-group">
-                      <span class="input-group-addon">$</span>
-                      <input name="activityTaxPaid" type="tel" min="0" class="form-control" ng-model="activity.tax_paid" placeholder="0" ng-pattern="/^\d{0,5}(\.\d{1,2})?$/">
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr><td class="muted input-label" >Description</td>
-                <td class="input">
-                  <textarea class="form-control sans no-distraction" rows="3" name="Notes" ng-model="activity.notes" placeholder="Item Description" required>
-                  </textarea>
-                </td>
-              </tr>
-              <tr ng-show="activity.hours">
-                <td class="muted input-label">Total</td>
-                <td>{{activity.hours * activity.rate | currency}}</td>
-              </tr>
-              <tr ng-show="activity.expense">
-                <td class="muted input-label">Total</td>
-                <td ng-hide="tax_paid">{{activity.expense * (1 + activity.tax_rate * .01) | currency}}</td>
-                <td ng-show="tax_paid">{{(activity.expense * 1) + (activity.tax_paid * 1) | currency}}</td>
-              </tr>
-            </table>
-            <div class="button-row" ng-hide="activity.status == 'Active'" >
-              <button class="btn btn-success" ng-click="save(true)" ng-disabled="activityEditForm.$invalid || !activityEditForm.$dirty">Save</button>
-              <a ng-click="close()" class="text-muted pull-right">close</a>
-            </div>
-            <div class="button-row" ng-show="activity.status == 'Active'" >
-              <button class="btn btn-success" ng-click="save()" ng-disabled="activityEditForm.$invalid || !activityEditForm.$dirty">Save</button>
-              <button class="btn btn-danger pull-right" ng-click="remove()">
-                <i class="fa fa-trash-o"></i>
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <!-- Totals -->
-      <div class="container">
-        <div ng-show="show_totals" class="floating-container fixed-top-10 col-xs-10 col-md-4 animated fadeIn" draggable>
-          <span ng-click="show_totals=!show_totals" ><i class="fa fa-times-circle close pull-right"></i></span>
-          <h3>Totals</h3>
-          <table class="table table-striped">
-            <tr><td>Hours: </td><td>{{filtered_stats.hours_sum | number: 2}}</td></tr>
-            <tr><td>Charge: </td><td>{{filtered_stats.hours_amount | currency}}</td></tr>
-            <tr><td>Expenses: </td><td>{{filtered_stats.expenses | currency}}</td></tr>
-            <tr><td>Taxes: </td><td>{{filtered_stats.tax | currency}}</td></tr>
-            <tr class="info"><td>Total: </td><td>{{filtered_stats.total_amount | currency}}</td></tr>
-          </table>
-        </div>
-      </div>
-
-      <!-- Large Format List -->
-      <div class="container margin-bottom-5">
-        <div class="row actions">
-          <button class="btn btn-info" ng-click="new_activity('Timesheet')">+ hours</button>
-          <button class="btn btn-info" ng-click="new_activity('Expense')">+ expense</button>
-          <button class="btn btn-success" ng-click="create_invoice()" ng-disabled="!client || !filtered_items.length">invoice</button>
-          <button class="btn btn-warning" ng-click="create_invoice('Proposal')" ng-disabled="!client || !filtered_items.length">proposal</button>
-          <span class="pull-right">
-            Status:
-            <select class="form-control" name="Status" ui-select2="{ width: '120px'}" ng-model="status" ng-change="set_status(status)">
-              <option ng-repeat="s in status_list" value="{{s.value}}">{{s.text}}</option>
+<!-- Form -->
+<div class="container">
+  <div ng-show="show_form" class="floating-container fixed-top-10 col-xs-10 col-md-6 animated fadeIn" draggable>
+    <span ng-click="close()" ng-show="show_form" ><i class="fa fa-times-circle close pull-right"></i></span>
+    <form name="activityEditForm" novalidate>
+      <h3>{{subtype}}</h3>
+      <table class="table table-condensed">
+        <tr><td class="muted input-label" >Client</td>
+          <td class="input">
+            <select class="form-control" name="Client" ui-select2 ng-model="activity.client_id" data-placeholder="Client..." ng-change="client_selected(activity.client_id)" required>
+              <option value=""></option>
+              <option ng-repeat="c in clients | orderBy:'text'" value="{{c.value}}">{{c.text}}</option>
             </select>
-          </span>
-        </div>
+          </td>
+        </tr>
+        <tr><td class="muted input-label" >Project</td>
+          <td class="input">
+            <select class="form-control" name="Project" ui-select2="{allowClear: true}" ng-model="activity.project" data-placeholder="Project..." ng-change="project_selected()">
+              <option value=""></option>
+              <option ng-repeat="p in projects_select | orderBy:'text'" value="{{p.value}}">{{p.text}}</option>
+            </select>
+            <a class="pull-right margin-top-10" ng-click="add_project=true" ng-show="!add_project">+ new project</a>
+            <div class="margin-top-10" ng-show="add_project">
+              <input type="text" class="form-control" ng-model="activity.project" placeholder="New Project">
+              <span ng-click="add_project=false"><i class="fa fa-times-circle close input-upper-inside"></i></span>
+            </div>
+          </td>
+        </tr>
+        <tr><td class="muted input-label" >Date</td>
+          <td class="input">
+            <input name="activityDate" type="text" class="form-control text_field date-input" min-date="{{min_date}}" max-date="{{max_date}}" ng-model="activity.date" my-datepicker required>
+            <span>
+              <i class="fa fa-arrow-up clickable-icon icon-small" ng-click="add_day()" title="Forward a day"></i>
+              <i class="fa fa-arrow-down clickable-icon icon-small" ng-click="subtract_day()" title="Back a day"></i>
+              <span>
+              </td>
+            </tr>
+            <tr ng-show="subtype=='Timesheet'"><td class="muted input-label" >Hours</td>
+              <td class="input">
+                <div class="col-sm-5">
+                  <input name="activityHours" type="tel" min="0" class="form-control" ng-model="activity.hours" ng-required="subtype=='Timesheet'" ng-pattern="/^\d{0,3}(\.\d{1,2})?$/">
+                </div>
+                <div class="col-sm-5">
+                  <div class="input-group">
+                    <span class="input-group-addon">@</span>
+                    <input name="activityRate" type="tel" class="form-control" ng-model="activity.rate" placeholder="Rate" ng-required="subtype=='Timesheet'" ng-pattern="/^\d{0,3}(\.\d{1,2})?$/" >
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr ng-show="subtype=='Expense'"><td class="muted input-label" >Expense</td>
+              <td class="input">
+                <div class="col-sm-5">
+                  <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input name="activityPrice" type="tel" min="1" class="form-control" ng-model="activity.expense" placeholder="100.00" ng-required="subtype=='Expense'" ng-pattern="/^\d{0,5}(\.\d{1,2})?$/">
+                  </div>
+                  <input type="checkbox" ng-model="tax_paid" ng-change="change_tax()"> Includes Tax
+                </div>
+              </td>
+            </tr>
+            <tr ng-show="subtype=='Expense' && !tax_paid"><td class="muted input-label" >Tax</td>
+              <td class="input">
+                <div class="col-sm-5">
+                  <div class="input-group">
+                    <span class="input-group-addon">%</span>
+                    <input name="activityTaxRate" type="tel" class="form-control" ng-model="activity.tax_rate" placeholder="8.5" ng-pattern="/^\d{0,2}(\.\d{1,2})?$/">
+                  </div>
+                </div>
+                <div class="col-sm-5" ng-show="tax_paid">
+                  <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input name="activityTaxPaid" type="tel" min="0" class="form-control" ng-model="activity.tax_paid" placeholder="0" ng-pattern="/^\d{0,5}(\.\d{1,2})?$/">
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr><td class="muted input-label" >Description</td>
+              <td class="input">
+                <textarea class="form-control sans no-distraction" rows="3" name="Notes" ng-model="activity.notes" placeholder="Item Description" required>
+                </textarea>
+              </td>
+            </tr>
+            <tr ng-show="activity.hours">
+              <td class="muted input-label">Total</td>
+              <td>{{activity.hours * activity.rate | currency}}</td>
+            </tr>
+            <tr ng-show="activity.expense">
+              <td class="muted input-label">Total</td>
+              <td ng-hide="tax_paid">{{activity.expense * (1 + activity.tax_rate * .01) | currency}}</td>
+              <td ng-show="tax_paid">{{(activity.expense * 1) + (activity.tax_paid * 1) | currency}}</td>
+            </tr>
+          </table>
+          <div class="button-row" ng-hide="activity.status == 'Active'" >
+            <button class="btn btn-success" ng-click="save(true)" ng-disabled="activityEditForm.$invalid || !activityEditForm.$dirty">Save</button>
+            <a ng-click="close()" class="text-muted pull-right">close</a>
+          </div>
+          <div class="button-row" ng-show="activity.status == 'Active'" >
+            <button class="btn btn-success" ng-click="save()" ng-disabled="activityEditForm.$invalid || !activityEditForm.$dirty">Save</button>
+            <button class="btn btn-danger pull-right" ng-click="remove()">
+              <i class="fa fa-trash-o"></i>
+            </button>
+          </div>
+        </form>
       </div>
-      <div class="container white-rounded padding-bottom-60 text-center">
-        <div class="row heading">
-          <div class="col-xs-2">
-            <span>Date</span>
-            <span class="pull-right clickable-icon"><i ng-class="{true: 'fa fa-clock-o', false: 'fa fa-calendar'}[dateformat=='timeago']" ng-click="toggle_date()"></i></span>
-          </div>
-          <div class="col-xs-3">Client: Project</div>
-          <div class="col-xs-2">
-            <a class="dropdown-toggle" ng-click="show_totals=!show_totals">Hours/Expense</a>
-          </div>
-          <div class="col-xs-3">Notes</div>
+    </div>
+
+    <!-- Totals -->
+    <div class="container">
+      <div ng-show="show_totals" class="floating-container fixed-top-10 col-xs-10 col-md-4 animated fadeIn" draggable>
+        <span ng-click="show_totals=!show_totals" ><i class="fa fa-times-circle close pull-right"></i></span>
+        <h3>Totals</h3>
+        <table class="table table-striped">
+          <tr><td>Hours: </td><td>{{filtered_stats.hours_sum | number: 2}}</td></tr>
+          <tr><td>Charge: </td><td>{{filtered_stats.hours_amount | currency}}</td></tr>
+          <tr><td>Expenses: </td><td>{{filtered_stats.expenses | currency}}</td></tr>
+          <tr><td>Taxes: </td><td>{{filtered_stats.tax | currency}}</td></tr>
+          <tr class="info"><td>Total: </td><td>{{filtered_stats.total_amount | currency}}</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Large Format List -->
+    <div class="container margin-bottom-5">
+      <div class="row actions">
+        <button class="btn btn-info" ng-click="new_activity('Timesheet')">+ hours</button>
+        <button class="btn btn-info" ng-click="new_activity('Expense')">+ expense</button>
+        <button class="btn btn-success" ng-click="create_invoice()" ng-disabled="!client || !filtered_items.length">invoice</button>
+        <button class="btn btn-warning" ng-click="create_invoice('Proposal')" ng-disabled="!client || !filtered_items.length">proposal</button>
+        <span class="pull-right">
+          Status:
+          <select class="form-control" name="Status" ui-select2="{ width: '120px'}" ng-model="status" ng-change="set_status(status)">
+            <option ng-repeat="s in status_list" value="{{s.value}}">{{s.text}}</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="container white-rounded padding-bottom-60 text-center">
+      <div class="row heading">
+        <div class="col-xs-2">
+          <span>Date</span>
+          <span class="pull-right clickable-icon"><i ng-class="{true: 'fa fa-clock-o', false: 'fa fa-calendar'}[dateformat=='timeago']" ng-click="toggle_date()"></i></span>
         </div>
-        <div class="scrolling-list row scrolling-list-clickable" ng-repeat="activity in filtered_items">
-          <div class="row" ng-click="edit(activity._id)">
-            <div class="col-xs-2 data-cell" >{{activity.date | moment:dateformat}}</div>
-            <div class="col-xs-4 data-cell text-left">{{activity.client_name}}<span ng-show="!!activity.project">:<br> <small>{{activity.project}}</small></span></div>
-            <div class="col-xs-2 data-cell" ng-show="activity.hours">{{activity.hours}} @ ${{activity.rate}}</div>
-            <div class="col-xs-2 data-cell" ng-show="activity.expense">{{activity.expense * (1 + activity.tax_rate * 0.01) + activity.tax_paid | currency}}</div>
-            <div class="col-xs-3 text-left data-cell"><small>{{activity.notes}}</small></div>
-            <div class="col-xs-1 text-left data-cell" ng-show="!status || status=='All'">{{activity.status}}</div>
-            <span ng-show="false">{{activity._id}}</span>
-          </div>
+        <div class="col-xs-3">Client: Project</div>
+        <div class="col-xs-2">
+          <a class="dropdown-toggle" ng-click="show_totals=!show_totals">Hours/Expense</a>
+        </div>
+        <div class="col-xs-3">Notes</div>
+      </div>
+      <div class="scrolling-list row scrolling-list-clickable" ng-repeat="activity in filtered_items">
+        <div class="row" ng-click="edit(activity._id)">
+          <div class="col-xs-2 data-cell" >{{activity.date | moment:dateformat}}</div>
+          <div class="col-xs-4 data-cell text-left">{{activity.client_name}}<span ng-show="!!activity.project">:<br> <small>{{activity.project}}</small></span></div>
+          <div class="col-xs-2 data-cell" ng-show="activity.hours">{{activity.hours}} @ ${{activity.rate}}</div>
+          <div class="col-xs-2 data-cell" ng-show="activity.expense">{{activity.expense * (1 + activity.tax_rate * 0.01) + activity.tax_paid | currency}}</div>
+          <div class="col-xs-3 text-left data-cell"><small>{{activity.notes}}</small></div>
+          <div class="col-xs-1 text-left data-cell" ng-show="!status || status=='All'">{{activity.status}}</div>
+          <span ng-show="false">{{activity._id}}</span>
         </div>
       </div>
     </div>
+  </div>
