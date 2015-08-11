@@ -6,7 +6,7 @@
     <div class="panel panel-default">
       <div class="panel-heading project-data">
         <h4 class="panel-title">Project Total: {{stats.total_amount | currency}}
-          <span class="fa fa-check pull-right pointer" ng-click="update_project()" ng-show="project_data" ng-class="{'text-success': project_updated}">
+          <span class="fa fa-check pull-right pointer hover-spin" ng-click="update_project()" ng-show="project_data" ng-class="{'text-success': project_updated}">
           </span>
         </h4>
         <span ng-show="project_data.cap > 0">Cap: $</span><span contenteditable ng-model='project_data.cap'></span>

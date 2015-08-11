@@ -196,6 +196,10 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
       client_id: $scope.client,
       project: $scope.search_project
     };
+    if ($scope.project_data) {
+      $scope.invoice.po_number = $scope.project_data.po_number;
+      $scope.invoice.work_order = $scope.project_data.wo_number;
+    }
 
     Restangular.one('clients', $scope.client).one('next_invoice').get().then( function (invoice_number) {
       $scope.invoice.invoice_number = invoice_number;
