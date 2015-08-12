@@ -95,7 +95,8 @@
           <span ng-show="invoice.status=='Open'">
             <a ng-click="pay(invoice.id)" title="Enter Payment...">open</a>
           </span>
-          <span ng-hide="invoice.status=='Open'" class="text-success">Paid</a>
+          <span ng-show="invoice.status=='Paid'" ng-click="open(invoice.id)" class="text-success">Paid</a></span>
+          <span ng-show="invoice.status=='Proposal'" ng-click="open(invoice.id)" class="text-info">Proposal</a></span>
           </div>
         </div>
       </div>

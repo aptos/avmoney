@@ -8,7 +8,7 @@ function InvoicesCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDi
   if ($routeParams.status) $scope.status = $routeParams.status;
 
   // $scope.status_list = ['Active', 'Invoiced', 'Paid', 'All'];
-  $scope.status_list = [{value: 'Open', text: 'Open'} ,{value: 'Paid', text: 'Paid'},{value: 'All', text: 'All'}];
+  $scope.status_list = [{value: 'Open', text: 'Open'} ,{value: 'Paid', text: 'Paid'},{value: 'Proposal', text: 'Proposal'},{value: 'All', text: 'All'}];
   $scope.set_status = function (status) {
     $scope.status = status;
     $scope.filterItems();
