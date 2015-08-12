@@ -7,7 +7,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   // Filter by client and project
   $scope.status = 'Active';
   // $scope.status_list = ['Active', 'Invoiced', 'Paid', 'All'];
-  $scope.status_list = [{value: 'Active', text: 'Active'}, {value: 'Invoiced', text: 'Invoiced'},{value: 'Paid', text: 'Paid'},{value: 'All', text: 'All'}];
+  $scope.status_list = [{value: 'Active', text: 'Active'}, {value: 'Invoiced', text: 'Invoiced'},{value: 'Paid', text: 'Paid'},{value: 'Proposal', text: 'Proposal'},{value: 'All', text: 'All'}];
   $scope.set_status = function (status) {
     $scope.status = status;
     $scope.filterItems();

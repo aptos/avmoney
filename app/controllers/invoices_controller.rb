@@ -61,17 +61,18 @@ class InvoicesController < ApplicationController
     begin
       @invoice.save!
     rescue Exception => e
-      status = 400
+      e_status = 400
       if e.message.include? "Conflict"
-        status = 409
+        e_status = 409
       end
-      render :json => { error: e.message, invoice: @invoice }, :status => status and return
+      render :json => { error: e.message, invoice: @invoice }, :status => e_status and return
     end
 
     # update each activity status
+    status = (@invoice.status == 'Proposal') ? 'Proposal' : 'Invoiced'
     params[:activities].each do |activity|
       if a = Activity.find(activity["_id"])
-        a.update_attributes({status: "Invoiced", invoice_id: @invoice._id})
+        a.update_attributes({status: status, invoice_id: @invoice._id})
       end
     end
 
@@ -98,16 +99,17 @@ class InvoicesController < ApplicationController
     end
 
     # update each activity status
+    status = (@invoice.status == 'Proposal') ? 'Proposal' : 'Invoiced'
     params[:activities].each do |activity|
       if a = Activity.find(activity["_id"])
         a.update_attributes({
-          status: "Invoiced",
+          status: status,
           invoice_id: @invoice._id,
           notes: activity['notes']
           })
       end
     end
-
+    render :json => @invoice
   end
 
   def destroy
