@@ -250,7 +250,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
       $scope.success = true;
       $location.path("/Invoice/" + invoice._id);
     }, function (response) {
-      console.error("Eek!", response.data.error);
       $scope.errors = "Sorry, something bad happened!\n" + response.data.error;
       $scope.saveInProgress = false;
     });
