@@ -85,7 +85,8 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
 
   // Fetch invoices
   var fetch_invoices = function () {
-    $scope.order = date_el = 'open_date';
+    date_el = 'open_date';
+    $scope.order = 'invoice_number';
     Restangular.all('invoices').getList({status: 'Open'}).then( function (list) {
       $scope.list = list;
       $scope.filterItems();
@@ -94,7 +95,8 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
 
   // Fetch payments
   var fetch_payments = function () {
-    $scope.order = date_el = 'date';
+    date_el = 'date';
+    $scope.order = 'invoice_number';
     Restangular.all('payments').getList().then( function (list) {
       $scope.list = list;
       $scope.filterItems();

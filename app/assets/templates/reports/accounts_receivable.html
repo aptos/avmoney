@@ -36,23 +36,27 @@
   <h3 ng-show="search_project">{{search_project}}</h3>
   <div class="report-body">
     <div class="row heading">
-      <div class="col-xs-2 pointer" ng-click="reverse=!reverse">
-        Date <i class="fa fa-caret-down" ng-class="{'fa-rotate-180': !!reverse}" ></i>
-      </div>
+      <div class="col-xs-1">Invoice</div>
+      <div class="col-xs-2">Work Order/PO</div>
+      <div class="col-xs-2">Invoice Date</div>
       <div class="col-xs-3" ng-show="!search_project">Project</div>
-      <div class="col-xs-2">Invoice</div>
       <div class="col-xs-2">Amount</div>
       <div class="col-xs-2">Due</div>
     </div>
     <div class="scrolling-list row scrolling-list-clickable" ng-repeat="invoice in filtered_items | orderBy:order:reverse">
       <div class="row" ng-click="open(invoice.id)">
+        <div class="col-xs-1 data-cell">{{invoice.invoice_number}}</div>
+        <div class="col-xs-2 data-cell">
+          <span ng-show="invoice.work_order">wo: {{invoice.work_order}}</span>
+          <span ng-show="invoice.work_order && invoice.po_number"><br/></span>
+          <span ng-show="invoice.po_number">po: {{invoice.po_number}}</span>
+        </div>
         <div class="col-xs-2 data-cell">{{invoice.open_date | moment:'MM/DD/YYYY'}}</div>
         <div class="col-xs-3 data-cell text-left" ng-show="!search_project">
           <span ng-show="!client">{{invoice.name}}</span>
           <span ng-show="!client && !!invoice.project">:<br/></span>
           <span ng-show="!!invoice.project">{{invoice.project}}</span>
         </div>
-        <div class="col-xs-2 data-cell">{{invoice.invoice_number}}</div>
         <div class="col-xs-2 data-cell">{{invoice.invoice_total | currency}}</div>
         <div class="col-xs-2 data-cell">
           <span ng-show="age(invoice.open_date) > 29">Late </span>{{age(invoice.open_date)}} days

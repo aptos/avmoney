@@ -36,22 +36,20 @@
   <h3 ng-show="search_project">{{search_project}}</h3>
   <div class="report-body">
     <div class="row heading">
-      <div class="col-xs-2 pointer" ng-click="reverse=!reverse">
-        Date <i class="fa fa-caret-down" ng-class="{'fa-rotate-180': !!reverse}" ></i>
-      </div>
-      <div class="col-xs-3" ng-show="!search_project">Project</div>
-      <div class="col-xs-2">Invoice</div>
+      <div class="col-xs-1">Invoice</div>
+      <div class="col-xs-4" ng-show="!search_project">Project</div>
+      <div class="col-xs-2">Date</div>
       <div class="col-xs-2">Amount</div>
     </div>
     <div class="scrolling-list row scrolling-list-clickable" ng-repeat="payment in filtered_items | orderBy:order:reverse">
       <div class="row" ng-click="open(payment.invoice_id)">
-        <div class="col-xs-2 data-cell">{{payment.date | moment:'MM/DD/YYYY'}}</div>
-        <div class="col-xs-3 data-cell text-left" ng-show="!search_project">
+        <div class="col-xs-1 data-cell">{{payment.invoice_number}}</div>
+        <div class="col-xs-4 data-cell text-left" ng-show="!search_project">
           <span ng-show="!client">{{payment.client_name}}</span>
           <span ng-show="!client && !!payment.project">:<br/></span>
           <span ng-show="!!payment.project">{{payment.project}}</span>
         </div>
-        <div class="col-xs-2 data-cell">{{payment.invoice_number}}</div>
+        <div class="col-xs-2 data-cell">{{payment.date | moment:'MM/DD/YYYY'}}</div>
         <div class="col-xs-2 data-cell">{{payment.amount | currency}}</div>
       </div>
     </div>
