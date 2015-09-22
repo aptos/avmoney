@@ -33,8 +33,8 @@ GOOGLE_KEY=13...-r2...apps.googleusercontent.com
 GOOGLE_SECRET=e0_rshhhveryprivate
 
 # set up an account on cloudant, the dbname is set in config/couchdb.yml
-COUCH_USER=taskit
-COUCH_PASSWORD=qet135QET
+COUCH_USER=couchuser
+COUCH_PASSWORD=password
 
 # your list of allowed users by gemail address
 ALLOWED_USERS=['a@gmail.com','b@gmail.com']
