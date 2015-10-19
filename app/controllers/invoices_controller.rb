@@ -88,12 +88,13 @@ class InvoicesController < ApplicationController
     params[:po_number] && @invoice.po_number = params[:po_number]
     params[:work_order] && @invoice.work_order = params[:work_order]
     params[:open_date] && @invoice.open_date = params[:open_date]
+    params[:status] && @invoice.status = params[:status]
 
     # calculate totals
     @invoice.update_totals
 
     if @invoice.save
-      render :json => @invoice
+      render :json => @invoice and return
     else
       respond_with(@invoice.errors, status: :unprocessable_entity)
     end
@@ -109,7 +110,6 @@ class InvoicesController < ApplicationController
           })
       end
     end
-    render :json => @invoice
   end
 
   def destroy
