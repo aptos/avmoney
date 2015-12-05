@@ -17,6 +17,7 @@ class Client < CouchRest::Model::Base
   property :cell2, String
   property :projects, [String]
   property :base_invoice_id, Integer, default: 1
+  property :invoice_notes, String
   property :archived_projects, [String]
   property :archived, TrueClass, default: false
   timestamps!

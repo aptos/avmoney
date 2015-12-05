@@ -184,6 +184,7 @@
 </div>
 <div class="alert alert-info margin-top-60 text-center" ng-show="invoice.status!='Paid' && invoice.status!='Proposal'">
   <p ng-show="invoice.work_order">Work Order# {{invoice.work_order}}</p>
+  <p ng-show="invoice.client_data.invoice_notes">{{invoice.client_data.invoice_notes}}</p>
   <p>Invoice is payable upon receipt. Thank You</p>
 </div>
 <div class="alert alert-success margin-top-60 text-center" ng-show="invoice.status=='Paid'">

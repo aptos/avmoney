@@ -15,7 +15,8 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
       Restangular.one('clients', data.client_id).get().then(function (data) {
         var client = {
           text: data.name,
-          address: data.address
+          address: data.address,
+          invoice_notes: data.invoice_notes
         };
         angular.extend($scope.invoice.client_data, client);
       });
