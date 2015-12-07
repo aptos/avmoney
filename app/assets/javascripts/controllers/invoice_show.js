@@ -85,7 +85,7 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
 
   // Paging
   var page = 1,
-  chars_per_line = 84,
+  chars_per_line = 85,
   page_break_lines = 36,
   heading_lines = 21,
   page_heading_lines = 6,
