@@ -560,6 +560,15 @@ p.description:first-letter {
   border-top: 1px #ccc solid;
 }
 
+table.signature {
+  th, td {
+    padding: 3px;
+  }
+}
+td.underline {
+  border-bottom: 1px solid #333;
+}
+
 @media all and (max-width: 640px) {
   .layout-single-column {
     width: auto;

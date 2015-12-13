@@ -3,6 +3,7 @@
   <!-- <a class="btn btn-default" ng-href="/invoices/{{invoice._id}}.pdf?display_rates={{display_rates}}" style="margin-right:10px;">pdf</a> -->
   <a ng-show="!!display_rates" ng-click="toggleDisplayRates()">hide rates</a>
   <a ng-show="!display_rates" ng-click="toggleDisplayRates()">display rates</a>
+  <a ng-show="!!invoice.po_number || !!invoice.work_order" ng-click="service_ticket=!service_ticket" class="pull-right">Service Ticket</a>
   <hr />
 </div>
 <div class="container background-white invoice-container">
@@ -22,7 +23,7 @@
         </div>
       </div>
       <div class="col-xs-5 text-right">
-        <h1>{{type}}</h1>
+        <h1>{{service_ticket ? 'Service Ticket' : type}}</h1>
         <div class="pull-right">
           <table>
             <tr>
@@ -58,7 +59,7 @@
       </div>
     </div>
 
-    <div class="row margin-top-60">
+    <div class="row margin-top-60" ng-hide="service_ticket">
       <div class="col-xs-5">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -115,7 +116,7 @@
       <span class="visible-print">page {{break_before_expenses}} of {{pages}}</span>
       <div class="page-break"></div>
     </div>
-    <div ng-show="invoice.expenses">
+    <div ng-show="invoice.expenses && !service_ticket">
       <div ng-repeat="(page_num, page) in exp_activities">
         <h4>Expenses</h4>
         <table class="table table-bordered">
@@ -179,37 +180,54 @@
 </div>
 <div class="alert alert-danger" ng-show="errors">{{errors}}</div>
 
-<div class="alert alert-info margin-top-60 text-center" ng-show="invoice.status=='Proposal'">
-  This proposal is valid for 30 days - Please respond by {{expires}}
-</div>
-<div class="alert alert-info margin-top-60 text-center" ng-show="invoice.status!='Paid' && invoice.status!='Proposal'">
-  <p ng-show="invoice.client_data.invoice_notes" class="text-left text-smaller">{{invoice.client_data.invoice_notes}}</p>
-  <p>Invoice is payable upon receipt. Thank You</p>
-</div>
-<div class="alert alert-success margin-top-60 text-center" ng-show="invoice.status=='Paid'">
-  <p ng-show="invoice.work_order">Work Order# {{invoice.work_order}}</p>
-  <p>Invoice Paid in Full on {{invoice.paid_date}}. Thank you!</p>
-</div>
+<div ng-hide='service_ticket'>
+  <div class="alert alert-info margin-top-60 text-center" ng-show="invoice.status=='Proposal'">
+    This proposal is valid for 30 days - Please respond by {{expires}}
+  </div>
+  <div class="alert alert-info margin-top-60 text-center" ng-show="invoice.status!='Paid' && invoice.status!='Proposal'">
+    <p ng-show="invoice.client_data.invoice_notes" class="text-left text-smaller">{{invoice.client_data.invoice_notes}}</p>
+    <p>Invoice is payable upon receipt. Thank You</p>
+  </div>
+  <div class="alert alert-success margin-top-60 text-center" ng-show="invoice.status=='Paid'">
+    <p ng-show="invoice.work_order">Work Order# {{invoice.work_order}}</p>
+    <p>Invoice Paid in Full on {{invoice.paid_date}}. Thank you!</p>
+  </div>
 
-<div ng-show="pages > 1">
-  <span class="visible-print page-number">page {{pages}} of {{pages}}</span>
-  <div class="page-break"></div>
-</div>
+  <div ng-show="pages > 1">
+    <span class="visible-print page-number">page {{pages}} of {{pages}}</span>
+    <div class="page-break"></div>
+  </div>
 
-<div class="text-center margin-top-60 margin-bottom-30 hidden-print" ng-show="invoice.status!='Paid' && invoice._id">
-  <span class="pull-left" ng-show="more_activities">
-    <a ng-click="add_more()">+ Add {{more_activities.length}} new activities</a>
-  </span>
-  <button class="btn btn-success btn-lg" ng-disabled="saveInProgress || invoiceForm.$pristine" ng-click="update()" ng-show="!success && type=='Invoice'">Update</button>
-  <button class="btn btn-success btn-lg" ng-disabled="saveInProgress" ng-click="accept()" ng-show="!success && type=='Proposal'">Accept</button>
-  <span ng-show="update_success" class="text-success"><i class="fa fa-smile"></i> Updated!</span>
-  <span ng-show="update_fail" class="text-success"><i class="fa fa-frown"></i> Oops! Something broke</span>
-  <span class="pull-right">
-    <a ng-click="delete()" ng-mouseover="hover=true" ng-mouseleave="hover=false">
-      <span ng-class="hover ? 'text-danger':'text-muted'">Delete Invoice</span>
-    </a>
-  </span>
-  <span ng-show="success" class="text-success">
-    <span><i class="fa fa-smile-o"></i> Saved</span>
-  </span>
+  <div class="text-center margin-top-60 margin-bottom-30 hidden-print" ng-show="invoice.status!='Paid' && invoice._id">
+    <span class="pull-left" ng-show="more_activities">
+      <a ng-click="add_more()">+ Add {{more_activities.length}} new activities</a>
+    </span>
+    <button class="btn btn-success btn-lg" ng-disabled="saveInProgress || invoiceForm.$pristine" ng-click="update()" ng-show="!success && type=='Invoice'">Update</button>
+    <button class="btn btn-success btn-lg" ng-disabled="saveInProgress" ng-click="accept()" ng-show="!success && type=='Proposal'">Accept</button>
+    <span ng-show="update_success" class="text-success"><i class="fa fa-smile"></i> Updated!</span>
+    <span ng-show="update_fail" class="text-success"><i class="fa fa-frown"></i> Oops! Something broke</span>
+    <span class="pull-right">
+      <a ng-click="delete()" ng-mouseover="hover=true" ng-mouseleave="hover=false">
+        <span ng-class="hover ? 'text-danger':'text-muted'">Delete Invoice</span>
+      </a>
+    </span>
+    <span ng-show="success" class="text-success">
+      <span><i class="fa fa-smile-o"></i> Saved</span>
+    </span>
+  </div>
+</div>
+<div ng-show="!!service_ticket" class="container well margin-top-30">
+  <table class="signature">
+    <tr>
+      <td class="text-right">Owner Name:</td>
+      <td class="text-left"><b>Andrea Vollersen Designs</b></td>
+    </tr>
+    <tr>
+      <td class="text-right">Owner Signature:</td>
+      <td class="underline" style="width:450px;"></td>
+      <td class="text-right">Date:</td>
+      <td class="underline" style="width:200px;"></td>
+    </tr>
+  </table>
+
 </div>
