@@ -74,6 +74,11 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
     getPages();
   };
 
+  $scope.toggleServiceTicket = function () {
+    $scope.service_ticket = !$scope.service_ticket;
+    getPages();
+  };
+
   var current_page = 1;
   $scope.page_break = function (page) {
     if (page != current_page) {
@@ -93,6 +98,8 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
   page_lines = heading_lines;
 
   var getPages = function () {
+    heading_lines = (!!$scope.service_ticket) ? 10: 21;
+
     if (!$scope.invoice.activities) return;
 
     page = 1;
@@ -108,7 +115,7 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
     $scope.hours_pages = Object.keys($scope.hours_activities).length;
 
     var exp_items = _.filter($scope.invoice.activities, function (a) { return !a.hours; });
-    if (!!exp_items.length) {
+    if (!!exp_items.length && !$scope.service_ticket) {
       if (!!hours_items) page_lines += 8;
       if (page_lines > page_break_lines) $scope.break_before_expenses = page;
 

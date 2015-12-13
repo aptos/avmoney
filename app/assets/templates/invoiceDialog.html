@@ -3,7 +3,7 @@
   <!-- <a class="btn btn-default" ng-href="/invoices/{{invoice._id}}.pdf?display_rates={{display_rates}}" style="margin-right:10px;">pdf</a> -->
   <a ng-show="!!display_rates" ng-click="toggleDisplayRates()">hide rates</a>
   <a ng-show="!display_rates" ng-click="toggleDisplayRates()">display rates</a>
-  <a ng-show="!!invoice.po_number || !!invoice.work_order" ng-click="service_ticket=!service_ticket" class="pull-right">Service Ticket</a>
+  <a ng-show="!!invoice.po_number || !!invoice.work_order" ng-click="toggleServiceTicket()" class="pull-right">Service Ticket</a>
   <hr />
 </div>
 <div class="container background-white invoice-container">
