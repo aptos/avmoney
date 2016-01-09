@@ -58,12 +58,13 @@ angular.module('avmoneyFilters', [])
         if (moment(item[el]).isSame(today, 'year')) matches.push(item);
       });
     } else if (query == 'Last Year') {
+      var last_year = today.subtract(1,'years');
       _.each(list, function (item) {
-        if (moment(item[el]).isBefore(today, 'year')) matches.push(item);
+        if (moment(item[el]).isSame(last_year, 'year')) matches.push(item);
       });
     } else {
       matches = list;
     }
     return matches;
-  }
+  };
 });

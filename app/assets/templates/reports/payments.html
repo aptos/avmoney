@@ -14,6 +14,9 @@
   </div>
   <div class="col-xs-5 text-right">
     <h2>Payments Received</h2>
+    <span ng-show="!!dateRange">
+      <h3>During: {{date_range_year()}}</h3>
+    </span>
     <div class="pull-right">
       <table>
         <tr>

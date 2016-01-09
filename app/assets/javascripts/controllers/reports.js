@@ -42,11 +42,11 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
     }
   };
 
-  // Accounts Receivable Report
   var filterFilter = $filter('filter'),
   dateRangeFilter = $filter('dateRange'),
   date_el = 'date';
   $scope.reverse = false;
+
 
   $scope.filterItems = function() {
     Storage.set('search_project', $scope.search_project);
@@ -57,7 +57,6 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
     if (!!$scope.search_project) {
       q = _.filter(q, {'project': $scope.search_project});
     }
-
     if (!!$scope.dateRange) {
       q = dateRangeFilter(q, $scope.dateRange, date_el);
     }
@@ -123,6 +122,11 @@ function ReportsCtrl($scope, $rootScope, $routeParams, $location, $filter, ngDia
   };
 
   $scope.today = moment().format('MM/DD/YYYY');
+
+  $scope.date_range_year = function () {
+    var today = moment();
+    return ($scope.dateRange == 'This Year') ? today.format('YYYY') : today.subtract(1,'years').format('YYYY');
+  };
 
 }
 ReportsCtrl.$inject = ['$scope','$rootScope','$routeParams','$location','$filter','ngDialog','Restangular','Storage'];
