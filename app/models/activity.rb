@@ -7,6 +7,7 @@ class Activity < CouchRest::Model::Base
   property :date, Date
   property :hours, Float
   property :rate, Float
+  property :fixed_charge, Float
   property :expense, Float
   property :tax_rate, Float
   property :tax_paid, Float
@@ -30,7 +31,7 @@ class Activity < CouchRest::Model::Base
     view :summary,
     :map =>
     "function(doc) { if (doc.type == 'Activity') {
-    emit([doc.client_name, doc.date], [doc.date, doc.client_name, doc.project, doc.notes, doc.hours, doc.rate, doc.expense, doc.status, doc.invoice_id]);
+    emit([doc.client_name, doc.date], [doc.date, doc.client_name, doc.project, doc.notes, doc.hours, doc.rate, doc.fixed_charge, doc.expense, doc.status, doc.invoice_id]);
     }
     };"
     view :expenses,
@@ -50,14 +51,17 @@ class Activity < CouchRest::Model::Base
 
     hours_sum = activities.map{|i| i['hours'] || 0 }.reduce(:+)
     hours_amount = activities.map{|i| i['hours'] && (i['hours'] * i['rate']) || 0 }.reduce(:+)
+
+    fixed_charges = activities.map{|i| i['fixed_charge'] || 0 }.reduce(:+)
+
     expenses = activities.map{|i| i['expense'] || 0 }.reduce(:+)
 
     tax_paid = activities.map{|i| i['expense'] && i['tax_paid'] && i['tax_paid'] > 0  && i['tax_paid'] || 0 }.reduce(:+)
     tax = tax_paid + activities.map{|i| i['expense'] && i['tax_rate']  && (i['expense'] * i['tax_rate'] * 0.01) || 0 }.reduce(:+)
 
-    total = hours_amount + expenses + tax
+    total = hours_amount + fixed_charges + expenses + tax
 
-    return { hours: hours_sum, hours_amount: hours_amount, expenses: expenses.round(2), tax: tax.round(2), total: total.round(2) }
+    return { hours: hours_sum, hours_amount: hours_amount, fixed_charges: fixed_charges, expenses: expenses.round(2), tax: tax.round(2), total: total.round(2) }
   end
 
 end

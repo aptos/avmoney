@@ -10,6 +10,7 @@ class Invoice < CouchRest::Model::Base
   property :client_data, Hash
   property :hours_sum, Float
   property :hours_amount, Float
+  property :fixed_charges, Float
   property :expenses, Float
   property :tax, Float
   property :invoice_total, Float
@@ -86,12 +87,13 @@ class Invoice < CouchRest::Model::Base
   def update_totals
     self.hours_sum = self.activities.map{|i| i['hours'] || 0 }.reduce(:+)
     self.hours_amount = self.activities.map{|i| i['hours'] && (i['hours'] * i['rate']) || 0 }.reduce(:+)
+    self.fixed_charges = self.activities.map{|i| i['fixed_charge'] || 0 }.reduce(:+)
     self.expenses = self.activities.map{|i| i['expense'] || 0 }.reduce(:+)
 
     tax_paid = self.activities.map{|i| i['expense'] && i['tax_paid'] && i['tax_paid'] > 0  && i['tax_paid'] || 0 }.reduce(:+)
     self.tax = tax_paid + self.activities.map{|i| i['expense'] && i['tax_rate']  && (i['expense'] * i['tax_rate'] * 0.01) || 0 }.reduce(:+)
 
-    self.invoice_total = self.hours_amount + self.expenses + self.tax
+    self.invoice_total = self.hours_amount + self.fixed_charges + self.expenses + self.tax
     self
   end
 

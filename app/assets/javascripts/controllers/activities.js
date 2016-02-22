@@ -83,10 +83,12 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     stats.hours_sum = list.reduce(function(m, activity) { return m + activity.hours; }, 0);
     stats.hours_amount = list.reduce(function(m, activity) { return m + (activity.hours * activity.rate); }, 0);
 
+    stats.fixed_charges = list.reduce(function(m, activity) { return m + (activity.fixed_charge); }, 0);
+
     stats.expenses = list.reduce(function(m, activity) { return m + (activity.expense); }, 0);
     stats.tax = list.reduce(function(m, activity) { return m + (activity.expense * activity.tax_rate * 0.01); }, 0);
 
-    stats.total_amount = stats.hours_amount + stats.expenses + stats.tax;
+    stats.total_amount = stats.hours_amount + stats.fixed_charges + stats.expenses + stats.tax;
 
     return stats;
   };
@@ -224,10 +226,12 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.invoice.hours_sum = $scope.invoice.activities.reduce(function(m, activity) { return m + activity.hours; }, 0);
     $scope.invoice.hours_amount = $scope.invoice.activities.reduce(function(m, activity) { return m + (activity.hours * activity.rate); }, 0);
 
+    $scope.invoice.fixed_charges = $scope.invoice.activities.reduce(function(m, activity) { return m + (activity.fixed_charge); }, 0);
+
     $scope.invoice.expenses = $scope.invoice.activities.reduce(function(m, activity) { return m + (activity.expense); }, 0);
     $scope.invoice.tax = $scope.invoice.activities.reduce(function(m, activity) { return m + (activity.expense * activity.tax_rate * 0.01 + activity.tax_paid); }, 0);
 
-    $scope.invoice.invoice_total = $scope.invoice.hours_amount + $scope.invoice.expenses + $scope.invoice.tax;
+    $scope.invoice.invoice_total = $scope.invoice.hours_amount + $scope.invoice.fixed_charges + $scope.invoice.expenses + $scope.invoice.tax;
 
     $scope.success = false;
     $scope.errors = false;
@@ -305,7 +309,13 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.edit = function (id) {
     Restangular.one('activities', id).get().then(function (activity) {
       $scope.activity = Restangular.copy(activity);
-      $scope.subtype = ($scope.activity.hours) ? 'Timesheet' : 'Expense';
+      if (!!$scope.activity.hours) {
+        $scope.subtype = 'Timesheet';
+      } else if (!!$scope.activity.fixed_charge) {
+        $scope.subtype = 'Fixed';
+      } else {
+        $scope.subtype = 'Expense';
+      }
       if ( $scope.subtype == 'Expense')  $scope.tax_paid = $scope.activity.tax_paid > 0;
       $scope.projects = $scope.projectlist[$scope.activity.client_id];
       $scope.show_form = true;
