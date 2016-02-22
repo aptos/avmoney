@@ -34,7 +34,7 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
 
   $scope.add_more = function () {
     var list = _.map($scope.more_activities, function (activity) {
-      return _.pick(activity, ['_id','_rev','client_id','client_name','created_at','date','expense','notes','hours','project','rate','status','tax_rate']);
+      return _.pick(activity, ['_id','_rev','client_id','client_name','created_at','date','expense','fixed_charge','notes','hours','project','rate','status','tax_rate']);
     });
     $scope.invoice.activities = $scope.invoice.activities.concat(list);
     $scope.more_activities = [];

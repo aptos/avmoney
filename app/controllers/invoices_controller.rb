@@ -93,12 +93,6 @@ class InvoicesController < ApplicationController
     # calculate totals
     @invoice.update_totals
 
-    if @invoice.save
-      render :json => @invoice and return
-    else
-      respond_with(@invoice.errors, status: :unprocessable_entity)
-    end
-
     # update each activity status
     status = (@invoice.status == 'Proposal') ? 'Proposal' : 'Invoiced'
     params[:activities].each do |activity|
@@ -109,6 +103,12 @@ class InvoicesController < ApplicationController
           notes: activity['notes']
           })
       end
+    end
+
+    if @invoice.save
+      render :json => @invoice and return
+    else
+      respond_with(@invoice.errors, status: :unprocessable_entity)
     end
   end
 

@@ -7,6 +7,7 @@ function CalendarCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Resta
     var html_str = "<span>" + event.client_name;
     if (event.project) html_str += ": " + event.project;
     if (event.hours) html_str += "<br />" + event.hours + " hours";
+    if (event.fixed_charge) html_str += "<br />Fixed Charge: $" + event.fixed_charge;
     if (event.expense) html_str += "<br />Expense: $" + event.expense;
     html_str += " - <label class=" + status_class[event.status] + ">" + event.status + "</label>";
     html_str += "<p>" + event.notes + "</p>";
