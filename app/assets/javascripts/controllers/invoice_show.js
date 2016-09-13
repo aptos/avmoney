@@ -139,7 +139,7 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
       }
       a.page = page;
       a.page_lines = page_lines;
-      // console.log("item", a.date, page_lines, page)
+      console.log("item", a.date, page_lines, page)
     });
     return items;
   };

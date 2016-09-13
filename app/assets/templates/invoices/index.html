@@ -78,7 +78,7 @@
         <span>Date</span>
         <span class="pull-right clickable-icon"><i ng-class="{true: 'fa fa-clock-o', false: 'fa fa-calendar'}[dateformat=='timeago']" ng-click="toggle_date()"></i></span>
       </div>
-      <div class="col-xs-3">Client : Project</div>
+      <div class="col-xs-4">Client : Project</div>
       <div class="col-xs-1">Invoice</div>
       <div class="col-xs-2">
         <a class="dropdown-toggle" ng-click="show_totals=!show_totals">Billed</a>
@@ -88,7 +88,7 @@
     <div class="scrolling-list row scrolling-list-clickable" ng-repeat="invoice in filtered_items">
       <div class="row">
         <div class="col-xs-2 col-md-2 col-lg-2 data-cell" ng-click="open(invoice.id)">{{invoice.created_at | moment:dateformat}}</div>
-        <div class="col-xs-3 data-cell text-left" ng-click="open(invoice.id)">{{invoice.name}} <span ng-show="!!invoice.project">:<br/> {{invoice.project}}</span></div>
+        <div class="col-xs-4 data-cell text-left" ng-click="open(invoice.id)">{{invoice.name}} <span ng-show="!!invoice.project">:<br/> {{invoice.project}}</span></div>
         <div class="col-xs-1 data-cell" ng-click="open(invoice.id)">{{invoice.invoice_number}}</div>
         <div class="col-xs-2 data-cell" ng-click="open(invoice.id)">{{invoice.invoice_total | currency}}</div>
         <div class="col-xs-2 data-cell">
