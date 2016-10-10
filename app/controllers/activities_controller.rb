@@ -3,8 +3,8 @@ class ActivitiesController < ApplicationController
   def index
     if params[:status] && params[:client_id]
       @activities = Activity.by_client_id_and_status.key([params[:client_id],params[:status]]).all
-    elsif params[:client]
-      @activities = Activity.by_client_id.key(params[:client]).all
+    elsif params[:client_id]
+      @activities = Activity.by_client_id.key(params[:client_id]).all
     else
       @activities = Activity.summary
     end

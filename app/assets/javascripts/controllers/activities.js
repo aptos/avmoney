@@ -4,18 +4,23 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.metadata = metadata;
   });
 
+  $scope.spinning = false;
+
   // Filter by client and project
   $scope.status = 'Active';
   // $scope.status_list = ['Active', 'Invoiced', 'Paid', 'All'];
   $scope.status_list = [{value: 'Active', text: 'Active'}, {value: 'Invoiced', text: 'Invoiced'},{value: 'Paid', text: 'Paid'},{value: 'Proposal', text: 'Proposal'},{value: 'All', text: 'All'}];
   $scope.set_status = function (status) {
     $scope.status = status;
-    $scope.filterItems();
+    $scope.refresh()
+    // $scope.filterItems();
   };
 
   var filterFilter = $filter('filter');
   var orderByFilter = $filter('orderBy');
   $scope.filterItems = function() {
+    console.info("Filtering!");
+    if ($scope.activities) console.info("Activities: " + $scope.activities.length)
     Storage.set('search_project', $scope.search_project);
     var q_activities = $scope.activities;
     if (!!$scope.search_project) {
@@ -25,7 +30,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.stats = get_totals(q_activities);
     if (!!$scope.search_project) get_project_data($scope.client);
 
-    var q_activities = filterFilter(q_activities, $scope.query);
+    q_activities = filterFilter(q_activities, $scope.query);
     if (!!$scope.status && $scope.status != 'All') {
       q_activities = _.filter(q_activities, { 'status': $scope.status});
     }
@@ -33,6 +38,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
 
     $scope.filtered_items = orderedItems;
     $scope.filtered_stats = get_totals($scope.filtered_items);
+    $scope.spinning = false;
   };
 
   $scope.$watch('activities', $scope.filterItems);
@@ -131,7 +137,10 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   // Fetch activities
   $scope.refresh = function () {
     if (!$scope.client) return;
-    Restangular.all('activities').getList({client: $scope.client}).then( function (list) {
+    var params = {client_id: $scope.client};
+    if ($scope.status != 'All') params.status = $scope.status;
+    $scope.spinning = true;
+    Restangular.all('activities').getList(params).then( function (list) {
       $scope.activities = list;
     });
   };

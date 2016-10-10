@@ -1,5 +1,7 @@
 <div class="screen-content  margin-top-30 transparent" >
-
+  <span ng-show="!!spinning" ng-class="{'animated fadeIn': !!spinning}">
+    <i class="fa fa-2x fa-spinner fa-spin color-green" style="position:absolute;"></i>
+  </span>
   <div client-search></div>
 
   <div class="col-sm-3 right-corner">
@@ -187,7 +189,7 @@
         </div>
         <div class="col-xs-3">Notes</div>
       </div>
-      <div class="scrolling-list row scrolling-list-clickable" ng-repeat="activity in filtered_items">
+      <div class="scrolling-list row scrolling-list-clickable" ng-repeat="activity in filtered_items" ng-class="{'dim': !!spinning}">
         <div class="row" ng-click="edit(activity._id)">
           <div class="col-xs-2 data-cell" >{{activity.date | moment:dateformat}}</div>
           <div class="col-xs-4 data-cell text-left">{{activity.client_name}}<span ng-show="!!activity.project">:<br> <small>{{activity.project}}</small></span></div>
