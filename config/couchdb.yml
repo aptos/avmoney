@@ -13,8 +13,8 @@ test:
 
 production:
   protocol: 'https'
-  host: <%= ENV['COUCH_USER'] %>.cloudant.com
-  port: 443
+  host: <%= ENV['COUCH_HOST'] %>
+  port: 6984
   prefix: avmoney
   suffix: production
   username: <%= ENV['COUCH_USER'] %>
