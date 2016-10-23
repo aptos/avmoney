@@ -8,12 +8,10 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
 
   // Filter by client and project
   $scope.status = 'Active';
-  // $scope.status_list = ['Active', 'Invoiced', 'Paid', 'All'];
   $scope.status_list = [{value: 'Active', text: 'Active'}, {value: 'Invoiced', text: 'Invoiced'},{value: 'Paid', text: 'Paid'},{value: 'Proposal', text: 'Proposal'},{value: 'All', text: 'All'}];
   $scope.set_status = function (status) {
     $scope.status = status;
-    $scope.refresh()
-    // $scope.filterItems();
+    $scope.filterItems()
   };
 
   var filterFilter = $filter('filter');
@@ -135,10 +133,10 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   };
 
   // Fetch activities
+  // Project tracking requires all status
   $scope.refresh = function () {
     if (!$scope.client) return;
     var params = {client_id: $scope.client};
-    if ($scope.status != 'All') params.status = $scope.status;
     $scope.spinning = true;
     Restangular.all('activities').getList(params).then( function (list) {
       $scope.activities = list;
