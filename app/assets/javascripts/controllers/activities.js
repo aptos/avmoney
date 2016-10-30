@@ -134,17 +134,15 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
 
   // Fetch activities
   // Project tracking requires all status
-  $scope.refresh = function () {
+  $scope.refresh = function (cb) {
     if (!$scope.client) return;
     var params = {client_id: $scope.client};
     $scope.spinning = true;
     Restangular.all('activities').getList(params).then( function (list) {
       $scope.activities = list;
-    });
+    }).then(cb);
   };
   $scope.client = Storage.get('client');
-  if (!!$scope.client) $scope.refresh();
-
 
   // Date Format
   $scope.dateformat = 'M/D/YY';
@@ -311,6 +309,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     $scope.saveInProgress = false;
     $scope.show_form = false;
     $scope.errors = false;
+    $location.url($location.path());
   };
 
   $scope.edit = function (id) {
@@ -324,11 +323,23 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
         $scope.subtype = 'Expense';
       }
       if ( $scope.subtype == 'Expense')  $scope.tax_paid = $scope.activity.tax_paid > 0;
+
+      $scope.client_selected($scope.activity.client_id);
+      $scope.project_selected();
+      if (!$scope.activities) $scope.refresh();
       $scope.projects = $scope.projectlist[$scope.activity.client_id];
       $scope.show_form = true;
       $scope.activityEditForm.$setPristine();
     });
   };
+
+  $scope.$watch('clients', function() {
+    if ($routeParams.id) {
+      $scope.edit($routeParams.id);
+    } else {
+      if (!$scope.activities) $scope.refresh();
+    }
+  });
 
   $scope.remove = function () {
     console.info("delete requested!", $scope.activity);

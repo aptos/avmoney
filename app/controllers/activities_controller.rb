@@ -5,6 +5,9 @@ class ActivitiesController < ApplicationController
       @activities = Activity.by_client_id_and_status.key([params[:client_id],params[:status]]).all
     elsif params[:client_id]
       @activities = Activity.by_client_id.key(params[:client_id]).all
+    elsif params[:months]
+      startdate = Date.today - params[:months].to_i.months
+      @activities = Activity.by_date.startkey(startdate.strftime("%Y-%m")).all
     else
       @activities = Activity.summary
     end

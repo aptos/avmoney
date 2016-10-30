@@ -10,7 +10,7 @@ function CalendarCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Resta
     if (event.fixed_charge) html_str += "<br />Fixed Charge: $" + event.fixed_charge;
     if (event.expense) html_str += "<br />Expense: $" + event.expense;
     html_str += " - <label class=" + status_class[event.status] + ">" + event.status + "</label>";
-    html_str += "<p>" + event.notes + "</p>";
+    html_str += "<p><a href='#/Activities?id=" + event._id + "''>" + event.notes + "</a></p>";
     html_str += "</span>";
 
     return html_str;
@@ -43,7 +43,8 @@ function CalendarCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Resta
   $scope.spinning = false;
   var refresh = function () {
     $scope.spinning = true;
-    Restangular.all('activities').getList().then( function (list) {
+    var params = {months: 12};
+    Restangular.all('activities').getList(params).then( function (list) {
       $scope.events = list;
       $scope.spinning = false;
     }, function (error) { $scope.spinning = false; });

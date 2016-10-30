@@ -2,7 +2,7 @@ require 'restclient'
 require 'json'
 require 'couchrest'
 require 'couchrest_model'
-# require 'pry'
+require 'pry'
 
 @timestamp = Time.now.strftime('%Y%m%d')
 
@@ -15,7 +15,7 @@ namespace :db do
     db = "avmoney_production"
 
     config = {
-      source: "https://#{ENV['COUCH_USER']}:#{ENV['COUCH_PASSWORD']}@#{ENV['COUCH_USER']}.cloudant.com/#{db}",
+      source: "https://#{ENV['COUCH_USER']}:#{ENV['COUCH_PASSWORD']}@#{ENV['COUCH_HOST']}:6984/#{db}",
       target: "#{db}-#{@timestamp}",
       create_target: true,
       continuous: false
