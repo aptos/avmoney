@@ -2,7 +2,7 @@ require 'restclient'
 require 'json'
 require 'couchrest'
 require 'couchrest_model'
-require 'pry'
+# require 'pry'
 
 @timestamp = Time.now.strftime('%Y%m%d')
 
