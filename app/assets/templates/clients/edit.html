@@ -22,7 +22,7 @@
           <td class="input">
             <div class="input-group col-md-6">
               <span class="input-group-addon">%</span>
-              <input name="clientTaxRate" type="number" ng-model="client.tax_rate" placeholder="8.25" class="form-control">
+              <input name="clientTaxRate" type="number" ng-model="client.tax_rate" placeholder="8.25" class="form-control" ng-pattern="/^\d{0,2}(\.\d{1,3})?$/">
             </div>
           </td>
         </tr>
