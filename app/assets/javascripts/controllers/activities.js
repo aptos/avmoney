@@ -314,6 +314,8 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
 
   $scope.edit = function (id) {
     Restangular.one('activities', id).get().then(function (activity) {
+      $scope.client_selected(activity.client_id); // Sets defaults
+
       $scope.activity = Restangular.copy(activity);
       if (!!$scope.activity.hours) {
         $scope.subtype = 'Timesheet';
@@ -324,7 +326,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
       }
       if ( $scope.subtype == 'Expense')  $scope.tax_paid = $scope.activity.tax_paid > 0;
 
-      $scope.client_selected($scope.activity.client_id);
       $scope.project_selected();
       if (!$scope.activities) $scope.refresh();
       $scope.projects = $scope.projectlist[$scope.activity.client_id];
