@@ -14,7 +14,7 @@ test:
 production:
   protocol: 'https'
   host: <%= ENV['COUCH_HOST'] %>
-  port: 6984
+  port: <%= ENV['COUCH_PORT'] %>
   prefix: avmoney
   suffix: production
   username: <%= ENV['COUCH_USER'] %>
