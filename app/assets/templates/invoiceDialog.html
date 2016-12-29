@@ -116,7 +116,7 @@
       <span class="visible-print">page {{break_before_expenses}} of {{pages}}</span>
       <div class="page-break"></div>
     </div>
-    <div ng-show="invoice.expenses && !service_ticket">
+    <div ng-show="invoice.expenses || invoice.fixed_charges && !service_ticket">
       <div ng-repeat="(page_num, page) in exp_activities">
         <h4>Expenses & Charges</h4>
         <table class="table table-bordered">
