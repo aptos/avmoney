@@ -23,7 +23,10 @@
         </div>
       </div>
       <div class="col-xs-5 text-right">
-        <h1>{{service_ticket ? 'Service Ticket' : type}}</h1>
+        <h1>
+          <span class="text-danger" ng-show='invoice.status == "Rejected"'>Rejected </span>
+          {{service_ticket ? 'Service Ticket' : type}}
+        </h1>
         <div class="pull-right">
           <table>
             <tr>
@@ -211,7 +214,10 @@
       <a ng-click="add_more()">+ Add {{more_activities.length}} new activities</a>
     </span>
     <button class="btn btn-success btn-lg" ng-disabled="saveInProgress || invoiceForm.$pristine" ng-click="update()" ng-show="!success && type=='Invoice'">Update</button>
-    <button class="btn btn-success btn-lg" ng-disabled="saveInProgress" ng-click="accept()" ng-show="!success && type=='Proposal'">Accept</button>
+    <span ng-show="!success && type=='Proposal' && invoice.status != 'Rejected'">
+      <button class="btn btn-warning btn-lg" ng-disabled="saveInProgress" ng-click="reject()" >Reject</button>
+      <button class="btn btn-success btn-lg" ng-disabled="saveInProgress" ng-click="accept()" >Accept</button>
+    </span>
     <span ng-show="update_success" class="text-success"><i class="fa fa-smile"></i> Updated!</span>
     <span ng-show="update_fail" class="text-success"><i class="fa fa-frown"></i> Oops! Something broke</span>
     <span class="pull-right">

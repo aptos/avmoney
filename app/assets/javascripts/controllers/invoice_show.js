@@ -24,7 +24,7 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
       if ($scope.invoice.status == 'Proposal') {
         $scope.expires = moment($scope.invoice.open_date).add('d',30).format('MMM DD, YYYY');
       }
-      $scope.type = ($scope.invoice.status == "Proposal") ? "Proposal" : "Invoice";
+      $scope.type = ($scope.invoice.status == "Proposal" || $scope.invoice.status == 'Rejected') ? "Proposal" : "Invoice";
       if ($scope.type == "Invoice") get_active_items();
       $scope.invoiceForm.$setPristine();
       getPages();
@@ -53,6 +53,11 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
 
   $scope.accept = function () {
     $scope.invoice.status = "Open";
+    $scope.update();
+  };
+
+  $scope.reject = function () {
+    $scope.invoice.status = "Rejected";
     $scope.update();
   };
 

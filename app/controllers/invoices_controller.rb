@@ -94,7 +94,15 @@ class InvoicesController < ApplicationController
     @invoice.update_totals
 
     # update each activity status
-    status = (@invoice.status == 'Proposal') ? 'Proposal' : 'Invoiced'
+    # status = (@invoice.status == 'Proposal') ? 'Proposal' : 'Invoiced'
+    status = case @invoice.status
+    when 'Proposal'
+      'Proposal'
+    when 'Rejected'
+      'Rejected'
+    else
+      'Invoiced'
+    end
     params[:activities].each do |activity|
       if a = Activity.find(activity["_id"])
         a.update_attributes({
