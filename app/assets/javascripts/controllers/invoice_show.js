@@ -96,7 +96,7 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
   // Paging
   var page = 1,
   chars_per_line = 85,
-  page_break_lines = 36,
+  page_break_lines = 37,
   heading_lines = 21,
   page_heading_lines = 6,
   totals_lines = 6,
@@ -128,6 +128,7 @@ function InvoiceShowCtrl($scope, $routeParams, Restangular, $location, $window) 
       exp_items = setPages(exp_items);
       $scope.exp_activities = _.groupBy(exp_items, function (h) { return h.page;} );
     }
+    console.info(page_lines, totals_lines, page_break_lines)
     if (page_lines + totals_lines > page_break_lines) page += 1;
     $scope.pages = page;
   };
