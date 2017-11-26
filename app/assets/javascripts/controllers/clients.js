@@ -92,7 +92,6 @@ function ClientsCtrl($scope, Restangular, Storage, $location) {
         client.archived_projects.splice(archived_idx, 1);
       }
       client.put().then(function (client) {
-        // $scope.show_projects = false;
         refresh();
       });
     });

@@ -45,6 +45,7 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.client_selected = function (id) {
     if (!id) return;
     var client = _.find($scope.clients, function (v) { return v.value == id; });
+    console.info("client_selected", $scope.activity)
     $scope.activity.client_name = client.text;
     $scope.activity.rate = client.rate;
     $scope.activity.tax_rate = client.tax_rate;
@@ -314,9 +315,10 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
 
   $scope.edit = function (id) {
     Restangular.one('activities', id).get().then(function (activity) {
+      console.info("Edit", activity)
+      $scope.activity = Restangular.copy(activity);
       $scope.client_selected(activity.client_id); // Sets defaults
 
-      $scope.activity = Restangular.copy(activity);
       if (!!$scope.activity.hours) {
         $scope.subtype = 'Timesheet';
       } else if (!!$scope.activity.fixed_charge) {
