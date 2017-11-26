@@ -21,7 +21,6 @@ function ClientsCtrl($scope, Restangular, Storage, $location) {
         projectlist[client._id] = client.projects;
       });
       Storage.set('projectlist', projectlist);
-
     });
     $scope.stats = Restangular.one('invoices/stats').get().$object;
   };
@@ -81,19 +80,19 @@ function ClientsCtrl($scope, Restangular, Storage, $location) {
   };
 
   $scope.toggle_project = function (index, id, project) {
-    var index = index;
     $scope.show_projects = true;
     Restangular.one('clients', id).get().then(function (client) {
       var idx = _.indexOf(client.projects, project);
       var archived_idx = _.indexOf(client.archived_projects, project);
-      if (idx >= 0) {
-        client.archived_projects.push(project);
+      if (idx !== -1) {
+        if (archived_idx == -1) client.archived_projects.push(project);
         client.projects.splice(idx, 1);
-      } else if (archived_idx >= 0) {
-        client.projects.push(project);
+      } else if (archived_idx !== -1) {
+        if (idx == -1) client.projects.push(project);
         client.archived_projects.splice(archived_idx, 1);
       }
       client.put().then(function (client) {
+        // $scope.show_projects = false;
         refresh();
       });
     });

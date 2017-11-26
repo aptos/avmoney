@@ -1,6 +1,11 @@
 class Client < CouchRest::Model::Base
   validates_uniqueness_of :name, :case_sensitive => false, :message => "We already have client with that name"
 
+  before_save do
+    self.projects.uniq!
+    self.archived_projects.uniq!
+  end
+
   property :_id, String
   property :name, String
   property :rate, Float
