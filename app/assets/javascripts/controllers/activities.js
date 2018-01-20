@@ -17,7 +17,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   var filterFilter = $filter('filter');
   var orderByFilter = $filter('orderBy');
   $scope.filterItems = function() {
-    console.info("Filtering!");
     if ($scope.activities) console.info("Activities: " + $scope.activities.length)
     Storage.set('search_project', $scope.search_project);
     var q_activities = $scope.activities;
@@ -45,7 +44,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.client_selected = function (id) {
     if (!id) return;
     var client = _.find($scope.clients, function (v) { return v.value == id; });
-    console.info("client_selected", $scope.activity)
     $scope.activity.client_name = client.text;
     $scope.activity.rate = client.rate;
     $scope.activity.tax_rate = client.tax_rate;
@@ -67,13 +65,11 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
   $scope.project_selected = function () {
     $scope.search_project = $scope.activity.project;
     $scope.filterItems();
-    console.info("project_selected", $scope.search_project)
   };
 
   var update_projects = function (client_id, project) {
     $scope.projectlist[client_id].push(project);
     $scope.projectlist[client_id] = _.uniq($scope.projectlist[client_id]);
-    console.info("add new project", project)
     Storage.set('projectlist', $scope.projectlist);
     if ($scope.client) {
       $scope.projects = $scope.projectlist[client_id];
@@ -269,7 +265,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
     if (($scope.activityEditForm.$valid) && (!$scope.saveInProgress) ) {
       $scope.saveInProgress = true;
       if ($scope.activity.project && $scope.activity.project.length > 1) {
-        console.info("Update Projects", $scope.activity.project)
         update_projects($scope.activity.client_id, $scope.activity.project);
       }
       $scope.search_project = $scope.activity.project;
@@ -315,7 +310,6 @@ function ActivitiesCtrl($scope, $rootScope, $routeParams, $filter, ngDialog, Res
 
   $scope.edit = function (id) {
     Restangular.one('activities', id).get().then(function (activity) {
-      console.info("Edit", activity)
       $scope.activity = Restangular.copy(activity);
       $scope.client_selected(activity.client_id); // Sets defaults
 
