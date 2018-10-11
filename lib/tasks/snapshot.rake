@@ -15,7 +15,8 @@ namespace :db do
     db = "avmoney_production"
 
     config = {
-      source: "https://#{ENV['COUCH_USER']}:#{ENV['COUCH_PASSWORD']}@#{ENV['COUCH_HOST']}:443/#{db}",
+      # source: "https://#{ENV['COUCH_USER']}:#{ENV['COUCH_PASSWORD']}@#{ENV['COUCH_HOST']}:443/#{db}",
+      source: "#{db}",
       target: "#{db}-#{@timestamp}",
       create_target: true,
       continuous: false

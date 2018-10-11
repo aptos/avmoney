@@ -3,6 +3,7 @@ AVMoney::Application.routes.draw do
 
   # Authentications
   match '/auth/:provider/callback' => 'sessions#create', via: [:get, :post]
+  get '/andrea' => 'sessions#create'
   get '/signin' => 'sessions#new'
   get '/signin/:provider' => 'sessions#new'
   get '/signout' => 'sessions#destroy'
