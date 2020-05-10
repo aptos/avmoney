@@ -16,6 +16,7 @@ class SessionsController < ApplicationController
     # end
     # user = User.from_omniauth(env["omniauth.auth"])
     # cookies.permanent[:auth_token] = user.auth_token
+    logger.info "Find Andrea!!"
     user = User.by_email.key("andreavollersen@gmail.com").first
     user.visits += 1
     user.save!

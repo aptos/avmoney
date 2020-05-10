@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
-ruby "2.2.4"
+#ruby "2.2.4"
+ruby "2.3.8"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
@@ -56,10 +57,9 @@ gem 'wkhtmltopdf-binary'
 
 group :test, :development do
 	gem "rspec-rails", "~> 2.8"
-	gem "factory_girl_rails", "~> 4.0"
+#	gem "factory_girl_rails", "~> 4.0"
+        gem "factory_bot_rails"
 	gem 'dotenv-rails'
-  gem 'guard'
-  gem 'guard-livereload', require: false
-  gem 'pry'
-  gem 'pry-byebug'
+#  gem 'pry'
+#  gem 'pry-byebug'
 end
