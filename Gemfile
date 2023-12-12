@@ -1,10 +1,14 @@
 source 'https://rubygems.org'
 
 #ruby "2.2.4"
-ruby "2.3.8"
+#ruby "2.3.8"
+ruby "2.6.10"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.6'
+#gem 'rails', '4.1.6'
+gem 'rails', '4.2.8'
+
+gem 'bigdecimal', '1.4.1'
 
 gem 'foreman'
 # server
@@ -20,7 +24,7 @@ gem "rack-timeout"
 
 # cache
 gem 'rack-cache'
-gem 'dalli'
+gem 'dalli', '2.7.10'
 gem 'memcachier'
 
 # db is couch
